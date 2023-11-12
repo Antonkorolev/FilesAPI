@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService", "BackendService\BackendService.csproj", "{0B919D26-DD96-4655-BFFE-92A02B6E8A15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService", "src\BackendService\BackendService.csproj", "{0B919D26-DD96-4655-BFFE-92A02B6E8A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService.Contracts", "src\BackendService.Contracts\BackendService.Contracts.csproj", "{1960C782-356F-4761-9E25-8C04571B23D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,9 @@ Global
 		{0B919D26-DD96-4655-BFFE-92A02B6E8A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B919D26-DD96-4655-BFFE-92A02B6E8A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B919D26-DD96-4655-BFFE-92A02B6E8A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1960C782-356F-4761-9E25-8C04571B23D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1960C782-356F-4761-9E25-8C04571B23D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1960C782-356F-4761-9E25-8C04571B23D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1960C782-356F-4761-9E25-8C04571B23D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,39 @@
+using Microsoft.AspNetCore.Mvc;
+using FileAPI.BackendService.Contracts.UpdateFile;
+using FileAPI.BackendService.Contracts.UploadFile;
+
+namespace FileAPI.BackendService.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class FileController : ControllerBase
+{
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadFileAsync([FromForm]UploadFileRequest request)
+    {
+
+        return Ok($"{request.FileCode}");
+    }
+
+    [HttpPost("update")]
+    public async Task<IActionResult> UpdateFileAsync([FromForm]UpdateFileRequest request)
+    {
+
+        return Ok();
+    }
+    
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteFileAsync(string fileCode)
+    {
+
+        return Ok();
+    }
+    
+    
+    [HttpGet("get")]
+    public async Task<IActionResult> GetFileAsync(string fileCode)
+    {
+
+        return Ok();
+    }
+}

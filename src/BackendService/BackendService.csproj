@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BackendService.Contracts\BackendService.Contracts.csproj" />
+  </ItemGroup>
 </Project>
