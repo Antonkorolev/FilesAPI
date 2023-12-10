@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService", "src\Backe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService.Contracts", "src\BackendService.Contracts\BackendService.Contracts.csproj", "{1960C782-356F-4761-9E25-8C04571B23D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService.BusinessLogic", "BackendService.BusinessLogic\BackendService.BusinessLogic.csproj", "{539C1C39-5360-4701-A81D-C59C3CBA4DCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{1960C782-356F-4761-9E25-8C04571B23D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1960C782-356F-4761-9E25-8C04571B23D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1960C782-356F-4761-9E25-8C04571B23D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
