@@ -1,7 +1,7 @@
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackendService.Extentions;
+namespace BackendService.Extensions;
 
 public static class ServiceCollectionExtension
 {
@@ -9,7 +9,8 @@ public static class ServiceCollectionExtension
     {
         var connectionString = configuration.GetConnectionString("name");
 
-        services.AddDbContext<FileDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<FileDbContext>(options => options.UseSqlServer(connectionString)).
+            AddScoped<IFileDbContext>(x => x.GetRequiredService<IFileDbContext>());
 
         return services;
     }
