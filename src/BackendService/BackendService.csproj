@@ -11,5 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BackendService.Contracts\BackendService.Contracts.csproj" />
+    <ProjectReference Include="..\DatabaseContext\DatabaseContext.csproj" />
   </ItemGroup>
 </Project>

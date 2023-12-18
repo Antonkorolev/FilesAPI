@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService", "src\Backe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService.Contracts", "src\BackendService.Contracts\BackendService.Contracts.csproj", "{1960C782-356F-4761-9E25-8C04571B23D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService.BusinessLogic", "BackendService.BusinessLogic\BackendService.BusinessLogic.csproj", "{539C1C39-5360-4701-A81D-C59C3CBA4DCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendService.BusinessLogic", "src\BackendService.BusinessLogic\BackendService.BusinessLogic.csproj", "{539C1C39-5360-4701-A81D-C59C3CBA4DCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseContext", "src\DatabaseContext\DatabaseContext.csproj", "{99DE9373-8A86-4D3C-8B2E-842B9BE6325B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +32,11 @@ Global
 		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{539C1C39-5360-4701-A81D-C59C3CBA4DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99DE9373-8A86-4D3C-8B2E-842B9BE6325B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99DE9373-8A86-4D3C-8B2E-842B9BE6325B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99DE9373-8A86-4D3C-8B2E-842B9BE6325B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99DE9373-8A86-4D3C-8B2E-842B9BE6325B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
