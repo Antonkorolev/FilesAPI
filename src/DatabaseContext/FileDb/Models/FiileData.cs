@@ -1,10 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DatabaseContext.FileDb.Models;
 
 public sealed class FileData
 {
     public int FileDataId { get; set; }
 
-    public string FileCode { get; set; }
+    [MaxLength(20)]
+    public string FileCode { get; set; } = default!;
 
-    public string File { get; set; }
+    public byte[] File { get; set; } = default!;
 }
