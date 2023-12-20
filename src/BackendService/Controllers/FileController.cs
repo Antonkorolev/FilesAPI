@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using FileAPI.BackendService.Contracts.UpdateFile;
-using FileAPI.BackendService.Contracts.UploadFile;
+using BackendService.Contracts.UpdateFile;
+using BackendService.Contracts.UploadFile;
 
-namespace FileAPI.BackendService.Controllers;
+namespace BackendService.Controllers;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,3 +1,5 @@
+using BackendService.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var configuration = builder.Configuration;
@@ -9,8 +11,9 @@ configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddFileDbContext("DefaultConnection", configuration);
+    
+    
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

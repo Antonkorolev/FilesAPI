@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace FileAPI.BackendService.Contracts.UploadFile;
+namespace BackendService.Contracts.UploadFile;
 
 public sealed class UploadFileRequest
 {

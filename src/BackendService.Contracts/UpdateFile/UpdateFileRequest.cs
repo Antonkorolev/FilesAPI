@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace FileAPI.BackendService.Contracts.UpdateFile;
+namespace BackendService.Contracts.UpdateFile;
 
 public sealed class UpdateFileRequest
 {
