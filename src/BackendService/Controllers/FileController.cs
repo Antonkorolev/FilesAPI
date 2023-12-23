@@ -36,4 +36,11 @@ public class FileController : ControllerBase
 
         return Ok();
     }
+    
+    [HttpGet("getArray")]
+    public async Task<IActionResult> GetFilesAsync(string[] fileCode)
+    {
+
+        return Ok();
+    }
 }
