@@ -2,5 +2,5 @@ namespace BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.Writ
 
 public interface IWriteFileTask
 {
-    Task WriteAsync(Stream file, string path);
+    Task WriteAsync(Stream stream, string path);
 }

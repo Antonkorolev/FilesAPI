@@ -2,8 +2,12 @@ namespace BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.Writ
 
 public sealed class WriteFileTask : IWriteFileTask
 {
-    public Task WriteAsync(Stream file, string path)
+    public async Task WriteAsync(Stream stream, string path)
     {
-        throw new NotImplementedException();
+        await using var streamToWrite = File.Open(path, FileMode.CreateNew);
+
+        stream.Position = 0;
+        await stream.CopyToAsync(streamToWrite).ConfigureAwait(false);
+        stream.Close();
     }
 }
