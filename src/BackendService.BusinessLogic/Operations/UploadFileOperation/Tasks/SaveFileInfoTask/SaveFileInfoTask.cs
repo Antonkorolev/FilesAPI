@@ -13,15 +13,16 @@ public sealed class SaveFileInfoTask : ISaveFileInfoTask
         _fileDbContext = fileDbContext;
     }
 
-    public async Task SaveInfoAsync(Guid fileCode, string userCode)
+    public async Task SaveInfoAsync(Guid fileCode, string userCode, CancellationToken cancellationToken)
     {
-        await _fileDbContext.Database.BeginTransactionAsync(CancellationToken.None);
+        await _fileDbContext.Database.BeginTransactionAsync(cancellationToken);
         
         var file = await _fileDbContext.File.AddAsync(
                 new File
                 {
                     FileCode = fileCode
-                })
+                },
+                cancellationToken)
             .ConfigureAwait(false);
         
         await _fileDbContext.FileChangeHistory.AddAsync(
@@ -30,9 +31,10 @@ public sealed class SaveFileInfoTask : ISaveFileInfoTask
                     FileId = file.Entity.FileId,
                     CreatedBy = userCode,
                     Modified = DateTime.UtcNow
-                })
+                },
+                cancellationToken)
             .ConfigureAwait(false);
 
-        await _fileDbContext.Database.CommitTransactionAsync(CancellationToken.None);
+        await _fileDbContext.Database.CommitTransactionAsync(cancellationToken);
     }
 }

@@ -13,9 +13,9 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
         _context = context;
     }
 
-    public async Task UpdateInfoAsync(Guid fileCode, string userCode)
+    public async Task UpdateInfoAsync(Guid fileCode, string userCode, CancellationToken cancellationToken)
     {
-        var file = await _context.File.FirstOrDefaultAsync(f => f.FileCode == fileCode).ConfigureAwait(false);
+        var file = await _context.File.FirstOrDefaultAsync(f => f.FileCode == fileCode, cancellationToken).ConfigureAwait(false);
 
         if (file == null)
             throw new Exception($"File by FileCode = '{fileCode}' not found in database");
@@ -26,7 +26,8 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
                     FileId = file.FileId,
                     ModifiedBy = userCode,
                     Modified = DateTime.UtcNow
-                })
+                },
+                cancellationToken)
             .ConfigureAwait(false);
     }
 }

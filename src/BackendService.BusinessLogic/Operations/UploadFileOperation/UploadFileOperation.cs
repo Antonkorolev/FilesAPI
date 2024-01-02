@@ -31,9 +31,14 @@ public sealed class UploadFileOperation : IUploadFileOperation
 
         var fileCode = Guid.NewGuid();
 
-        await _writeFileTask.WriteAsync(request.FileStream, PathBuilder.Build(fileCode.ToString())).ConfigureAwait(false);
-        await _saveFileInfoTask.SaveInfoAsync(fileCode, request.UserCode).ConfigureAwait(false);
-        
+        var cancellationTokenSource = new CancellationTokenSource();
+        var cancellationToken = cancellationTokenSource.Token;
+
+        var path = PathBuilder.Build(fileCode.ToString());
+
+        await _writeFileTask.WriteAsync(request.FileStream, path, cancellationToken).ConfigureAwait(false);
+        await _saveFileInfoTask.SaveInfoAsync(fileCode, request.UserCode, cancellationToken).ConfigureAwait(false);
+
         _logger.LogInformation($"File with FileCode = '{fileCode}' successfully saved");
 
         return fileCode;

@@ -2,5 +2,5 @@ namespace BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.Upda
 
 public interface IUpdateFileInfoTask
 {
-    Task UpdateInfoAsync(Guid fileCode, string userCode);
+    Task UpdateInfoAsync(Guid fileCode, string userCode, CancellationToken cancellationToken);
 }

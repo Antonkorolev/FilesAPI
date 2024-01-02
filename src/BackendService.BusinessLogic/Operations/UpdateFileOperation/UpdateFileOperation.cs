@@ -26,9 +26,14 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
     public async Task UpdateFileAsync(UpdateFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileUpdate).ConfigureAwait(false);
+        
+        var cancellationTokenSource = new CancellationTokenSource();
+        var cancellationToken = cancellationTokenSource.Token;
 
-        await _updateFileTask.UpdateAsync(request.FileStream, PathBuilder.Build(request.FileCode.ToString())).ConfigureAwait(false);
-        await _updateFileInfoTask.UpdateInfoAsync(request.FileCode, request.UserCode).ConfigureAwait(false);
+        var path = PathBuilder.Build(request.FileCode.ToString());
+
+        await _updateFileTask.UpdateAsync(request.FileStream, path, cancellationToken).ConfigureAwait(false);
+        await _updateFileInfoTask.UpdateInfoAsync(request.FileCode, request.UserCode, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation($"File by FileCode = '{request.FileCode}' successfully updated");
     }
