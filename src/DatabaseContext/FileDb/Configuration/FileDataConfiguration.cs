@@ -9,6 +9,6 @@ public sealed class FileDataConfiguration : IEntityTypeConfiguration<FileData>
     public void Configure(EntityTypeBuilder<FileData> builder)
     {
         builder.ToTable("FileData", "dbo");
-        builder.HasKey(f => f.FileDataId);
+        builder.HasKey(f => f.FileId);
     }
 }
