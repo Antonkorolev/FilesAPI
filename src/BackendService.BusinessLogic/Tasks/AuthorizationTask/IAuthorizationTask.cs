@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace BackendService.BusinessLogic.Tasks;
+namespace BackendService.BusinessLogic.Tasks.AuthorizationTask;
 
 public interface IAuthorizationTask
 {

@@ -13,17 +13,12 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
         _context = context;
     }
 
-    public async Task UpdateInfoAsync(Guid fileCode, string userCode, CancellationToken cancellationToken)
+    public async Task UpdateInfoAsync(int fileId, Guid fileCode, string userCode, CancellationToken cancellationToken)
     {
-        var file = await _context.File.FirstOrDefaultAsync(f => f.FileCode == fileCode, cancellationToken).ConfigureAwait(false);
-
-        if (file == null)
-            throw new Exception($"File by FileCode = '{fileCode}' not found in database");
-
         await _context.FileChangeHistory.AddAsync(
                 new FileChangeHistory
                 {
-                    FileId = file.FileId,
+                    FileId = fileId,
                     ModifiedBy = userCode,
                     Modified = DateTime.UtcNow
                 },

@@ -1,4 +1,4 @@
-namespace BackendService.BusinessLogic.Tasks;
+namespace BackendService.BusinessLogic.Tasks.AuthorizationTask;
 
 public sealed class AuthorizationTask : IAuthorizationTask
 {

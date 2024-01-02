@@ -1,11 +1,9 @@
-using System.Globalization;
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Models;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
-using BackendService.BusinessLogic.Tasks;
-using DatabaseContext.FileDb;
+using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Operations.UploadFileOperation;
