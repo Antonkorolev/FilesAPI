@@ -9,38 +9,32 @@ namespace BackendService.Controllers;
 public class FileController : ControllerBase
 {
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadFileAsync([FromForm]UploadFileRequest request)
+    public async Task<IActionResult> UploadFileAsync([FromForm] UploadFileRequest request)
     {
-
         return Ok($"{request.FileCode}");
     }
 
     [HttpPost("update")]
-    public async Task<IActionResult> UpdateFileAsync([FromForm]UpdateFileRequest request)
+    public async Task<IActionResult> UpdateFileAsync([FromForm] UpdateFileRequest request)
     {
-
         return Ok();
     }
-    
+
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteFileAsync(string fileCode)
     {
-
         return Ok();
     }
-    
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetFileAsync(string fileCode)
     {
-
         return Ok();
     }
-    
-    [HttpGet("getArray")]
-    public async Task<IActionResult> GetFilesAsync(string[] fileCode)
-    {
 
+    [HttpGet("getArray")]
+    public async Task<IActionResult> GetFilesAsync(string[] fileCodes)
+    {
         return Ok();
     }
 }

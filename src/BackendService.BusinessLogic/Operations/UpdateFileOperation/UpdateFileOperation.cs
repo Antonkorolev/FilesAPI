@@ -1,10 +1,11 @@
 using BackendService.BusinessLogic.Constants;
+using BackendService.BusinessLogic.Extensions;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Models;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileInfoTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.WriteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.GetFileTask;
+using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Operations.UpdateFileOperation;
@@ -12,17 +13,17 @@ namespace BackendService.BusinessLogic.Operations.UpdateFileOperation;
 public sealed class UpdateFileOperation : IUpdateFileOperation
 {
     private readonly IAuthorizationTask _authorizationTask;
-    private readonly IUpdateFileTask _updateFileTask;
+    private readonly IWriteFileTask _writeFileTask;
     private readonly IUpdateFileInfoTask _updateFileInfoTask;
-    private readonly IGetFileIdTask _getFileIdTask;
+    private readonly IGetFileInfoTask _getFileInfoTask;
     private readonly ILogger _logger;
 
-    public UpdateFileOperation(IUpdateFileTask updateFileTask, IUpdateFileInfoTask updateFileInfoTask, IAuthorizationTask authorizationTask, IGetFileIdTask getFileIdTask, ILogger logger)
+    public UpdateFileOperation(IWriteFileTask writeFileTask, IUpdateFileInfoTask updateFileInfoTask, IAuthorizationTask authorizationTask, IGetFileInfoTask getFileInfoTask, ILogger logger)
     {
         _authorizationTask = authorizationTask;
-        _updateFileTask = updateFileTask;
+        _writeFileTask = writeFileTask;
         _updateFileInfoTask = updateFileInfoTask;
-        _getFileIdTask = getFileIdTask;
+        _getFileInfoTask = getFileInfoTask;
         _logger = logger;
     }
 
@@ -33,11 +34,12 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
 
-        var path = PathBuilder.Build(request.FileCode.ToString());
-        var fileId = await _getFileIdTask.GetFileIdAsync(request.FileCode, cancellationToken).ConfigureAwait(false);
+        var fileStream = request.Stream.ToFileStream();
+        var path = PathBuilder.Build(request.FileCode.ToString(), fileStream.Name);
+        var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
 
-        await _updateFileTask.UpdateAsync(request.FileStream, path, cancellationToken).ConfigureAwait(false);
-        await _updateFileInfoTask.UpdateInfoAsync(fileId, request.FileCode, request.UserCode, cancellationToken).ConfigureAwait(false);
+        await _writeFileTask.WriteAsync(fileStream, path, cancellationToken).ConfigureAwait(false);
+        await _updateFileInfoTask.UpdateInfoAsync(fileInfo.FileInfoId, fileInfo.Code, fileInfo.Name, request.UserCode, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation($"File by FileCode = '{request.FileCode}' successfully updated");
     }

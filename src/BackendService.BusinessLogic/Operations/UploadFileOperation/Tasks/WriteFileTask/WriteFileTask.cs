@@ -8,6 +8,6 @@ public sealed class WriteFileTask : IWriteFileTask
 
         stream.Position = 0;
         await stream.CopyToAsync(streamToWrite, cancellationToken).ConfigureAwait(false);
-        stream.Close();
+        await stream.DisposeAsync();
     }
 }

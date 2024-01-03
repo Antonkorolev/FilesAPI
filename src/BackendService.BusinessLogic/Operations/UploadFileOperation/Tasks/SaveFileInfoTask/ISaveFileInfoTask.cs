@@ -2,5 +2,5 @@ namespace BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.Save
 
 public interface ISaveFileInfoTask
 {
-    Task SaveInfoAsync(Guid fileCode, string userCode, CancellationToken cancellationToken);
+    Task SaveAsync(Guid fileCode, string userCode, string fileName, CancellationToken cancellationToken);
 }

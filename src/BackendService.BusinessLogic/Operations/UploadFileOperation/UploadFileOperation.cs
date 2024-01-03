@@ -1,4 +1,5 @@
 using BackendService.BusinessLogic.Constants;
+using BackendService.BusinessLogic.Extensions;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Models;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
@@ -23,7 +24,7 @@ public sealed class UploadFileOperation : IUploadFileOperation
         _logger = logger;
     }
 
-    public async Task<Guid> UploadFileAsync(UploadFileOperationRequest request)
+    public async Task<Guid> UploadAsync(UploadFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileCreation).ConfigureAwait(false);
 
@@ -32,10 +33,11 @@ public sealed class UploadFileOperation : IUploadFileOperation
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
 
-        var path = PathBuilder.Build(fileCode.ToString());
+        var fileStream = request.Stream.ToFileStream();
+        var path = PathBuilder.Build(fileCode.ToString(), fileStream.Name);
 
-        await _writeFileTask.WriteAsync(request.FileStream, path, cancellationToken).ConfigureAwait(false);
-        await _saveFileInfoTask.SaveInfoAsync(fileCode, request.UserCode, cancellationToken).ConfigureAwait(false);
+        await _writeFileTask.WriteAsync(fileStream, path, cancellationToken).ConfigureAwait(false);
+        await _saveFileInfoTask.SaveAsync(fileCode, request.UserCode, fileStream.Name, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation($"File with FileCode = '{fileCode}' successfully saved");
 

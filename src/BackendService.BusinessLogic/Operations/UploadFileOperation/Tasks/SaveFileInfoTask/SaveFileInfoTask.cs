@@ -1,40 +1,42 @@
 using DatabaseContext.FileDb;
 using DatabaseContext.FileDb.Models;
-using File = DatabaseContext.FileDb.Models.File;
+using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
 namespace BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
 
 public sealed class SaveFileInfoTask : ISaveFileInfoTask
 {
-    private readonly IFileDbContext _fileDbContext;
+    private readonly IFileDbContext _context;
 
-    public SaveFileInfoTask(IFileDbContext fileDbContext)
+    public SaveFileInfoTask(IFileDbContext context)
     {
-        _fileDbContext = fileDbContext;
+        _context = context;
     }
 
-    public async Task SaveInfoAsync(Guid fileCode, string userCode, CancellationToken cancellationToken)
+    public async Task SaveAsync(Guid fileCode, string userCode, string fileName, CancellationToken cancellationToken)
     {
-        await _fileDbContext.Database.BeginTransactionAsync(cancellationToken);
+        await _context.Database.BeginTransactionAsync(cancellationToken);
         
-        var file = await _fileDbContext.File.AddAsync(
-                new File
+        var fileInfo = await _context.FileInfo.AddAsync(
+                new FileInfo
                 {
-                    FileCode = fileCode
+                    Code = fileCode,
+                    Name = fileName
                 },
                 cancellationToken)
             .ConfigureAwait(false);
         
-        await _fileDbContext.FileChangeHistory.AddAsync(
+        await _context.FileChangeHistory.AddAsync(
                 new FileChangeHistory
                 {
-                    FileId = file.Entity.FileId,
+                    FileId = fileInfo.Entity.FileInfoId,
                     CreatedBy = userCode,
-                    Modified = DateTime.UtcNow
+                    Created = DateTime.UtcNow
                 },
                 cancellationToken)
             .ConfigureAwait(false);
 
-        await _fileDbContext.Database.CommitTransactionAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        await _context.Database.CommitTransactionAsync(cancellationToken);
     }
 }

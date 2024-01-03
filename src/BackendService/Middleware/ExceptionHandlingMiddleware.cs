@@ -23,5 +23,9 @@ public class ExceptionHandlingMiddleware
         {
             _logger.LogInformation("Task canceled");
         }
+        catch (IOException e)
+        {
+            _logger.LogError(e.Message);
+        }
     }
 }

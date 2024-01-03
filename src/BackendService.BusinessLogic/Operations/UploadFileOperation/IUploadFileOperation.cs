@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Operations.UploadFileOperation;
 
 public interface IUploadFileOperation
 {
-    Task<Guid> UploadFileAsync(UploadFileOperationRequest request);
+    Task<Guid> UploadAsync(UploadFileOperationRequest request);
 }

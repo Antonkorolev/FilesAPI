@@ -2,16 +2,16 @@ namespace BackendService.BusinessLogic.Operations.UpdateFileOperation.Models;
 
 public sealed class UpdateFileOperationRequest
 {
-    public UpdateFileOperationRequest(Guid fileCode, Stream fileStream, string userCode)
+    public UpdateFileOperationRequest(Guid fileCode, Stream stream, string userCode)
     {
         FileCode = fileCode;
-        FileStream = fileStream;
+        Stream = stream;
         UserCode = userCode;
     }
 
     public Guid FileCode { get; set; } = default!;
 
-    public Stream FileStream { get; set; } = default!;
+    public Stream Stream { get; set; } = default!;
 
     public string UserCode { get; set; } = default!;
 }

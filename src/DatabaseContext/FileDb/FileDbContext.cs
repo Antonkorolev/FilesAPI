@@ -1,12 +1,12 @@
 using DatabaseContext.FileDb.Models;
 using Microsoft.EntityFrameworkCore;
-using File = DatabaseContext.FileDb.Models.File;
+using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
 namespace DatabaseContext.FileDb;
 
 public class FileDbContext : DbContext, IFileDbContext
 {
-    public DbSet<File> File { get; set; } = default!;
+    public DbSet<FileInfo> FileInfo { get; set; } = default!;
 
     public DbSet<FileChangeHistory> FileChangeHistory { get; set; } = default!;
 
