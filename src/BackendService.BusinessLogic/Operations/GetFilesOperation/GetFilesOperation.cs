@@ -14,9 +14,13 @@ public sealed class GetFilesOperation : IGetFilesOperation
     private readonly IAuthorizationTask _authorizationTask;
     private readonly IGetFileInfosTask _getFileInfosTask;
     private readonly IGetFilesTask _getFilesTask;
-    private readonly ILogger _logger;
+    private readonly ILogger<GetFilesOperation> _logger;
 
-    public GetFilesOperation(IAuthorizationTask authorizationTask, IGetFileInfosTask getFileInfosTask, IGetFilesTask getFilesTask, ILogger logger)
+    public GetFilesOperation(
+        IAuthorizationTask authorizationTask, 
+        IGetFileInfosTask getFileInfosTask, 
+        IGetFilesTask getFilesTask, 
+        ILogger<GetFilesOperation> logger)
     {
         _authorizationTask = authorizationTask;
         _getFileInfosTask = getFileInfosTask;

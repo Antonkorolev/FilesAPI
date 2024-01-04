@@ -14,9 +14,13 @@ public sealed class UploadFileOperation : IUploadFileOperation
     private readonly IAuthorizationTask _authorizationTask;
     private readonly IWriteFileTask _writeFileTask;
     private readonly ISaveFileInfoTask _saveFileInfoTask;
-    private readonly ILogger _logger;
+    private readonly ILogger<UploadFileOperation> _logger;
 
-    public UploadFileOperation(IAuthorizationTask authorizationTask, IWriteFileTask writeFileTask, ISaveFileInfoTask saveFileInfoTask, ILogger logger)
+    public UploadFileOperation(
+        IAuthorizationTask authorizationTask,
+        IWriteFileTask writeFileTask,
+        ISaveFileInfoTask saveFileInfoTask,
+        ILogger<UploadFileOperation> logger)
     {
         _authorizationTask = authorizationTask;
         _writeFileTask = writeFileTask;

@@ -1,8 +1,8 @@
-namespace BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.WriteFileTask;
+namespace BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileTask;
 
-public sealed class WriteFileTask : IWriteFileTask
+public sealed class UpdateFileTask : IUpdateFileTask
 {
-    public async Task WriteAsync(Stream stream, string path, CancellationToken cancellationToken)
+    public async Task UpdateAsync(Stream stream, string path, CancellationToken cancellationToken)
     {
         await using var streamToWrite = File.Open(path, FileMode.Create);
 

@@ -2,7 +2,7 @@ using DatabaseContext.FileDb;
 using DatabaseContext.FileDb.Models;
 using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
-namespace BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileTask;
+namespace BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
 
 public sealed class DeleteFileInfoTask : IDeleteFileInfoTask
 {

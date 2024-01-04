@@ -1,4 +1,4 @@
-namespace BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileTask;
+namespace BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
 
 public interface IDeleteFileInfoTask
 {

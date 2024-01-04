@@ -1,7 +1,7 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Models;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileFromDbTask;
+using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
@@ -13,15 +13,20 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
 {
     private readonly IAuthorizationTask _authorizationTask;
     private readonly IDeleteFileInfoTask _deleteFileInfoTask;
-    private readonly IDeleteFileFromDbTask _deleteFileFromDbTask;
+    private readonly IDeleteFileTask _deleteFileTask;
     private readonly IGetFileInfoTask _getFileInfoTask;
-    private readonly ILogger _logger;
+    private readonly ILogger<DeleteFileOperation> _logger;
 
-    public DeleteFileOperation(IAuthorizationTask authorizationTask, IDeleteFileInfoTask deleteFileInfoTask, IDeleteFileFromDbTask deleteFileFromDbTask, IGetFileInfoTask getFileInfoTask, ILogger logger)
+    public DeleteFileOperation(
+        IAuthorizationTask authorizationTask, 
+        IDeleteFileInfoTask deleteFileInfoTask, 
+        IDeleteFileTask deleteFileTask, 
+        IGetFileInfoTask getFileInfoTask, 
+        ILogger<DeleteFileOperation> logger)
     {
         _authorizationTask = authorizationTask;
         _deleteFileInfoTask = deleteFileInfoTask;
-        _deleteFileFromDbTask = deleteFileFromDbTask;
+        _deleteFileTask = deleteFileTask;
         _getFileInfoTask = getFileInfoTask;
         _logger = logger;
     }
@@ -38,7 +43,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         
 
         await _deleteFileInfoTask.DeleteFileAsync(getFileInfoTaskResponse.FileInfoId, cancellationToken).ConfigureAwait(false);
-        _deleteFileFromDbTask.Delete(path);
+        _deleteFileTask.Delete(path);
 
         _logger.LogInformation($"File with FileCode = '{request.FileCode}' successfully deleted");
     }
