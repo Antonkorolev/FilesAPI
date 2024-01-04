@@ -1,17 +1,24 @@
-using BackendService.BusinessLogic.Exceptions;
+using System.IO.Compression;
+using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask.Models;
 
 namespace BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask;
 
 public sealed class GetFilesTask : IGetFilesTask
 {
-    public IEnumerable<Stream> Get(IEnumerable<string> paths)
+    public byte[] Get(GetFilesTaskRequest request)
     {
-        var pathsArray = paths as string[] ?? paths.ToArray();
-        var streams = pathsArray.Select(File.OpenRead).ToArray();
+        using var memoryStream = new MemoryStream();
+        using var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true);
 
-        if (streams.Length == pathsArray.Length)
-            throw new FilesCountException(pathsArray.Length, streams.Length);
+        foreach (var getFilesTaskFileData in request.FileData)
+        {
+            var zipArchiveEntry = archive.CreateEntry(getFilesTaskFileData.FileName);
+            using var entryStream = zipArchiveEntry.Open();
 
-        return streams;
+            using var fileToCompressStream = new MemoryStream(File.ReadAllBytes(getFilesTaskFileData.Path));
+            fileToCompressStream.CopyTo(entryStream);
+        }
+
+        return memoryStream.ToArray();
     }
 }

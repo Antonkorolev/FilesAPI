@@ -1,4 +1,5 @@
-using BackendService.BusinessLogic.Helpers.Models;
+using BackendService.BusinessLogic.Helpers.Models.Request;
+using BackendService.BusinessLogic.Helpers.Models.Response;
 
 namespace BackendService.BusinessLogic.Helpers;
 
@@ -9,8 +10,10 @@ public static class PathBuilder
         return Path.Combine("repo", fileCode[0].ToString(), fileCode[1].ToString(), fileName);
     }
 
-    public static IEnumerable<string> Build(PathBuilderRequest request)
+    public static PathBuilderResponse Build(PathBuilderRequest request)
     {
-        return request.FileInfos.Select(r => Path.Combine("repo", r.FileCode[0].ToString(), r.FileCode[1].ToString(), r.FileName));
+        var fileData =  request.FileInfos.Select(r => new PathBuilderFileData(r.FileName, Path.Combine("repo", r.FileCode[0].ToString(), r.FileCode[1].ToString(), r.FileName)));
+
+        return new PathBuilderResponse(fileData);
     }
 }

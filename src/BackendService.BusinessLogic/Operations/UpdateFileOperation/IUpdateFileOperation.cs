@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Operations.UpdateFileOperation;
 
 public interface IUpdateFileOperation
 {
-    Task UpdateFileAsync(UpdateFileOperationRequest request);
+    Task UpdateAsync(UpdateFileOperationRequest request);
 }

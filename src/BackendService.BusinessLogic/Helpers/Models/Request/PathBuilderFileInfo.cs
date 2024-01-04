@@ -1,4 +1,4 @@
-namespace BackendService.BusinessLogic.Helpers.Models;
+namespace BackendService.BusinessLogic.Helpers.Models.Request;
 
 public sealed class PathBuilderFileInfo
 {

@@ -26,7 +26,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         _logger = logger;
     }
 
-    public async Task DeleteFileAsync(DeleteFileOperationRequest request)
+    public async Task DeleteAsync(DeleteFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileDelete).ConfigureAwait(false);
 

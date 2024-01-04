@@ -1,6 +1,6 @@
 using BackendService.BusinessLogic.Constants;
-using BackendService.BusinessLogic.Extensions;
 using BackendService.BusinessLogic.Helpers;
+using BackendService.BusinessLogic.Mappers;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Models;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask;
@@ -24,17 +24,17 @@ public sealed class GetFilesOperation : IGetFilesOperation
         _logger = logger;
     }
 
-    public async Task<IEnumerable<Stream>> GetFiles(GetFilesOperationRequest request)
+    public async Task<byte[]> GetFiles(GetFilesOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileGet).ConfigureAwait(false);
 
         var getFileInfosTaskResponse = await _getFileInfosTask.GetAsync(request.FileCodes).ConfigureAwait(false);
 
-        var paths = PathBuilder.Build(getFileInfosTaskResponse.ToPathBuilderRequest());
-        var streams = _getFilesTask.Get(paths);
+        var pathBuilderResponse = PathBuilder.Build(getFileInfosTaskResponse.ToPathBuilderRequest());
+        var byteArray = _getFilesTask.Get(pathBuilderResponse.ToGetFilesTaskRequest());
 
         _logger.LogInformation($"Files successfully received");
 
-        return streams;
+        return byteArray;
     }
 }

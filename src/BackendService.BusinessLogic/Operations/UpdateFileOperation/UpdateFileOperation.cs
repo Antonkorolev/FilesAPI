@@ -1,6 +1,6 @@
 using BackendService.BusinessLogic.Constants;
-using BackendService.BusinessLogic.Extensions;
 using BackendService.BusinessLogic.Helpers;
+using BackendService.BusinessLogic.Mappers;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Models;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileInfoTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.WriteFileTask;
@@ -27,7 +27,7 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
         _logger = logger;
     }
 
-    public async Task UpdateFileAsync(UpdateFileOperationRequest request)
+    public async Task UpdateAsync(UpdateFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileUpdate).ConfigureAwait(false);
 

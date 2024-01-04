@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Operations.DeleteFileOperation;
 
 public interface IDeleteFileOperation
 {
-    Task DeleteFileAsync(DeleteFileOperationRequest request);
+    Task DeleteAsync(DeleteFileOperationRequest request);
 }
