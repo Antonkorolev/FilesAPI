@@ -25,7 +25,12 @@ public static class ServiceCollectionExtension
     {
         var connectionString = configuration.GetConnectionString(name);
 
-        services.AddDbContext<FileDbContext>(options => options.UseSqlServer(connectionString)).AddScoped<IFileDbContext>(x => x.GetRequiredService<IFileDbContext>());
+        services.AddDbContext<FileDbContext>((sp, options) =>
+            {
+                options.UseSqlServer(connectionString);
+                options.UseLoggerFactory(sp.GetRequiredService<ILoggerFactory>());
+            })
+            .AddScoped<IFileDbContext>(x => x.GetRequiredService<FileDbContext>());
 
         return services;
     }
