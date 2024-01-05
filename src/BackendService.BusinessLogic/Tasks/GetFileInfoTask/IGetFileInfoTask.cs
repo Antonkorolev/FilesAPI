@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Tasks.GetFileInfoTask;
 
 public interface IGetFileInfoTask
 {
-    Task<GetFileInfoTaskResponse> GetAsync(Guid fileCode);
+    Task<GetFileInfoTaskResponse> GetAsync(string fileCode);
 }

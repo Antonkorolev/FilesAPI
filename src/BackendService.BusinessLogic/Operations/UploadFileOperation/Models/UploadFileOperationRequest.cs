@@ -2,16 +2,19 @@ namespace BackendService.BusinessLogic.Operations.UploadFileOperation.Models;
 
 public sealed class UploadFileOperationRequest
 {
-    public UploadFileOperationRequest(Guid fileCode, Stream stream, string userCode)
+    public UploadFileOperationRequest(string fileCode, Stream stream, string fileName, string userCode)
     {
         FileCode = fileCode;
         Stream = stream;
+        FileName = fileName;
         UserCode = userCode;
     }
 
-    public Guid FileCode { get; set; }
+    public string FileCode { get; set; }
 
-    public Stream Stream { get; set; } = default!;
+    public Stream Stream { get; set; }
+    
+    public string FileName { get; set; }
 
-    public string UserCode { get; set; } = default!;
+    public string UserCode { get; set; }
 }

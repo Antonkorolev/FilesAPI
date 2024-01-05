@@ -13,7 +13,7 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
         _context = context;
     }
 
-    public async Task UpdateInfoAsync(int fileId, Guid fileCode, string fileName, string userCode, CancellationToken cancellationToken)
+    public async Task UpdateInfoAsync(int fileId, string fileCode, string fileName, string userCode, CancellationToken cancellationToken)
     {
         await _context.Database.BeginTransactionAsync(cancellationToken);
 
@@ -23,7 +23,7 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
         await _context.FileChangeHistory.AddAsync(
                 new FileChangeHistory
                 {
-                    FileId = fileId,
+                    FileInfoId = fileId,
                     ModifiedBy = userCode,
                     Modified = DateTime.UtcNow
                 },

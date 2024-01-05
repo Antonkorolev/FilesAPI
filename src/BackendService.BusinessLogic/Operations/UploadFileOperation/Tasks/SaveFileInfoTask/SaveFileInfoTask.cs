@@ -13,10 +13,10 @@ public sealed class SaveFileInfoTask : ISaveFileInfoTask
         _context = context;
     }
 
-    public async Task SaveAsync(Guid fileCode, string userCode, string fileName, CancellationToken cancellationToken)
+    public async Task SaveAsync(string fileCode, string userCode, string fileName, CancellationToken cancellationToken)
     {
         await _context.Database.BeginTransactionAsync(cancellationToken);
-        
+
         var fileInfo = await _context.FileInfo.AddAsync(
                 new FileInfo
                 {
@@ -25,18 +25,19 @@ public sealed class SaveFileInfoTask : ISaveFileInfoTask
                 },
                 cancellationToken)
             .ConfigureAwait(false);
-        
+        await _context.SaveChangesAsync(cancellationToken);
+
         await _context.FileChangeHistory.AddAsync(
                 new FileChangeHistory
                 {
-                    FileId = fileInfo.Entity.FileInfoId,
+                    FileInfoId = fileInfo.Entity.FileInfoId,
                     CreatedBy = userCode,
                     Created = DateTime.UtcNow
                 },
                 cancellationToken)
             .ConfigureAwait(false);
-
         await _context.SaveChangesAsync(cancellationToken);
+
         await _context.Database.CommitTransactionAsync(cancellationToken);
     }
 }

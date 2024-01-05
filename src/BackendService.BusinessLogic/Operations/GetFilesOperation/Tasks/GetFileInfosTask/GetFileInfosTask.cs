@@ -15,7 +15,7 @@ public sealed class GetFileInfosTask : IGetFileInfosTask
         _context = context;
     }
 
-    public async Task<GetFileInfosTaskResponse> GetAsync(IEnumerable<Guid> fileCodes)
+    public async Task<GetFileInfosTaskResponse> GetAsync(IEnumerable<string> fileCodes)
     {
         var fileInfos = await _context.FileInfo
             .Where(f => fileCodes.Contains(f.Code))
@@ -23,7 +23,7 @@ public sealed class GetFileInfosTask : IGetFileInfosTask
             .ToArrayAsync()
             .ConfigureAwait(false);
 
-        var fileCodesArray = fileCodes as Guid[] ?? fileCodes.ToArray();
+        var fileCodesArray = fileCodes as string[] ?? fileCodes.ToArray();
 
         if (fileInfos.Length == fileCodesArray.Length)
             throw new FileInfosCountException(fileCodesArray.Length, fileInfos.Length);

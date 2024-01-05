@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFil
 
 public interface IGetFileInfosTask
 {
-    Task<GetFileInfosTaskResponse> GetAsync(IEnumerable<Guid> fileCodes);
+    Task<GetFileInfosTaskResponse> GetAsync(IEnumerable<string> fileCodes);
 }

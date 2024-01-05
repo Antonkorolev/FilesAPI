@@ -14,7 +14,7 @@ public sealed class GetFileInfoTask : IGetFileInfoTask
         _context = context;
     }
     
-    public async Task<GetFileInfoTaskResponse> GetAsync(Guid fileCode)
+    public async Task<GetFileInfoTaskResponse> GetAsync(string fileCode)
     {
         var fileInfo = await _context.FileInfo.FirstOrDefaultAsync(f => f.Code == fileCode).ConfigureAwait(false);
 

@@ -1,3 +1,4 @@
+using BackendService.BusinessLogic.Mappers;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Models;
 using BackendService.BusinessLogic.Operations.GetFileOperation;
@@ -41,7 +42,7 @@ public class FileController : ControllerBase
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFileAsync([FromForm] UploadFileRequest request)
     {
-        var result = await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(request.FileCode, request.File.OpenReadStream(), GetUserCode())).ConfigureAwait(false);
+        var result = await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(request.FileCode, request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
 
         return Ok(result);
     }
@@ -49,13 +50,13 @@ public class FileController : ControllerBase
     [HttpPost("update")]
     public async Task<IActionResult> UpdateFileAsync([FromForm] UpdateFileRequest request)
     {
-        await _updateFileOperation.UpdateAsync(new UpdateFileOperationRequest(request.FileCode, request.File.OpenReadStream(), GetUserCode())).ConfigureAwait(false);
+        await _updateFileOperation.UpdateAsync(new UpdateFileOperationRequest(request.FileCode, request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
 
         return Ok();
     }
 
     [HttpDelete("delete")]
-    public async Task<IActionResult> DeleteFileAsync(Guid fileCode)
+    public async Task<IActionResult> DeleteFileAsync(string fileCode)
     {
         await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
 
@@ -63,7 +64,7 @@ public class FileController : ControllerBase
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetFileAsync(Guid fileCode)
+    public async Task<IActionResult> GetFileAsync(string fileCode)
     {
         var stream = await _getFileOperation.GetFile(new GetFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
 
@@ -71,7 +72,7 @@ public class FileController : ControllerBase
     }
 
     [HttpGet("getArray")]
-    public async Task<IActionResult> GetFilesAsync(IEnumerable<Guid> fileCodes)
+    public async Task<IActionResult> GetFilesAsync(IEnumerable<string> fileCodes)
     {
         var byteArray = await _getFilesOperation.GetFiles(new GetFilesOperationRequest(fileCodes, GetUserCode())).ConfigureAwait(false);
 

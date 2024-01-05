@@ -28,20 +28,17 @@ public sealed class UploadFileOperation : IUploadFileOperation
         _logger = logger;
     }
 
-    public async Task<Guid> UploadAsync(UploadFileOperationRequest request)
+    public async Task<string> UploadAsync(UploadFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileCreation).ConfigureAwait(false);
 
-        var fileCode = Guid.NewGuid();
-
+        var fileCode = Guid.NewGuid().ToString();
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
+        var path = PathBuilder.Build(fileCode, request.FileName);
 
-        var fileStream = request.Stream.ToFileStream();
-        var path = PathBuilder.Build(fileCode.ToString(), fileStream.Name);
-
-        await _writeFileTask.WriteAsync(fileStream, path, cancellationToken).ConfigureAwait(false);
-        await _saveFileInfoTask.SaveAsync(fileCode, request.UserCode, fileStream.Name, cancellationToken).ConfigureAwait(false);
+        await _writeFileTask.WriteAsync(request.Stream, path, cancellationToken).ConfigureAwait(false);
+        await _saveFileInfoTask.SaveAsync(fileCode, request.UserCode, request.FileName, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation($"File with FileCode = '{fileCode}' successfully saved");
 

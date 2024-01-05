@@ -7,6 +7,7 @@ using BackendService.BusinessLogic.Operations.GetFilesOperation;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation;
+using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.DeleteOldFileTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileInfoTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation;
@@ -49,6 +50,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IUpdateFileOperation, UpdateFileOperation>();
         services.AddTransient<IUpdateFileTask, UpdateFileTask>();
         services.AddTransient<IUpdateFileInfoTask, UpdateFileInfoTask>();
+        services.AddTransient<IDeleteOldFileTask, DeleteOldFileTask>();
 
         return services;
     }

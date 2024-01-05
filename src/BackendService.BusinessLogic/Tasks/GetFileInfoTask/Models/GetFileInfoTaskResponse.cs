@@ -2,7 +2,7 @@ namespace BackendService.BusinessLogic.Tasks.GetFileInfoTask.Models;
 
 public sealed class GetFileInfoTaskResponse
 {
-    public GetFileInfoTaskResponse(int fileInfoId, Guid code, string name)
+    public GetFileInfoTaskResponse(int fileInfoId, string code, string name)
     {
         FileInfoId = fileInfoId;
         Code = code;
@@ -12,7 +12,7 @@ public sealed class GetFileInfoTaskResponse
 
     public int FileInfoId { get; set; }
 
-    public Guid Code { get; set; }
+    public string Code { get; set; }
 
     public string Name { get; set; }
 }

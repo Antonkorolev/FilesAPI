@@ -2,7 +2,7 @@ namespace BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFil
 
 public sealed class FileInfo
 {
-    public FileInfo(int fileInfoId, Guid code, string name)
+    public FileInfo(int fileInfoId, string code, string name)
     {
         FileInfoId = fileInfoId;
         Code = code;
@@ -12,7 +12,7 @@ public sealed class FileInfo
 
     public int FileInfoId { get; set; }
 
-    public Guid Code { get; set; }
+    public string Code { get; set; }
 
     public string Name { get; set; }
 }

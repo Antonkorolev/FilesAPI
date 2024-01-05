@@ -40,7 +40,6 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
 
         var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
         var path = PathBuilder.Build(getFileInfoTaskResponse.Code.ToString(), getFileInfoTaskResponse.Name);
-        
 
         await _deleteFileInfoTask.DeleteFileAsync(getFileInfoTaskResponse.FileInfoId, cancellationToken).ConfigureAwait(false);
         _deleteFileTask.Delete(path);
