@@ -2,5 +2,5 @@ namespace BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.Dele
 
 public interface IDeleteFileInfoTask
 {
-    Task DeleteFileAsync(int fileId, CancellationToken cancellationToken);
+    Task DeleteFileAsync(int fileInfoId, CancellationToken cancellationToken);
 }

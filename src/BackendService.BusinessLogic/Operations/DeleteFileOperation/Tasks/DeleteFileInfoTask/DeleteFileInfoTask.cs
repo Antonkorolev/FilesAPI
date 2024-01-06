@@ -6,20 +6,23 @@ namespace BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.Dele
 
 public sealed class DeleteFileInfoTask : IDeleteFileInfoTask
 {
-    private readonly IFileDbContext _fileDbContext;
+    private readonly IFileDbContext _context;
 
-    public DeleteFileInfoTask(IFileDbContext fileDbContext)
+    public DeleteFileInfoTask(IFileDbContext context)
     {
-        _fileDbContext = fileDbContext;
+        _context = context;
     }
 
-    public async Task DeleteFileAsync(int fileId, CancellationToken cancellationToken)
+    public async Task DeleteFileAsync(int fileInfoId, CancellationToken cancellationToken)
     {
-        await _fileDbContext.Database.BeginTransactionAsync(cancellationToken);
+        await _context.Database.BeginTransactionAsync(cancellationToken);
 
-        _fileDbContext.FileChangeHistory.RemoveRange(new FileChangeHistory { FileInfoId = fileId });
-        _fileDbContext.FileInfo.Remove(new FileInfo { FileInfoId = fileId });
+        _context.FileChangeHistory.RemoveRange(_context.FileChangeHistory.Where(f => f.FileInfoId == fileInfoId));
+        await _context.SaveChangesAsync(cancellationToken);
 
-        await _fileDbContext.Database.CommitTransactionAsync(cancellationToken);
+        _context.FileInfo.Remove(_context.FileInfo.First(f => f.FileInfoId == fileInfoId));
+        await _context.SaveChangesAsync(cancellationToken);
+
+        await _context.Database.CommitTransactionAsync(cancellationToken);
     }
 }

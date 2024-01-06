@@ -42,10 +42,10 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
 
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
-        
+
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
-        // var oldFilePath = PathBuilder.Build(fileInfo.Code, fileInfo.Name);
-        // _deleteOldFileTask.Delete(oldFilePath);
+        var oldFilePath = PathBuilder.Build(fileInfo.Code, fileInfo.Name);
+        _deleteOldFileTask.Delete(oldFilePath);
 
         var newFilePath = PathBuilder.Build(request.FileCode, request.FileName);
         await _updateFileTask.UpdateAsync(request.Stream, newFilePath, cancellationToken).ConfigureAwait(false);

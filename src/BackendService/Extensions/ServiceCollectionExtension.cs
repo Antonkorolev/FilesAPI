@@ -14,6 +14,7 @@ using BackendService.BusinessLogic.Operations.UploadFileOperation;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
+using BackendService.BusinessLogic.Tasks.EnsurePathExistsTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +86,7 @@ public static class ServiceCollectionExtension
     {
         services.AddTransient<IGetFileInfoTask, GetFileInfoTask>();
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
+        services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
 
         return services;
     }

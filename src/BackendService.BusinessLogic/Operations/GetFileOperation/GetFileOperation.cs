@@ -33,7 +33,7 @@ public sealed class GetFileOperation : IGetFileOperation
 
         var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
 
-        var path = PathBuilder.Build(request.FileCode.ToString(), getFileInfoTaskResponse.Name);
+        var path = PathBuilder.Build(request.FileCode, getFileInfoTaskResponse.Name);
         var stream = _getFileTask.Get(path);
 
         _logger.LogInformation($"File successfully received");

@@ -42,7 +42,7 @@ public class FileController : ControllerBase
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFileAsync([FromForm] UploadFileRequest request)
     {
-        var result = await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(request.FileCode, request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
+        var result = await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
 
         return Ok(result);
     }
