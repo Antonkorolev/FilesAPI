@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Operations.GetFileOperation;
 
 public interface IGetFileOperation
 {
-    Task<Stream> GetFile(GetFileOperationRequest operationRequest);
+    Task<GetFileOperationResponse> GetFile(GetFileOperationRequest operationRequest);
 }

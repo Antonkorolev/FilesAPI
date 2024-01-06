@@ -2,5 +2,5 @@ namespace BackendService.BusinessLogic.Operations.GetFileOperation.Tasks.GetFile
 
 public interface IGetFileTask
 {
-    Stream Get(string path);
+    Task<Stream> GetAsync(string path);
 }

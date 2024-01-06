@@ -64,11 +64,13 @@ public class FileController : ControllerBase
     }
 
     [HttpGet("get")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetFileAsync(string fileCode)
     {
-        var stream = await _getFileOperation.GetFile(new GetFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
-
-        return File(stream, "multipart/form-data");
+        var getFileOperationResponse = await _getFileOperation.GetFile(new GetFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
+        
+        return File(getFileOperationResponse.Stream, "application/octet-stream", getFileOperationResponse.FileName);
     }
 
     [HttpGet("getArray")]

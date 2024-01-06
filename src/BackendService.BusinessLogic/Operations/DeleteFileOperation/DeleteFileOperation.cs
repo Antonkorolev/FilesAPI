@@ -38,11 +38,11 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
 
-        var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
-        var path = PathBuilder.Build(getFileInfoTaskResponse.Code, getFileInfoTaskResponse.Name);
+        var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
+        var path = PathBuilder.Build(fileInfo.Code, fileInfo.Name);
 
         _deleteFileTask.Delete(path);
-        await _deleteFileInfoTask.DeleteFileAsync(getFileInfoTaskResponse.FileInfoId, cancellationToken).ConfigureAwait(false);
+        await _deleteFileInfoTask.DeleteFileAsync(fileInfo.FileInfoId, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation($"File with FileCode = '{request.FileCode}' successfully deleted");
     }

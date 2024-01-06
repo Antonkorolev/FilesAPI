@@ -27,17 +27,17 @@ public sealed class GetFileOperation : IGetFileOperation
         _logger = logger;
     }
 
-    public async Task<Stream> GetFile(GetFileOperationRequest request)
+    public async Task<GetFileOperationResponse> GetFile(GetFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileGet).ConfigureAwait(false);
 
-        var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
+        var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
 
-        var path = PathBuilder.Build(request.FileCode, getFileInfoTaskResponse.Name);
-        var stream = _getFileTask.Get(path);
+        var path = PathBuilder.Build(request.FileCode, fileInfo.Name);
+        var stream = await _getFileTask.GetAsync(path).ConfigureAwait(false);
 
         _logger.LogInformation($"File successfully received");
 
-        return stream;
+        return new GetFileOperationResponse(fileInfo.Name, stream);
     }
 }
