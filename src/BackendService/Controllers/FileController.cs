@@ -40,6 +40,8 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("upload")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UploadFileAsync([FromForm] UploadFileRequest request)
     {
         var result = await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
@@ -48,6 +50,8 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("update")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateFileAsync([FromForm] UpdateFileRequest request)
     {
         await _updateFileOperation.UpdateAsync(new UpdateFileOperationRequest(request.FileCode, request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
@@ -56,6 +60,8 @@ public class FileController : ControllerBase
     }
 
     [HttpDelete("delete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteFileAsync(string fileCode)
     {
         await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
@@ -73,7 +79,9 @@ public class FileController : ControllerBase
         return File(getFileOperationResponse.Stream, "application/octet-stream", getFileOperationResponse.FileName);
     }
 
-    [HttpGet("getArray")]
+    [HttpPost("getArray")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetFilesAsync(IEnumerable<string> fileCodes)
     {
         var byteArray = await _getFilesOperation.GetFiles(new GetFilesOperationRequest(fileCodes, GetUserCode())).ConfigureAwait(false);

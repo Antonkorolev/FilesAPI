@@ -8,15 +8,13 @@ public sealed class GetFilesTask : IGetFilesTask
     public byte[] Get(GetFilesTaskRequest request)
     {
         using var memoryStream = new MemoryStream();
-        using var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true);
 
-        foreach (var getFilesTaskFileData in request.FileData)
+        using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create))
         {
-            var zipArchiveEntry = archive.CreateEntry(getFilesTaskFileData.FileName);
-            using var entryStream = zipArchiveEntry.Open();
-
-            using var fileToCompressStream = new MemoryStream(File.ReadAllBytes(getFilesTaskFileData.Path));
-            fileToCompressStream.CopyTo(entryStream);
+            foreach (var getFilesTaskFileData in request.FileData)
+            {
+                archive.CreateEntryFromFile(getFilesTaskFileData.Path, getFilesTaskFileData.FileName);
+            }
         }
 
         return memoryStream.ToArray();

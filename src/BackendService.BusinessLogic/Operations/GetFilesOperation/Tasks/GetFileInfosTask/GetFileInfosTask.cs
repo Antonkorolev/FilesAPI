@@ -25,7 +25,7 @@ public sealed class GetFileInfosTask : IGetFileInfosTask
 
         var fileCodesArray = fileCodes as string[] ?? fileCodes.ToArray();
 
-        if (fileInfos.Length == fileCodesArray.Length)
+        if (fileInfos.Length != fileCodesArray.Length)
             throw new FileInfosCountException(fileCodesArray.Length, fileInfos.Length);
 
         return new GetFileInfosTaskResponse(fileInfos);
