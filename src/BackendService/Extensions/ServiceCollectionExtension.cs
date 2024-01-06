@@ -11,11 +11,12 @@ using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.DeleteOl
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileInfoTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation;
+using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.EnsurePathExistsTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.EnsurePathExistsTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
+using BackendService.BusinessLogic.Tasks.PathsPreparationTask;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +43,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IUploadFileOperation, UploadFileOperation>();
         services.AddTransient<IWriteFileTask, WriteFileTask>();
         services.AddTransient<ISaveFileInfoTask, SaveFileInfoTask>();
+        services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
 
         return services;
     }
@@ -86,7 +88,7 @@ public static class ServiceCollectionExtension
     {
         services.AddTransient<IGetFileInfoTask, GetFileInfoTask>();
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
-        services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
+        services.AddTransient<IPathsPreparationTask, PathsPreparationTask>();
 
         return services;
     }

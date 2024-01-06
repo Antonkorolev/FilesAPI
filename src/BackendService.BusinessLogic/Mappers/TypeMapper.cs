@@ -1,24 +1,19 @@
-using BackendService.BusinessLogic.Helpers.Models.Request;
-using BackendService.BusinessLogic.Helpers.Models.Response;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask.Models;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask.Models;
+using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Request;
+using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Response;
 
 namespace BackendService.BusinessLogic.Mappers;
 
 public static class TypeMapper
 {
-    public static FileStream ToFileStream(this Stream stream)
+    public static PathsPreparationTaskRequest ToPathsPreparationTaskRequest(this GetFileInfosTaskResponse getFileInfosTaskResponse)
     {
-        return stream as FileStream ?? throw new InvalidCastException();
+        return new PathsPreparationTaskRequest(getFileInfosTaskResponse.FileInfos.Select(f => new PathsPreparationTaskFileInfo(f.Code.ToString(), f.Name)));
     }
 
-    public static PathBuilderRequest ToPathBuilderRequest(this GetFileInfosTaskResponse getFileInfosTaskResponse)
+    public static GetFilesTaskRequest ToGetFilesTaskRequest(this PathsPreparationTaskResponse pathsPreparationTaskResponse)
     {
-        return new PathBuilderRequest(getFileInfosTaskResponse.FileInfos.Select(f => new PathBuilderFileInfo(f.Code.ToString(), f.Name)));
-    }
-
-    public static GetFilesTaskRequest ToGetFilesTaskRequest(this PathBuilderResponse pathBuilderResponse)
-    {
-        return new GetFilesTaskRequest(pathBuilderResponse.FileData.Select(f => new GetFilesTaskFileData(f.FileName, f.Path)));
+        return new GetFilesTaskRequest(pathsPreparationTaskResponse.FileData.Select(f => new GetFilesTaskFileData(f.FileName, f.Path)));
     }
 }
