@@ -1,6 +1,5 @@
 using BackendService.Extensions;
 using BackendService.Middleware;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +19,7 @@ configuration.AddEnvironmentVariables();
 builder.Host.UseSerilog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddFileDbContext("DefaultConnection", configuration);
+builder.Services.AddFileDbContext("FileDb", configuration);
 builder.Services.AddUploadFileOperation();
 builder.Services.AddUpdateFileOperation();
 builder.Services.AddGetFilesOperation();

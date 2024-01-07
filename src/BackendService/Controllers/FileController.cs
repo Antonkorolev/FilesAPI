@@ -1,4 +1,3 @@
-using BackendService.BusinessLogic.Mappers;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Models;
 using BackendService.BusinessLogic.Operations.GetFileOperation;
@@ -9,6 +8,9 @@ using BackendService.BusinessLogic.Operations.UpdateFileOperation;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Models;
 using BackendService.BusinessLogic.Operations.UploadFileOperation;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Models;
+using BackendService.Contracts.DeleteFile;
+using BackendService.Contracts.GetFile;
+using BackendService.Contracts.GetFiles;
 using Microsoft.AspNetCore.Mvc;
 using BackendService.Contracts.UpdateFile;
 using BackendService.Contracts.UploadFile;
@@ -62,9 +64,9 @@ public class FileController : ControllerBase
     [HttpDelete("delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> DeleteFileAsync(string fileCode)
+    public async Task<IActionResult> DeleteFileAsync(DeleteFileRequest request)
     {
-        await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
+        await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
 
         return Ok();
     }
@@ -72,19 +74,19 @@ public class FileController : ControllerBase
     [HttpGet("get")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetFileAsync(string fileCode)
+    public async Task<IActionResult> GetFileAsync(GetFileRequest request)
     {
-        var getFileOperationResponse = await _getFileOperation.GetFile(new GetFileOperationRequest(fileCode, GetUserCode())).ConfigureAwait(false);
-        
+        var getFileOperationResponse = await _getFileOperation.GetFile(new GetFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
+
         return File(getFileOperationResponse.Stream, "application/octet-stream", getFileOperationResponse.FileName);
     }
 
     [HttpPost("getArray")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetFilesAsync(IEnumerable<string> fileCodes)
+    public async Task<IActionResult> GetFilesAsync(GetFilesRequest request)
     {
-        var byteArray = await _getFilesOperation.GetFiles(new GetFilesOperationRequest(fileCodes, GetUserCode())).ConfigureAwait(false);
+        var byteArray = await _getFilesOperation.GetFiles(new GetFilesOperationRequest(request.FileCodes, GetUserCode())).ConfigureAwait(false);
 
         return File(byteArray, "application/zip", "Files.zip");
     }

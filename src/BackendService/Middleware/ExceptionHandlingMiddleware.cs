@@ -1,5 +1,3 @@
-using Azure.Core;
-
 namespace BackendService.Middleware;
 
 public class ExceptionHandlingMiddleware
