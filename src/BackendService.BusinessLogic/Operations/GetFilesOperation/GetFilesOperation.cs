@@ -31,7 +31,7 @@ public sealed class GetFilesOperation : IGetFilesOperation
         _logger = logger;
     }
 
-    public async Task<byte[]> GetFiles(GetFilesOperationRequest request)
+    public async Task<byte[]> GetFilesAsync(GetFilesOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileGet).ConfigureAwait(false);
 

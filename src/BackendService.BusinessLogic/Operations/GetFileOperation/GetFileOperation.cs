@@ -27,7 +27,7 @@ public sealed class GetFileOperation : IGetFileOperation
         _logger = logger;
     }
 
-    public async Task<GetFileOperationResponse> GetFile(GetFileOperationRequest request)
+    public async Task<GetFileOperationResponse> GetFileAsync(GetFileOperationRequest request)
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileGet).ConfigureAwait(false);
 

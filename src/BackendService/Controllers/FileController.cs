@@ -76,7 +76,7 @@ public class FileController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetFileAsync(GetFileRequest request)
     {
-        var getFileOperationResponse = await _getFileOperation.GetFile(new GetFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
+        var getFileOperationResponse = await _getFileOperation.GetFileAsync(new GetFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
 
         return File(getFileOperationResponse.Stream, "application/octet-stream", getFileOperationResponse.FileName);
     }
@@ -86,7 +86,7 @@ public class FileController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetFilesAsync(GetFilesRequest request)
     {
-        var byteArray = await _getFilesOperation.GetFiles(new GetFilesOperationRequest(request.FileCodes, GetUserCode())).ConfigureAwait(false);
+        var byteArray = await _getFilesOperation.GetFilesAsync(new GetFilesOperationRequest(request.FileCodes, GetUserCode())).ConfigureAwait(false);
 
         return File(byteArray, "application/zip", "Files.zip");
     }
