@@ -1,6 +1,5 @@
 using System.Net;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation.Models;
 using BackendService.BusinessLogic.Operations.GetFileOperation;
 using BackendService.BusinessLogic.Operations.GetFileOperation.Models;
 using BackendService.BusinessLogic.Operations.GetFilesOperation;
@@ -55,7 +54,6 @@ public sealed class FileControllerTests
     {
         const string content = "test";
         const string fileName = "test.pdf";
-        const string userCode = "TestUserCode";
         const string fileCode = "TestFileCode";
 
         var formFileMock = await GetFormFileMock(content, fileName).ConfigureAwait(false);
@@ -208,7 +206,7 @@ public sealed class FileControllerTests
         return fileMock;
     }
 
-    private T Get<T>(IActionResult actionResult) where T : class
+    private static T Get<T>(IActionResult actionResult) where T : class
     {
         return actionResult as T ?? throw new Exception($"Cast Response to {nameof(T)} return null");
     }

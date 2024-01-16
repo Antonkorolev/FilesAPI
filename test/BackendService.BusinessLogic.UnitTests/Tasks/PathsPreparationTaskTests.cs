@@ -57,12 +57,16 @@ public sealed class PathsPreparationTaskTests
     [TestMethod]
     public void PathsPreparationTask_WithFileCodeWithOnlyOneChar_ReturnException()
     {
+        const string fileCode = "t";
+        
         var pathsPreparationTaskRequest = new PathsPreparationTaskRequest(
             new List<PathsPreparationTaskFileInfo>
             {
-                new("t", "test")
+                new(fileCode, "test")
             });
 
-        Assert.ThrowsException<FileCodeLengthException>(() => _pathsPreparationTask.PreparePaths(pathsPreparationTaskRequest));
+        var exception = Assert.ThrowsException<FileCodeLengthException>(() => _pathsPreparationTask.PreparePaths(pathsPreparationTaskRequest));
+        
+        Assert.AreEqual($"FileCode length should 2 or more. Current value: {fileCode.Length}", exception.Message);
     }
 }

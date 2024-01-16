@@ -61,6 +61,8 @@ public sealed class GetFileInfoTaskTests
             .Setup<DbSet<FileInfo>>(c => c.FileInfo)
             .ReturnsDbSet(new List<FileInfo>());
 
-        await Assert.ThrowsExceptionAsync<FileInfoNotFoundException>(() => _getFileInfoTask.GetAsync("testCode"));
+        var exception = await Assert.ThrowsExceptionAsync<FileInfoNotFoundException>(() => _getFileInfoTask.GetAsync("testCode"));
+        
+        Assert.AreEqual("FileInfo not found in database", exception.Message);
     }
 }
