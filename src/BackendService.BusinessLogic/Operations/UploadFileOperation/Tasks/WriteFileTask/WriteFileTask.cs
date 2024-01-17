@@ -1,29 +1,22 @@
-using Microsoft.Extensions.Logging;
+using System.IO.Abstractions;
 
 namespace BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
 
 public sealed class WriteFileTask : IWriteFileTask
 {
-    private readonly ILogger<WriteFileTask> _logger;
+    private readonly IFileSystem _fileSystem;
 
-    public WriteFileTask(ILogger<WriteFileTask> logger)
+    public WriteFileTask(IFileSystem fileSystem)
     {
-        _logger = logger;
+        _fileSystem = fileSystem;
     }
 
 
     public async Task WriteAsync(Stream stream, string path, CancellationToken cancellationToken)
     {
-        try
-        {
-            await using var streamToWrite = File.Create(path);
+        await using var streamToWrite = _fileSystem.File.Create(path);
 
-            await stream.CopyToAsync(streamToWrite, cancellationToken).ConfigureAwait(false);
-            await stream.DisposeAsync();
-        }
-        catch (Exception e)
-        {
-            _logger.LogError($"Error occured: {e}");
-        }
+        await stream.CopyToAsync(streamToWrite, cancellationToken).ConfigureAwait(false);
+        await stream.DisposeAsync();
     }
 }

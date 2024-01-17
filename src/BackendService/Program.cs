@@ -19,6 +19,7 @@ configuration.AddEnvironmentVariables();
 builder.Host.UseSerilog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddFileSystem();
 builder.Services.AddFileDbContext("FileDb", configuration);
 builder.Services.AddUploadFileOperation();
 builder.Services.AddUpdateFileOperation();

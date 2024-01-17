@@ -1,13 +1,12 @@
+using System.IO.Abstractions;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileTask;
 using BackendService.BusinessLogic.Operations.GetFileOperation;
 using BackendService.BusinessLogic.Operations.GetFileOperation.Tasks.GetFileTask;
 using BackendService.BusinessLogic.Operations.GetFilesOperation;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.DeleteOldFileTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileInfoTask;
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation;
@@ -15,6 +14,7 @@ using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.EnsurePa
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
+using BackendService.BusinessLogic.Tasks.DeleteFileTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
 using BackendService.BusinessLogic.Tasks.PathsPreparationTask;
 using DatabaseContext.FileDb;
@@ -53,7 +53,6 @@ public static class ServiceCollectionExtension
         services.AddTransient<IUpdateFileOperation, UpdateFileOperation>();
         services.AddTransient<IUpdateFileTask, UpdateFileTask>();
         services.AddTransient<IUpdateFileInfoTask, UpdateFileInfoTask>();
-        services.AddTransient<IDeleteOldFileTask, DeleteOldFileTask>();
 
         return services;
     }
@@ -78,7 +77,6 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddDeleteFileOperation(this IServiceCollection services)
     {
         services.AddTransient<IDeleteFileOperation, DeleteFileOperation>();
-        services.AddTransient<IDeleteFileTask, DeleteFileTask>();
         services.AddTransient<IDeleteFileInfoTask, DeleteFileInfoTask>();
 
         return services;
@@ -89,6 +87,14 @@ public static class ServiceCollectionExtension
         services.AddTransient<IGetFileInfoTask, GetFileInfoTask>();
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
         services.AddTransient<IPathsPreparationTask, PathsPreparationTask>();
+        services.AddTransient<IDeleteFileTask, DeleteFileTask>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddFileSystem(this IServiceCollection services)
+    {
+        services.AddScoped<IFileSystem, FileSystem>();
 
         return services;
     }
