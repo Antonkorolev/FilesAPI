@@ -6,10 +6,10 @@ using FileNotFoundException = BackendService.BusinessLogic.Exceptions.FileNotFou
 namespace BackendService.BusinessLogic.UnitTests.Tasks;
 
 [TestClass]
-public sealed class DeleteFileTaskTests
+public sealed class DeleteFileTaskTests : UnitTestsBase
 {
-    private IDeleteFileTask _deleteFileTask;
-    private MockFileSystem _fileSystem;
+    private IDeleteFileTask _deleteFileTask = default!;
+    private MockFileSystem _fileSystem = default!;
 
     [TestInitialize]
     public void TestInitialize()
@@ -21,21 +21,18 @@ public sealed class DeleteFileTaskTests
     [TestMethod]
     public void DeleteFileTask_ExecuteSuccessfully()
     {
-        var path = Path.Combine("repo", "test.txt");
-        _fileSystem.AddFile(path, new MockFileData("test"));
+        _fileSystem.AddFile(Path1, new MockFileData("test"));
 
-        _deleteFileTask.Delete(path);
+        _deleteFileTask.Delete(Path1);
 
-        Assert.IsFalse(_fileSystem.File.Exists(path));
+        Assert.IsFalse(_fileSystem.File.Exists(Path1));
     }
 
     [TestMethod]
     public void DeleteFileTask__ExecuteSuccessfully()
     {
-        var path = Path.Combine("repo", "test.txt");
+        var exception = Assert.ThrowsException<FileNotFoundException>(() => _deleteFileTask.Delete(Path1));
 
-        var exception = Assert.ThrowsException<FileNotFoundException>(() => _deleteFileTask.Delete(path));
-
-        Assert.AreEqual($"File not found. Current path: {path}", exception.Message);
+        Assert.AreEqual($"File not found. Current path: {Path1}", exception.Message);
     }
 }

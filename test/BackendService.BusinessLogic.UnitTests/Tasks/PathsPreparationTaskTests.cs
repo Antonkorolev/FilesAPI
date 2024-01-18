@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BackendService.BusinessLogic.UnitTests.Tasks;
 
 [TestClass]
-public sealed class PathsPreparationTaskTests
+public sealed class PathsPreparationTaskTests : UnitTestsBase
 {
     private readonly IPathsPreparationTask _pathsPreparationTask;
 
@@ -18,32 +18,22 @@ public sealed class PathsPreparationTaskTests
     [TestMethod]
     public void PathsPreparationTask_ReturnPathsPreparationTaskResponse()
     {
-        const string fileCode1 = "testCode1";
-        const string fileName1 = "testName1";
-
-        var firstPath = Path.Combine("repo", fileCode1[0].ToString(), fileCode1[1].ToString(), fileName1);
-
-        const string fileCode2 = "testCode2";
-        const string fileName2 = "testName2";
-
-        var secondPath = Path.Combine("repo", fileCode2[0].ToString(), fileCode2[1].ToString(), fileName2);
-
         var pathsPreparationTaskResponses = _pathsPreparationTask.PreparePaths(new PathsPreparationTaskRequest(
             new List<PathsPreparationTaskFileInfo>
             {
-                new(fileCode1, fileName1),
-                new(fileCode2, fileName2)
+                new(FileCode1, FileName1),
+                new(FileCode2, FileName2)
             }));
 
         Assert.AreEqual(2, pathsPreparationTaskResponses.FileData.Count());
 
-        var firstPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == fileName1);
+        var firstPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == FileName1);
 
-        Assert.AreEqual(firstPath, firstPathsPreparationTaskResponse.Path);
+        Assert.AreEqual(Path1, firstPathsPreparationTaskResponse.Path);
 
-        var secondPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == fileName2);
+        var secondPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == FileName2);
 
-        Assert.AreEqual(secondPath, secondPathsPreparationTaskResponse.Path);
+        Assert.AreEqual(Path2, secondPathsPreparationTaskResponse.Path);
     }
 
     [TestMethod]
@@ -57,16 +47,14 @@ public sealed class PathsPreparationTaskTests
     [TestMethod]
     public void PathsPreparationTask_WithFileCodeWithOnlyOneChar_ReturnException()
     {
-        const string fileCode = "t";
-        
         var pathsPreparationTaskRequest = new PathsPreparationTaskRequest(
             new List<PathsPreparationTaskFileInfo>
             {
-                new(fileCode, "test")
+                new(ShortFileCode, FileName1)
             });
 
         var exception = Assert.ThrowsException<FileCodeLengthException>(() => _pathsPreparationTask.PreparePaths(pathsPreparationTaskRequest));
         
-        Assert.AreEqual($"FileCode length should 2 or more. Current value: {fileCode.Length}", exception.Message);
+        Assert.AreEqual($"FileCode length should 2 or more. Current value: {ShortFileCode.Length}", exception.Message);
     }
 }

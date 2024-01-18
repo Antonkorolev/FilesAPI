@@ -1,68 +1,58 @@
 using BackendService.BusinessLogic.Exceptions;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
 using DatabaseContext.FileDb;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Moq.EntityFrameworkCore;
 using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
 namespace BackendService.BusinessLogic.UnitTests.Tasks;
 
 [TestClass]
-public sealed class GetFileInfoTaskTests
+public sealed class GetFileInfoTaskTests : UnitTestsBase
 {
-    private readonly IGetFileInfoTask _getFileInfoTask;
-    private readonly Mock<IFileDbContext> _fileDbContext;
+    private IGetFileInfoTask _getFileInfoTask = default!;
+    private IFileDbContext _fileDbContext = default!;
 
-    public GetFileInfoTaskTests()
+    [TestInitialize]
+    public void TestInitialize()
     {
-        _fileDbContext = new Mock<IFileDbContext>();
-        _getFileInfoTask = new GetFileInfoTask(_fileDbContext.Object);
-    }
-
-    [TestMethod]
-    public async Task GetFileInfoTask_ReturnsGetFileInfoTaskResponse()
-    {
-        const string code = "testCode";
-        const string name = "testName";
-
-        var entity = new List<FileInfo>()
-        {
-            new()
-            {
-                FileInfoId = 1,
-                Code = code,
-                Name = name
-            },
-            new()
-            {
-                FileInfoId = 2,
-                Code = $"{code}2",
-                Name = $"{name}2"
-            }
-        };
-
-        _fileDbContext
-            .Setup<DbSet<FileInfo>>(c => c.FileInfo)
-            .ReturnsDbSet(entity);
-
-        var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(code).ConfigureAwait(false);
-
-        Assert.AreEqual(1, getFileInfoTaskResponse.FileInfoId);
-        Assert.AreEqual(code, getFileInfoTaskResponse.Code);
-        Assert.AreEqual(name, getFileInfoTaskResponse.Name);
+        _fileDbContext = CreateFileDbContext("GetFileInfoTaskTestsDb");
+        _getFileInfoTask = new GetFileInfoTask(_fileDbContext);
     }
 
     [TestMethod]
     public async Task GetFileInfoTask_ReturnsFileInfoNotFoundException()
     {
-        _fileDbContext
-            .Setup<DbSet<FileInfo>>(c => c.FileInfo)
-            .ReturnsDbSet(new List<FileInfo>());
+        var exception = await Assert.ThrowsExceptionAsync<FileInfoNotFoundException>(() => _getFileInfoTask.GetAsync(FileCode1));
 
-        var exception = await Assert.ThrowsExceptionAsync<FileInfoNotFoundException>(() => _getFileInfoTask.GetAsync("testCode"));
-        
         Assert.AreEqual("FileInfo not found in database", exception.Message);
+    }
+
+    [TestMethod]
+    public async Task GetFileInfoTask_ReturnsGetFileInfoTaskResponse()
+    {
+        var entities = new List<FileInfo>()
+        {
+            new()
+            {
+                FileInfoId = FileInfoId,
+                Code = FileCode1,
+                Name = FileName1
+            },
+            new()
+            {
+                FileInfoId = 2,
+                Code = $"{FileCode1}2",
+                Name = $"{FileName1}2"
+            }
+        };
+
+        await _fileDbContext.FileInfo.AddRangeAsync(entities).ConfigureAwait(false);
+        await _fileDbContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
+
+        var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(FileCode1).ConfigureAwait(false);
+
+        Assert.AreEqual(1, getFileInfoTaskResponse.FileInfoId);
+        Assert.AreEqual(FileCode1, getFileInfoTaskResponse.Code);
+        Assert.AreEqual(FileName1, getFileInfoTaskResponse.Name);
     }
 }
