@@ -8,9 +8,10 @@ namespace BackendService.BusinessLogic.UnitTests.Tasks;
 [TestClass]
 public sealed class PathsPreparationTaskTests : UnitTestsBase
 {
-    private readonly IPathsPreparationTask _pathsPreparationTask;
+    private IPathsPreparationTask _pathsPreparationTask = default!;
 
-    public PathsPreparationTaskTests()
+    [TestInitialize]
+    public void TestInitialize()
     {
         _pathsPreparationTask = new PathsPreparationTask();
     }
@@ -54,7 +55,7 @@ public sealed class PathsPreparationTaskTests : UnitTestsBase
             });
 
         var exception = Assert.ThrowsException<FileCodeLengthException>(() => _pathsPreparationTask.PreparePaths(pathsPreparationTaskRequest));
-        
+
         Assert.AreEqual($"FileCode length should 2 or more. Current value: {ShortFileCode.Length}", exception.Message);
     }
 }

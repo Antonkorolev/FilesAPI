@@ -15,14 +15,15 @@ namespace BackendService.BusinessLogic.UnitTests.Operations.DeleteFileOperation;
 [TestClass]
 public sealed class DeleteFileOperationTests : UnitTestsBase
 {
-    private readonly Mock<IAuthorizationTask> _authorizationTask;
-    private readonly Mock<IDeleteFileInfoTask> _deleteFileInfoTask;
-    private readonly Mock<IDeleteFileTask> _deleteFileTask;
-    private readonly Mock<IGetFileInfoTask> _getFileInfoTask;
-    private readonly Mock<ILogger<BusinessLogicDeleteFileOperation>> _logger;
-    private readonly BusinessLogicDeleteFileOperation _deleteFileOperation;
+    private Mock<IAuthorizationTask> _authorizationTask = default!;
+    private Mock<IDeleteFileInfoTask> _deleteFileInfoTask = default!;
+    private Mock<IDeleteFileTask> _deleteFileTask = default!;
+    private Mock<IGetFileInfoTask> _getFileInfoTask = default!;
+    private Mock<ILogger<BusinessLogicDeleteFileOperation>> _logger = default!;
+    private BusinessLogicDeleteFileOperation _deleteFileOperation = default!;
 
-    public DeleteFileOperationTests()
+    [TestInitialize]
+    public void TestInitialize()
     {
         _authorizationTask = new Mock<IAuthorizationTask>();
         _deleteFileInfoTask = new Mock<IDeleteFileInfoTask>();
