@@ -22,17 +22,17 @@ public sealed class PathsPreparationTaskTests : UnitTestsBase
         var pathsPreparationTaskResponses = _pathsPreparationTask.PreparePaths(new PathsPreparationTaskRequest(
             new List<PathsPreparationTaskFileInfo>
             {
-                new(FileCode1, FileName1),
-                new(FileCode2, FileName2)
+                new(DefaultFileCode, DefaultFileName),
+                new(NewFileCode, NewFileName)
             }));
 
         Assert.AreEqual(2, pathsPreparationTaskResponses.FileData.Count());
 
-        var firstPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == FileName1);
+        var firstPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == DefaultFileName);
 
         Assert.AreEqual(Path1, firstPathsPreparationTaskResponse.Path);
 
-        var secondPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == FileName2);
+        var secondPathsPreparationTaskResponse = pathsPreparationTaskResponses.FileData.First(f => f.FileName == NewFileName);
 
         Assert.AreEqual(Path2, secondPathsPreparationTaskResponse.Path);
     }
@@ -51,7 +51,7 @@ public sealed class PathsPreparationTaskTests : UnitTestsBase
         var pathsPreparationTaskRequest = new PathsPreparationTaskRequest(
             new List<PathsPreparationTaskFileInfo>
             {
-                new(ShortFileCode, FileName1)
+                new(ShortFileCode, DefaultFileName)
             });
 
         var exception = Assert.ThrowsException<FileCodeLengthException>(() => _pathsPreparationTask.PreparePaths(pathsPreparationTaskRequest));

@@ -26,8 +26,8 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
         var fileInfos = new FileInfo
         {
             FileInfoId = FileInfoId,
-            Code = FileCode1,
-            Name = FileName1
+            Code = DefaultFileCode,
+            Name = DefaultFileName
         };
 
         var fileChangeHistories = new FileChangeHistory
@@ -59,8 +59,8 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
         var fileInfo = new FileInfo()
         {
             FileInfoId = FileInfoId,
-            Code = FileCode1,
-            Name = FileName1
+            Code = DefaultFileCode,
+            Name = DefaultFileName
         };
 
         await _fileDbContext.FileInfo.AddAsync(fileInfo).ConfigureAwait(false);

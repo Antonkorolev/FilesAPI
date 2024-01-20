@@ -22,7 +22,7 @@ public sealed class GetFileInfoTaskTests : UnitTestsBase
     [TestMethod]
     public async Task GetFileInfoTask_ReturnsFileInfoNotFoundException()
     {
-        var exception = await Assert.ThrowsExceptionAsync<FileInfoNotFoundException>(() => _getFileInfoTask.GetAsync(FileCode1));
+        var exception = await Assert.ThrowsExceptionAsync<FileInfoNotFoundException>(() => _getFileInfoTask.GetAsync(DefaultFileCode));
 
         Assert.AreEqual("FileInfo not found in database", exception.Message);
     }
@@ -35,24 +35,24 @@ public sealed class GetFileInfoTaskTests : UnitTestsBase
             new()
             {
                 FileInfoId = FileInfoId,
-                Code = FileCode1,
-                Name = FileName1
+                Code = DefaultFileCode,
+                Name = DefaultFileName
             },
             new()
             {
                 FileInfoId = 2,
-                Code = $"{FileCode1}2",
-                Name = $"{FileName1}2"
+                Code = $"{DefaultFileCode}2",
+                Name = $"{DefaultFileName}2"
             }
         };
 
         await _fileDbContext.FileInfo.AddRangeAsync(entities).ConfigureAwait(false);
         await _fileDbContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(FileCode1).ConfigureAwait(false);
+        var getFileInfoTaskResponse = await _getFileInfoTask.GetAsync(DefaultFileCode).ConfigureAwait(false);
 
         Assert.AreEqual(1, getFileInfoTaskResponse.FileInfoId);
-        Assert.AreEqual(FileCode1, getFileInfoTaskResponse.Code);
-        Assert.AreEqual(FileName1, getFileInfoTaskResponse.Name);
+        Assert.AreEqual(DefaultFileCode, getFileInfoTaskResponse.Code);
+        Assert.AreEqual(DefaultFileName, getFileInfoTaskResponse.Name);
     }
 }
