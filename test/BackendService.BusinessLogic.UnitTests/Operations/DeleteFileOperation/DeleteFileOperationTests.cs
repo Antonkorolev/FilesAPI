@@ -49,7 +49,7 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
         _deleteFileTask.Setup(d => d.Delete(It.IsAny<string>()));
         _deleteFileInfoTask.Setup(d => d.DeleteFileAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
-        await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, UserCode)).ConfigureAwait(false);
+        await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, DefaultUserCode)).ConfigureAwait(false);
 
         _getFileInfoTask.Verify(d => d.GetAsync(It.IsAny<string>()), Times.Once);
         _deleteFileTask.Verify(d => d.Delete(It.IsAny<string>()), Times.Once);
@@ -63,7 +63,7 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
             .Setup(u => u.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(() => new GetFileInfoTaskResponse(FileInfoId, ShortFileCode, DefaultFileName));
 
-        var exception = await Assert.ThrowsExceptionAsync<FileCodeLengthException>(() => _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, UserCode)));
+        var exception = await Assert.ThrowsExceptionAsync<FileCodeLengthException>(() => _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, DefaultUserCode)));
 
         Assert.AreEqual($"FileCode length should 2 or more. Current value: {ShortFileCode.Length}", exception.Message);
     }

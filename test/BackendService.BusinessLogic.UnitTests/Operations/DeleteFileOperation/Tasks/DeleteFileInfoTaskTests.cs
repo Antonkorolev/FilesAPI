@@ -35,9 +35,9 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
             FileChangeHistoryId = FileChangeHistoryId,
             FileInfoId = FileInfoId,
             Created = CurrentDateTime,
-            CreatedBy = UserCode,
+            CreatedBy = DefaultUserCode,
             Modified = CurrentDateTime,
-            ModifiedBy = UserCode
+            ModifiedBy = DefaultUserCode
         };
 
         await _fileDbContext.FileInfo.AddAsync(fileInfos).ConfigureAwait(false);
@@ -83,9 +83,9 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
             FileChangeHistoryId = FileChangeHistoryId,
             FileInfoId = FileInfoId,
             Created = CurrentDateTime,
-            CreatedBy = UserCode,
+            CreatedBy = DefaultUserCode,
             Modified = CurrentDateTime,
-            ModifiedBy = UserCode
+            ModifiedBy = DefaultUserCode
         };
 
         await _fileDbContext.FileChangeHistory.AddAsync(fileChangeHistory).ConfigureAwait(false);

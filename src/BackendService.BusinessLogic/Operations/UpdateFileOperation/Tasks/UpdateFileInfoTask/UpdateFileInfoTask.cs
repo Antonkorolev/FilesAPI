@@ -13,9 +13,13 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
         _context = context;
     }
 
-    public async Task UpdateInfoAsync(int fileId, string fileCode, string fileName, string userCode, CancellationToken cancellationToken)
+    public async Task UpdateInfoAsync(int fileId, string fileName, string userCode, CancellationToken cancellationToken)
     {
-        await _context.Database.BeginTransactionAsync(cancellationToken);
+        if (string.IsNullOrEmpty(fileName))
+            throw new ArgumentException("FileName should be set");
+
+        if (string.IsNullOrEmpty(userCode))
+            throw new ArgumentException("UserCode should be set");
 
         var file = await _context.FileInfo.FirstAsync(f => f.FileInfoId == fileId, cancellationToken).ConfigureAwait(false);
         file.Name = fileName;
@@ -31,6 +35,5 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
             .ConfigureAwait(false);
 
         await _context.SaveChangesAsync(cancellationToken);
-        await _context.Database.CommitTransactionAsync(cancellationToken);
     }
 }

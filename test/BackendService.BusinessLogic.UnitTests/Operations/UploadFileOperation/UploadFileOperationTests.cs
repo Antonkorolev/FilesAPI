@@ -44,9 +44,9 @@ public sealed class UploadFileOperationTests : UnitTestsBase
         _writeFileTask.Setup(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
         _saveFileInfoTask.Setup(s => s.SaveAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
-        var stream = await GetStreamAsync(FileContent).ConfigureAwait(false);
+        var stream = await GetStreamAsync(DefaultFileContent).ConfigureAwait(false);
 
-        await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(stream, DefaultFileName, UserCode));
+        await _uploadFileOperation.UploadAsync(new UploadFileOperationRequest(stream, DefaultFileName, DefaultUserCode));
 
         _ensurePathExistsTask.Verify(e => e.EnsureExisting(It.IsAny<string>()), Times.Once);
         _writeFileTask.Verify(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);

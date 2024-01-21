@@ -48,7 +48,7 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
 
         var newFilePath = PathBuilder.Build(request.FileCode, request.FileName);
         await _updateFileTask.UpdateAsync(request.Stream, newFilePath, cancellationToken).ConfigureAwait(false);
-        await _updateFileInfoTask.UpdateInfoAsync(fileInfo.FileInfoId, request.FileCode, request.FileName, request.UserCode, cancellationToken).ConfigureAwait(false);
+        await _updateFileInfoTask.UpdateInfoAsync(fileInfo.FileInfoId, request.FileName, request.UserCode, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation($"File by FileCode = '{request.FileCode}' successfully updated");
     }

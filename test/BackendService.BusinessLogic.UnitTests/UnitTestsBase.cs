@@ -1,3 +1,4 @@
+using System.IO.Abstractions.TestingHelpers;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -13,8 +14,10 @@ public class UnitTestsBase
     protected const string ShortFileCode = "t";
     protected const string DefaultFileName = "testName1.txt";
     protected const string NewFileName = "testName2.txt";
-    protected const string UserCode = "testUserCode";
-    protected const string FileContent = "test content";
+    protected const string DefaultUserCode = "testUserCode1";
+    protected const string NewUserCode = "testUserCode2";
+    protected const string DefaultFileContent = "test content2";
+    protected const string NewFileContent = "test context1";
 
     protected static readonly DateTime CurrentDateTime = DateTime.UtcNow;
     protected static readonly string Path1 = Path.Combine("repo", DefaultFileCode[0].ToString(), DefaultFileCode[1].ToString(), DefaultFileName);
@@ -49,5 +52,12 @@ public class UnitTestsBase
     protected static string GetFileNameFromPath(string path)
     {
         return Path.GetFileName(path);
+    }
+
+    protected static void EnsureDirectoryCreated(MockFileSystem fileSystem)
+    {
+        var directory = fileSystem.Path.GetDirectoryName(Path1);
+        if (directory != null && !fileSystem.Directory.Exists(directory))
+            fileSystem.Directory.CreateDirectory(directory);
     }
 }

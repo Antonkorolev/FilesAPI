@@ -23,7 +23,7 @@ public sealed class SaveFileInfoTaskTests : UnitTestsBase
     [TestMethod]
     public async Task SaveFileInfoTask_ExecuteSuccessfully()
     {
-        await _saveFileInfoTask.SaveAsync(DefaultFileCode, UserCode, DefaultFileName, It.IsAny<CancellationToken>()).ConfigureAwait(false);
+        await _saveFileInfoTask.SaveAsync(DefaultFileCode, DefaultUserCode, DefaultFileName, It.IsAny<CancellationToken>()).ConfigureAwait(false);
 
         var fileInfo = await _fileDbContext.FileInfo.FirstOrDefaultAsync().ConfigureAwait(false);
         Assert.IsNotNull(fileInfo);
@@ -35,7 +35,7 @@ public sealed class SaveFileInfoTaskTests : UnitTestsBase
         Assert.IsNotNull(fileChangeHistory);
         Assert.AreEqual(FileChangeHistoryId, fileChangeHistory.FileChangeHistoryId);
         Assert.AreEqual(FileInfoId, fileChangeHistory.FileInfoId);
-        Assert.AreEqual(UserCode, fileChangeHistory.CreatedBy);
+        Assert.AreEqual(DefaultUserCode, fileChangeHistory.CreatedBy);
         Assert.IsNotNull(fileChangeHistory.Created);
         Assert.AreEqual(CurrentDateTime.Date, fileChangeHistory.Created.Value.Date);
         Assert.IsNull(fileChangeHistory.ModifiedBy);
@@ -47,6 +47,6 @@ public sealed class SaveFileInfoTaskTests : UnitTestsBase
     [DataTestMethod]
     public async Task SaveFileInfoTask_WithoutParams_(string fileCode, string fileName)
     {
-        await Assert.ThrowsExceptionAsync<DbUpdateException>(() => _saveFileInfoTask.SaveAsync(fileCode, UserCode, fileName, It.IsAny<CancellationToken>())).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<DbUpdateException>(() => _saveFileInfoTask.SaveAsync(fileCode, DefaultUserCode, fileName, It.IsAny<CancellationToken>())).ConfigureAwait(false);
     }
 }

@@ -21,11 +21,9 @@ public sealed class WriteFileTaskTests : UnitTestsBase
     [TestMethod]
     public async Task WriteFileTask_ExecuteSuccessfully()
     {
-        var directory = _fileSystem.Path.GetDirectoryName(Path1);
-        if (directory != null && !_fileSystem.Directory.Exists(directory))
-            _fileSystem.Directory.CreateDirectory(directory);
+        EnsureDirectoryCreated(_fileSystem);
 
-        var steam = await GetStreamAsync(FileContent).ConfigureAwait(false);
+        var steam = await GetStreamAsync(DefaultFileContent).ConfigureAwait(false);
 
         await _writeFileTask.WriteAsync(steam, Path1, It.IsAny<CancellationToken>()).ConfigureAwait(false);
 
@@ -37,6 +35,6 @@ public sealed class WriteFileTaskTests : UnitTestsBase
 
         var fileContent = await GetFileContentAsync(fileStream).ConfigureAwait(false);
 
-        Assert.AreEqual(FileContent, fileContent);
+        Assert.AreEqual(DefaultFileContent, fileContent);
     }
 }
