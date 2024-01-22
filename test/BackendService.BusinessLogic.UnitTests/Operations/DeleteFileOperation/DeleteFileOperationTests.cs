@@ -44,7 +44,7 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
     {
         _getFileInfoTask
             .Setup(d => d.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(() => new GetFileInfoTaskResponse(FileInfoId, DefaultFileCode, DefaultFileName));
+            .ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, DefaultFileCode, DefaultFileName));
 
         _deleteFileTask.Setup(d => d.Delete(It.IsAny<string>()));
         _deleteFileInfoTask.Setup(d => d.DeleteFileAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
@@ -62,7 +62,7 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
     {
         _getFileInfoTask
             .Setup(u => u.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(() => new GetFileInfoTaskResponse(FileInfoId, ShortFileCode, DefaultFileName));
+            .ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, ShortFileCode, DefaultFileName));
 
         var exception = await Assert.ThrowsExceptionAsync<FileCodeLengthException>(() => _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, DefaultUserCode)));
 

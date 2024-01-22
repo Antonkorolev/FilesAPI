@@ -26,7 +26,6 @@ public sealed class UpdateFileInfoTaskTests : UnitTestsBase
         await _fileDbContext.FileInfo.AddAsync(
                 new FileInfo
                 {
-                    FileInfoId = FileInfoId,
                     Code = DefaultFileCode,
                     Name = DefaultFileName
                 })
@@ -35,23 +34,22 @@ public sealed class UpdateFileInfoTaskTests : UnitTestsBase
         await _fileDbContext.FileChangeHistory.AddAsync(
                 new FileChangeHistory
                 {
-                    FileChangeHistoryId = FileChangeHistoryId,
-                    FileInfoId = FileInfoId,
+                    FileInfoId = DefaultFileInfoId,
                     CreatedBy = DefaultUserCode,
                     Created = CurrentDateTime
                 })
             .ConfigureAwait(false);
         await _fileDbContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        await _updateFileInfoTask.UpdateInfoAsync(FileInfoId, NewFileName, NewUserCode, CancellationToken.None).ConfigureAwait(false);
+        await _updateFileInfoTask.UpdateInfoAsync(DefaultFileInfoId, NewFileName, NewUserCode, CancellationToken.None).ConfigureAwait(false);
 
-        var fileInfo = await _fileDbContext.FileInfo.FirstOrDefaultAsync(f => f.FileInfoId == FileInfoId).ConfigureAwait(false);
+        var fileInfo = await _fileDbContext.FileInfo.FirstOrDefaultAsync(f => f.FileInfoId == DefaultFileInfoId).ConfigureAwait(false);
 
         Assert.IsNotNull(fileInfo);
         Assert.AreEqual(DefaultFileCode, fileInfo.Code);
         Assert.AreEqual(NewFileName, fileInfo.Name);
 
-        var fileChangeHistories = await _fileDbContext.FileChangeHistory.Where(f => f.FileInfoId == FileInfoId).ToArrayAsync().ConfigureAwait(false);
+        var fileChangeHistories = await _fileDbContext.FileChangeHistory.Where(f => f.FileInfoId == DefaultFileInfoId).ToArrayAsync().ConfigureAwait(false);
 
         Assert.AreEqual(2, fileChangeHistories.Length);
 
@@ -77,7 +75,7 @@ public sealed class UpdateFileInfoTaskTests : UnitTestsBase
     [DataTestMethod]
     public async Task UpdateFileInfoTask_ParamsHaveNullOrEmptyValues_ShouldBeFail(string fileName, string userCode, string errorMessage)
     {
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _updateFileInfoTask.UpdateInfoAsync(FileInfoId, fileName, userCode, CancellationToken.None)).ConfigureAwait(false);
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _updateFileInfoTask.UpdateInfoAsync(DefaultFileInfoId, fileName, userCode, CancellationToken.None)).ConfigureAwait(false);
 
         Assert.AreEqual(errorMessage, exception.Message);
     }

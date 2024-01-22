@@ -51,7 +51,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
         _deleteFileTask.Setup(s => s.Delete(It.IsAny<string>()));
         _getFileInfosTask
             .Setup(s => s.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(() => new GetFileInfoTaskResponse(FileInfoId, DefaultFileCode, DefaultFileName));
+            .ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, DefaultFileCode, DefaultFileName));
 
         var stream = await GetStreamAsync(DefaultFileContent).ConfigureAwait(false);
 

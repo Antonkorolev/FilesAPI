@@ -25,15 +25,13 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
     {
         var fileInfos = new FileInfo
         {
-            FileInfoId = FileInfoId,
             Code = DefaultFileCode,
             Name = DefaultFileName
         };
 
         var fileChangeHistories = new FileChangeHistory
         {
-            FileChangeHistoryId = FileChangeHistoryId,
-            FileInfoId = FileInfoId,
+            FileInfoId = DefaultFileInfoId,
             Created = CurrentDateTime,
             CreatedBy = DefaultUserCode,
             Modified = CurrentDateTime,
@@ -44,7 +42,7 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
         await _fileDbContext.FileChangeHistory.AddAsync(fileChangeHistories).ConfigureAwait(false);
         await _fileDbContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        await _deleteFileInfoTask.DeleteFileAsync(FileInfoId, CancellationToken.None).ConfigureAwait(false);
+        await _deleteFileInfoTask.DeleteFileAsync(DefaultFileInfoId, CancellationToken.None).ConfigureAwait(false);
 
         var fileInfo = await _fileDbContext.FileInfo.FirstOrDefaultAsync().ConfigureAwait(false);
         Assert.IsNull(fileInfo);
@@ -58,7 +56,6 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
     {
         var fileInfo = new FileInfo()
         {
-            FileInfoId = FileInfoId,
             Code = DefaultFileCode,
             Name = DefaultFileName
         };
@@ -66,7 +63,7 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
         await _fileDbContext.FileInfo.AddAsync(fileInfo).ConfigureAwait(false);
         await _fileDbContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        await _deleteFileInfoTask.DeleteFileAsync(FileInfoId, CancellationToken.None).ConfigureAwait(false);
+        await _deleteFileInfoTask.DeleteFileAsync(DefaultFileInfoId, CancellationToken.None).ConfigureAwait(false);
 
         var expectedFileInfo = await _fileDbContext.FileInfo.FirstOrDefaultAsync().ConfigureAwait(false);
         Assert.IsNull(expectedFileInfo);
@@ -80,8 +77,7 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
     {
         var fileChangeHistory = new FileChangeHistory
         {
-            FileChangeHistoryId = FileChangeHistoryId,
-            FileInfoId = FileInfoId,
+            FileInfoId = DefaultFileInfoId,
             Created = CurrentDateTime,
             CreatedBy = DefaultUserCode,
             Modified = CurrentDateTime,
@@ -91,12 +87,12 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
         await _fileDbContext.FileChangeHistory.AddAsync(fileChangeHistory).ConfigureAwait(false);
         await _fileDbContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _deleteFileInfoTask.DeleteFileAsync(FileInfoId, CancellationToken.None)).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _deleteFileInfoTask.DeleteFileAsync(DefaultFileInfoId, CancellationToken.None)).ConfigureAwait(false);
     }
 
     [TestMethod]
     public async Task DeleteFileInfoTask_AnyDataNotExists_ThrowsInvalidOperationException()
     {
-        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _deleteFileInfoTask.DeleteFileAsync(FileInfoId, CancellationToken.None)).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _deleteFileInfoTask.DeleteFileAsync(DefaultFileInfoId, CancellationToken.None)).ConfigureAwait(false);
     }
 }

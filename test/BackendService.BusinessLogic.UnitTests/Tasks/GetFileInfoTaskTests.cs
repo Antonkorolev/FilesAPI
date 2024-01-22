@@ -34,7 +34,7 @@ public sealed class GetFileInfoTaskTests : UnitTestsBase
         {
             new()
             {
-                FileInfoId = FileInfoId,
+                FileInfoId = DefaultFileInfoId,
                 Code = DefaultFileCode,
                 Name = DefaultFileName
             },

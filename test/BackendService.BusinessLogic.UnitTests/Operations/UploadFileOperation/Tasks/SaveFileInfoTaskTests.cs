@@ -27,14 +27,14 @@ public sealed class SaveFileInfoTaskTests : UnitTestsBase
 
         var fileInfo = await _fileDbContext.FileInfo.FirstOrDefaultAsync().ConfigureAwait(false);
         Assert.IsNotNull(fileInfo);
-        Assert.AreEqual(FileInfoId, fileInfo.FileInfoId);
+        Assert.AreEqual(DefaultFileInfoId, fileInfo.FileInfoId);
         Assert.AreEqual(DefaultFileCode, fileInfo.Code);
         Assert.AreEqual(DefaultFileName, fileInfo.Name);
 
         var fileChangeHistory = await _fileDbContext.FileChangeHistory.FirstOrDefaultAsync().ConfigureAwait(false);
         Assert.IsNotNull(fileChangeHistory);
         Assert.AreEqual(FileChangeHistoryId, fileChangeHistory.FileChangeHistoryId);
-        Assert.AreEqual(FileInfoId, fileChangeHistory.FileInfoId);
+        Assert.AreEqual(DefaultFileInfoId, fileChangeHistory.FileInfoId);
         Assert.AreEqual(DefaultUserCode, fileChangeHistory.CreatedBy);
         Assert.IsNotNull(fileChangeHistory.Created);
         Assert.AreEqual(CurrentDateTime.Date, fileChangeHistory.Created.Value.Date);

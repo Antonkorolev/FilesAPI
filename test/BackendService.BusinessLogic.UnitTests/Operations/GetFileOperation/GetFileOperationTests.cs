@@ -37,7 +37,7 @@ public sealed class GetFileOperationTests : UnitTestsBase
     [TestMethod]
     public async Task GetFileOperation_ExecuteSuccessfully()
     {
-        _getFileInfoTask.Setup(g => g.GetAsync(It.IsAny<string>())).ReturnsAsync(() => new GetFileInfoTaskResponse(FileInfoId, DefaultFileCode, DefaultFileName));
+        _getFileInfoTask.Setup(g => g.GetAsync(It.IsAny<string>())).ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, DefaultFileCode, DefaultFileName));
         _getFileTask.Setup(g => g.GetAsync(It.IsAny<string>())).ReturnsAsync(It.IsAny<Stream>);
 
         await _getFileOperation.GetFileAsync(new GetFileOperationRequest(DefaultFileCode, DefaultUserCode)).ConfigureAwait(false);
