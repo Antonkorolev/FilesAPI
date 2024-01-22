@@ -16,7 +16,7 @@ public sealed class DeleteFileInfoTaskTests : UnitTestsBase
     [TestInitialize]
     public void TestInitialize()
     {
-        _fileDbContext = CreateFileDbContext("DeleteFileInfoTaskTestsDb");
+        _fileDbContext = CreateFileDbContext();
         _deleteFileInfoTask = new DeleteFileInfoTask(_fileDbContext);
     }
 

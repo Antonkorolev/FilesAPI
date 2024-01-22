@@ -42,7 +42,7 @@ public sealed class GetFileTaskTests : UnitTestsBase
     {
         _fileSystem.AddFile(Path1, new MockFileData(DefaultFileContent));
 
-        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _getFileTask.GetAsync(null)).ConfigureAwait(false);
+        var exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _getFileTask.GetAsync(null!)).ConfigureAwait(false);
 
         Assert.AreEqual("Value cannot be null. (Parameter 'path')", exception.Message);
     }

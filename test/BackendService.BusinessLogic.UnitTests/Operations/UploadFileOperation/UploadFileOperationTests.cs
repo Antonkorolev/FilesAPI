@@ -13,12 +13,12 @@ namespace BackendService.BusinessLogic.UnitTests.Operations.UploadFileOperation;
 [TestClass]
 public sealed class UploadFileOperationTests : UnitTestsBase
 {
-    private Mock<IAuthorizationTask> _authorizationTask;
-    private Mock<IWriteFileTask> _writeFileTask;
-    private Mock<ISaveFileInfoTask> _saveFileInfoTask;
-    private Mock<IEnsurePathExistsTask> _ensurePathExistsTask;
-    private Mock<ILogger<BusinessLogicUploadFileOperation>> _logger;
-    private BusinessLogicUploadFileOperation _uploadFileOperation;
+    private Mock<IAuthorizationTask> _authorizationTask = default!;
+    private Mock<IWriteFileTask> _writeFileTask = default!;
+    private Mock<ISaveFileInfoTask> _saveFileInfoTask = default!;
+    private Mock<IEnsurePathExistsTask> _ensurePathExistsTask = default!;
+    private Mock<ILogger<BusinessLogicUploadFileOperation>> _logger = default!;
+    private BusinessLogicUploadFileOperation _uploadFileOperation = default!;
 
     [TestInitialize]
     public void TestInitialize()

@@ -43,7 +43,7 @@ public sealed class UpdateFileTaskTests : UnitTestsBase
     {
         EnsureDirectoryCreated(_fileSystem);
 
-        await Assert.ThrowsExceptionAsync<NullReferenceException>(() => _updateFileTask.UpdateAsync(null, Path1, CancellationToken.None)).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<NullReferenceException>(() => _updateFileTask.UpdateAsync(null!, Path1, CancellationToken.None)).ConfigureAwait(false);
     }
 
     [TestMethod]
@@ -51,6 +51,6 @@ public sealed class UpdateFileTaskTests : UnitTestsBase
     {
         var stream = await GetStreamAsync(NewFileContent).ConfigureAwait(false);
 
-        await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _updateFileTask.UpdateAsync(stream, null, CancellationToken.None)).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _updateFileTask.UpdateAsync(stream, null!, CancellationToken.None)).ConfigureAwait(false);
     }
 }

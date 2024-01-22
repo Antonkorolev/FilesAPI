@@ -9,14 +9,14 @@ namespace BackendService.BusinessLogic.UnitTests.Operations.GetFilesOperation.Ta
 [TestClass]
 public sealed class GetFileInfosTaskTests : UnitTestsBase
 {
-    private IFileDbContext _context;
-    private GetFileInfosTask _getFileInfosTask;
+    private IFileDbContext _context = default!;
+    private GetFileInfosTask _getFileInfosTask = default!;
 
 
     [TestInitialize]
     public void TestInitialize()
     {
-        _context = CreateFileDbContext("GetFileInfosTaskTestsDb");
+        _context = CreateFileDbContext();
         _getFileInfosTask = new GetFileInfosTask(_context);
     }
 

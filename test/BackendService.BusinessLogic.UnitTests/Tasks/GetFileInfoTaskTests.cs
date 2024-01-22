@@ -15,7 +15,7 @@ public sealed class GetFileInfoTaskTests : UnitTestsBase
     [TestInitialize]
     public void TestInitialize()
     {
-        _fileDbContext = CreateFileDbContext("GetFileInfoTaskTestsDb");
+        _fileDbContext = CreateFileDbContext();
         _getFileInfoTask = new GetFileInfoTask(_fileDbContext);
     }
 

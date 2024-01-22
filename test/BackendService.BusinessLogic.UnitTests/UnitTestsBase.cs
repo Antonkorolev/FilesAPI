@@ -2,11 +2,14 @@ using System.IO.Abstractions.TestingHelpers;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BackendService.BusinessLogic.UnitTests;
 
 public class UnitTestsBase
 {
+    public TestContext TestContext { get; set; } = default!;
+
     protected const int DefaultFileInfoId = 1;
     protected const int NewFileInfoId = 2;
     protected const int FileChangeHistoryId = 1;
@@ -25,10 +28,10 @@ public class UnitTestsBase
     protected static readonly string Path1 = Path.Combine("repo", DefaultFileCode[0].ToString(), DefaultFileCode[1].ToString(), DefaultFileName);
     protected static readonly string Path2 = Path.Combine("repo", NewFileCode[0].ToString(), NewFileCode[1].ToString(), NewFileName);
 
-    protected FileDbContext CreateFileDbContext(string dbName)
+    protected FileDbContext CreateFileDbContext()
     {
         return new FileDbContext(new DbContextOptionsBuilder<FileDbContext>()
-            .UseInMemoryDatabase(dbName)
+            .UseInMemoryDatabase($"{TestContext.TestName}Db")
             .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options);
     }

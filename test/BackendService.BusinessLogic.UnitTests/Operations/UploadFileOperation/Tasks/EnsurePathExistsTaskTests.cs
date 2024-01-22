@@ -42,7 +42,7 @@ public sealed class EnsurePathExistsTaskTests : UnitTestsBase
     [TestMethod]
     public void EnsurePathExistsTask_PathIsNull_ThrowsDirectoryNotFoundException()
     {
-        var exception = Assert.ThrowsException<DirectoryNotFoundException>(() => _ensurePathExistsTask.EnsureExisting(null));
+        var exception = Assert.ThrowsException<DirectoryNotFoundException>(() => _ensurePathExistsTask.EnsureExisting(null!));
 
         Assert.AreEqual($"Can't get directory from path = ''", exception.Message);
     }
