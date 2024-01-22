@@ -51,6 +51,7 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
 
         await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, DefaultUserCode)).ConfigureAwait(false);
 
+        _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         _getFileInfoTask.Verify(d => d.GetAsync(It.IsAny<string>()), Times.Once);
         _deleteFileTask.Verify(d => d.Delete(It.IsAny<string>()), Times.Once);
         _deleteFileInfoTask.Verify(d => d.DeleteFileAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once);

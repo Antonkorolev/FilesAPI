@@ -27,7 +27,6 @@ public sealed class UpdateFileTaskTests : UnitTestsBase
         var stream = await GetStreamAsync(NewFileContent).ConfigureAwait(false);
         await _updateFileTask.UpdateAsync(stream, Path1, CancellationToken.None).ConfigureAwait(false);
 
-
         await using var fileStream = _fileSystem.File.Open(Path1, FileMode.Open, FileAccess.Read);
 
         var fileName = GetFileNameFromPath(fileStream.Name);

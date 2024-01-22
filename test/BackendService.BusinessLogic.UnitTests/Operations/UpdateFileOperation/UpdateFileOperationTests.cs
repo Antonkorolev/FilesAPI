@@ -57,6 +57,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
 
         await _updateFileOperation.UpdateAsync(new UpdateFileOperationRequest(DefaultFileCode, stream, DefaultFileName, DefaultUserCode));
 
+        _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         _updateFileTask.Verify(e => e.UpdateAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _updateFileInfoTask.Verify(w => w.UpdateInfoAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _deleteFileTask.Verify(s => s.Delete(It.IsAny<string>()), Times.Once);
