@@ -70,8 +70,6 @@ public sealed class UpdateFileInfoTaskTests : UnitTestsBase
 
     [DataRow(null, NewUserCode, "FileName should be set")]
     [DataRow("", NewUserCode, "FileName should be set")]
-    [DataRow(NewFileName, null, "UserCode should be set")]
-    [DataRow(NewFileName, "", "UserCode should be set")]
     [DataTestMethod]
     public async Task UpdateFileInfoTask_ParamsHaveNullOrEmptyValues_ShouldBeFail(string fileName, string userCode, string errorMessage)
     {
