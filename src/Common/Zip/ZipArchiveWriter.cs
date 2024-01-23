@@ -5,16 +5,18 @@ namespace Common.Zip;
 
 public sealed class ZipArchiveWriter : IZipArchiveWriter
 {
-    public byte[] WriteFilesToZip(MemoryStream stream, params (string path, string name)[] fileData)
+    public byte[] WriteFilesToZip(params (string path, string name)[] filesData)
     {
-        using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
+        using var memoryStream = new MemoryStream();
+
+        using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create))
         {
-            foreach (var (path, name) in fileData)
+            foreach (var (path, name) in filesData)
             {
                 archive.CreateEntryFromFile(path, name);
             }
         }
 
-        return stream.ToArray();
+        return memoryStream.ToArray();
     }
 }

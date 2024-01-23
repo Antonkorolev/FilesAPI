@@ -1,5 +1,6 @@
 using BackendService.BusinessLogic.Abstractions;
 using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask;
+using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -18,10 +19,15 @@ public sealed class GetFilesTaskTests : UnitTestsBase
         _getFilesTask = new GetFilesTask(_zipArchiveWriter.Object);
     }
 
-    [Ignore("Should be refactor")]
     [TestMethod]
     public void GetFilesTask_ExecuteSuccessfully()
     {
-        // TODO: should refactor task and create unit tests for it
+        _zipArchiveWriter
+            .Setup(z => z.WriteFilesToZip(It.IsAny<(string path, string name)[]>()))
+            .Returns(Array.Empty<byte>());
+
+        var bytes = _getFilesTask.Get(new GetFilesTaskRequest(new[] { new GetFilesTaskFileData(DefaultFileName, Path1), new GetFilesTaskFileData(NewFileName, Path2) }));
+
+        _zipArchiveWriter.Verify(z => z.WriteFilesToZip(It.IsAny<(string path, string name)[]>()), Times.Once);
     }
 }

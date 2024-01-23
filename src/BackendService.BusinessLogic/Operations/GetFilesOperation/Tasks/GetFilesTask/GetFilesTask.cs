@@ -14,10 +14,8 @@ public sealed class GetFilesTask : IGetFilesTask
 
     public byte[] Get(GetFilesTaskRequest request)
     {
-        using var memoryStream = new MemoryStream();
-
         var filesData = request.FileData.Select(f => (f.Path, f.FileName)).ToArray();
 
-        return _zipArchiveWriter.WriteFilesToZip(memoryStream, filesData);
+        return _zipArchiveWriter.WriteFilesToZip(filesData);
     }
 }

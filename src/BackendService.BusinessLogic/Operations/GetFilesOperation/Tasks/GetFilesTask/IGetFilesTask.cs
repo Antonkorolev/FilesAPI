@@ -4,5 +4,5 @@ namespace BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFil
 
 public interface IGetFilesTask
 {
-    byte[] Get(GetFilesTaskRequest paths);
+    byte[] Get(GetFilesTaskRequest request);
 }
