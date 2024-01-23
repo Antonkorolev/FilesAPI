@@ -1,4 +1,6 @@
 using System.IO.Abstractions;
+using System.IO.Compression;
+using BackendService.BusinessLogic.Abstractions;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
 using BackendService.BusinessLogic.Operations.GetFileOperation;
@@ -17,6 +19,7 @@ using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using BackendService.BusinessLogic.Tasks.DeleteFileTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
 using BackendService.BusinessLogic.Tasks.PathsPreparationTask;
+using Common.Zip;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 
@@ -95,6 +98,13 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddFileSystem(this IServiceCollection services)
     {
         services.AddScoped<IFileSystem, FileSystem>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddZipArchive(this IServiceCollection services)
+    {
+        services.AddTransient<IZipArchiveWriter, ZipArchiveWriter>();
 
         return services;
     }

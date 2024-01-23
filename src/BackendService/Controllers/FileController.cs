@@ -74,7 +74,7 @@ public class FileController : ControllerBase
     [HttpGet("get")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetFileAsync(GetFileRequest request)
+    public async Task<IActionResult> GetFileAsync([FromQuery]GetFileRequest request)
     {
         var getFileOperationResponse = await _getFileOperation.GetFileAsync(new GetFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
 

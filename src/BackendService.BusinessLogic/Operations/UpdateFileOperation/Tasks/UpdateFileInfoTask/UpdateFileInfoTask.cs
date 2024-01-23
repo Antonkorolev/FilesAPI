@@ -18,9 +18,6 @@ public sealed class UpdateFileInfoTask : IUpdateFileInfoTask
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentException("FileName should be set");
 
-        if (string.IsNullOrEmpty(userCode))
-            throw new ArgumentException("UserCode should be set");
-
         var file = await _context.FileInfo.FirstAsync(f => f.FileInfoId == fileId, cancellationToken).ConfigureAwait(false);
         file.Name = fileName;
 

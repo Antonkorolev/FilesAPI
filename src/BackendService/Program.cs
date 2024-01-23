@@ -27,16 +27,13 @@ builder.Services.AddGetFilesOperation();
 builder.Services.AddGetFileOperation();
 builder.Services.AddDeleteFileOperation();
 builder.Services.AddCommonTasks();
+builder.Services.AddZipArchive();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.AddSwagger();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
