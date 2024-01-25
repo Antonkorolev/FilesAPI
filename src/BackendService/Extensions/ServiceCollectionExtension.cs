@@ -13,6 +13,7 @@ using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFi
 using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.EnsurePathExistsTask;
+using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.GenerateFileCodeTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
 using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
@@ -47,6 +48,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IWriteFileTask, WriteFileTask>();
         services.AddTransient<ISaveFileInfoTask, SaveFileInfoTask>();
         services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
+        services.AddTransient<IGenerateFileCodeTask, GenerateFileCodeTask>();
 
         return services;
     }

@@ -14,7 +14,7 @@ IF OBJECT_ID(N'dbo.FileInfo', N'U') IS NULL
         CREATE TABLE [dbo].[FileInfo]
         (
             [FileInfoId] INT          NOT NULL PRIMARY KEY IDENTITY,
-            [Code]       NVARCHAR(50) NOT NULL,
+            [Code]       NVARCHAR(100) NOT NULL,
             [Name]       NVARCHAR(50) NOT NULL
         )
     END
