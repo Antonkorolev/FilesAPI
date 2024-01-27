@@ -41,7 +41,6 @@ public sealed class DependencyInjectionTests
         serviceCollection.AddGetFilesOperation();
         serviceCollection.AddGetFileOperation();
         serviceCollection.AddDeleteFileOperation();
-        serviceCollection.AddZipArchive();
         serviceCollection.AddCommonTasks();
 
         _serviceProvider = serviceCollection.BuildServiceProvider();

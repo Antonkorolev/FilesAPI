@@ -27,7 +27,6 @@ builder.Services.AddGetFilesOperation();
 builder.Services.AddGetFileOperation();
 builder.Services.AddDeleteFileOperation();
 builder.Services.AddCommonTasks();
-builder.Services.AddZipArchive();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
