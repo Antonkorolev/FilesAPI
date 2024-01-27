@@ -41,7 +41,6 @@ public class UnitTestsBase
         var writer = new StreamWriter(memoryStream);
         await writer.WriteAsync(content);
         await writer.FlushAsync();
-        memoryStream.Position = 0;
 
         return memoryStream;
     }

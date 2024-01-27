@@ -184,7 +184,6 @@ public sealed class FileControllerTests
         var writer = new StreamWriter(memoryStream);
         await writer.WriteAsync(content);
         await writer.FlushAsync();
-        memoryStream.Position = 0;
 
         return memoryStream;
     }
@@ -197,7 +196,6 @@ public sealed class FileControllerTests
         var writer = new StreamWriter(memoryStream);
         await writer.WriteAsync(content);
         await writer.FlushAsync();
-        memoryStream.Position = 0;
 
         fileMock.Setup(f => f.OpenReadStream()).Returns(memoryStream);
         fileMock.Setup(f => f.FileName).Returns(fileName);
