@@ -1,4 +1,3 @@
-using System.IO.Abstractions.TestingHelpers;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -57,12 +56,5 @@ public class UnitTestsBase
     protected static string GetFileNameFromPath(string path)
     {
         return Path.GetFileName(path);
-    }
-
-    protected static void EnsureDirectoryCreated(MockFileSystem fileSystem)
-    {
-        var directory = fileSystem.Path.GetDirectoryName(Path1);
-        if (directory != null && !fileSystem.Directory.Exists(directory))
-            fileSystem.Directory.CreateDirectory(directory);
     }
 }

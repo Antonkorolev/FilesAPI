@@ -36,7 +36,6 @@ public sealed class DependencyInjectionTests
 
         serviceCollection.AddFileDbContext("FileDb", configuration);
         serviceCollection.AddUploadFileOperation();
-        serviceCollection.AddFileSystem();
         serviceCollection.AddUpdateFileOperation();
         serviceCollection.AddGetFilesOperation();
         serviceCollection.AddGetFileOperation();

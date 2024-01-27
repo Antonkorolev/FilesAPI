@@ -1,4 +1,3 @@
-using System.IO.Abstractions;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation;
 using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
 using BackendService.BusinessLogic.Operations.GetFileOperation;
@@ -90,13 +89,6 @@ public static class ServiceCollectionExtension
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
         services.AddTransient<IPathsPreparationTask, PathsPreparationTask>();
         services.AddTransient<IDeleteFileTask, DeleteFileTask>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddFileSystem(this IServiceCollection services)
-    {
-        services.AddScoped<IFileSystem, FileSystem>();
 
         return services;
     }
