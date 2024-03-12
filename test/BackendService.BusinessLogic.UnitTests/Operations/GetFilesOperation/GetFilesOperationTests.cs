@@ -1,8 +1,8 @@
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Models;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask.Models;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask.Models;
+using BackendService.BusinessLogic.Operations.GetFiles.Models;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask.Models;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFilesTask;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFilesTask.Models;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using BackendService.BusinessLogic.Tasks.PathsPreparationTask;
 using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Request;
@@ -10,8 +10,8 @@ using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Response;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using BusinessLogicGetFilesOperation = BackendService.BusinessLogic.Operations.GetFilesOperation.GetFilesOperation;
-using FileInfo = BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask.Models.FileInfo;
+using BusinessLogicGetFilesOperation = BackendService.BusinessLogic.Operations.GetFiles.GetFilesOperation;
+using FileInfo = BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask.Models.FileInfo;
 
 namespace BackendService.BusinessLogic.UnitTests.Operations.GetFilesOperation;
 

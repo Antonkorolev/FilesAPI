@@ -1,6 +1,6 @@
 using BackendService.BusinessLogic.Exceptions;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation.Models;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation.Tasks.DeleteFileInfoTask;
+using BackendService.BusinessLogic.Operations.DeleteFile.Models;
+using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfoTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using BackendService.BusinessLogic.Tasks.DeleteFileTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
@@ -8,7 +8,7 @@ using BackendService.BusinessLogic.Tasks.GetFileInfoTask.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using BusinessLogicDeleteFileOperation = BackendService.BusinessLogic.Operations.DeleteFileOperation.DeleteFileOperation;
+using BusinessLogicDeleteFileOperation = BackendService.BusinessLogic.Operations.DeleteFile.DeleteFileOperation;
 
 namespace BackendService.BusinessLogic.UnitTests.Operations.DeleteFileOperation;
 

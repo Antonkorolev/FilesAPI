@@ -1,13 +1,13 @@
-using BackendService.BusinessLogic.Operations.DeleteFileOperation;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation.Models;
-using BackendService.BusinessLogic.Operations.GetFileOperation;
-using BackendService.BusinessLogic.Operations.GetFileOperation.Models;
-using BackendService.BusinessLogic.Operations.GetFilesOperation;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Models;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation.Models;
-using BackendService.BusinessLogic.Operations.UploadFileOperation;
-using BackendService.BusinessLogic.Operations.UploadFileOperation.Models;
+using BackendService.BusinessLogic.Operations.DeleteFile;
+using BackendService.BusinessLogic.Operations.DeleteFile.Models;
+using BackendService.BusinessLogic.Operations.GetFile;
+using BackendService.BusinessLogic.Operations.GetFile.Models;
+using BackendService.BusinessLogic.Operations.GetFiles;
+using BackendService.BusinessLogic.Operations.GetFiles.Models;
+using BackendService.BusinessLogic.Operations.UpdateFile;
+using BackendService.BusinessLogic.Operations.UpdateFile.Models;
+using BackendService.BusinessLogic.Operations.UploadFile;
+using BackendService.BusinessLogic.Operations.UploadFile.Models;
 using BackendService.Contracts.DeleteFile;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
@@ -74,7 +74,7 @@ public class FileController : ControllerBase
     [HttpGet("get")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetFileAsync([FromQuery]GetFileRequest request)
+    public async Task<IActionResult> GetFileAsync([FromQuery] GetFileRequest request)
     {
         var getFileOperationResponse = await _getFileOperation.GetFileAsync(new GetFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
 

@@ -1,7 +1,7 @@
-using BackendService.BusinessLogic.Operations.UpdateFileOperation;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation.Models;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileInfoTask;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation.Tasks.UpdateFileTask;
+using BackendService.BusinessLogic.Operations.UpdateFile;
+using BackendService.BusinessLogic.Operations.UpdateFile.Models;
+using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileInfoTask;
+using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using BackendService.BusinessLogic.Tasks.DeleteFileTask;
 using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
@@ -9,7 +9,7 @@ using BackendService.BusinessLogic.Tasks.GetFileInfoTask.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using BusinessLogicUpdateFileOperation = BackendService.BusinessLogic.Operations.UpdateFileOperation.UpdateFileOperation;
+using BusinessLogicUpdateFileOperation = BackendService.BusinessLogic.Operations.UpdateFile.UpdateFileOperation;
 
 namespace BackendService.BusinessLogic.UnitTests.Operations.UpdateFileOperation;
 

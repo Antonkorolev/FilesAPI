@@ -1,5 +1,5 @@
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask.Models;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFilesTask.Models;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask.Models;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFilesTask.Models;
 using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Request;
 using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Response;
 

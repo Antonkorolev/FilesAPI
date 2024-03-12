@@ -1,5 +1,5 @@
 using BackendService.BusinessLogic.Exceptions;
-using BackendService.BusinessLogic.Operations.GetFilesOperation.Tasks.GetFileInfosTask;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask;
 using DatabaseContext.FileDb;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileInfo = DatabaseContext.FileDb.Models.FileInfo;

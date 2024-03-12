@@ -1,13 +1,13 @@
-using BackendService.BusinessLogic.Operations.UploadFileOperation.Models;
-using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.EnsurePathExistsTask;
-using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.GenerateFileCodeTask;
-using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.SaveFileInfoTask;
-using BackendService.BusinessLogic.Operations.UploadFileOperation.Tasks.WriteFileTask;
+using BackendService.BusinessLogic.Operations.UploadFile.Models;
+using BackendService.BusinessLogic.Operations.UploadFile.Tasks.EnsurePathExistsTask;
+using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCodeTask;
+using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfoTask;
+using BackendService.BusinessLogic.Operations.UploadFile.Tasks.WriteFileTask;
 using BackendService.BusinessLogic.Tasks.AuthorizationTask;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using BusinessLogicUploadFileOperation = BackendService.BusinessLogic.Operations.UploadFileOperation.UploadFileOperation;
+using BusinessLogicUploadFileOperation = BackendService.BusinessLogic.Operations.UploadFile.UploadFileOperation;
 
 namespace BackendService.BusinessLogic.UnitTests.Operations.UploadFileOperation;
 

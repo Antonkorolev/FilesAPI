@@ -1,9 +1,9 @@
 using System.Text;
-using BackendService.BusinessLogic.Operations.DeleteFileOperation;
-using BackendService.BusinessLogic.Operations.GetFileOperation;
-using BackendService.BusinessLogic.Operations.GetFilesOperation;
-using BackendService.BusinessLogic.Operations.UpdateFileOperation;
-using BackendService.BusinessLogic.Operations.UploadFileOperation;
+using BackendService.BusinessLogic.Operations.DeleteFile;
+using BackendService.BusinessLogic.Operations.GetFile;
+using BackendService.BusinessLogic.Operations.GetFiles;
+using BackendService.BusinessLogic.Operations.UpdateFile;
+using BackendService.BusinessLogic.Operations.UploadFile;
 using BackendService.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
