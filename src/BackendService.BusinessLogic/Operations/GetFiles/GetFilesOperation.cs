@@ -1,10 +1,10 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Mappers;
 using BackendService.BusinessLogic.Operations.GetFiles.Models;
-using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask;
-using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFilesTask;
-using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.PathsPreparationTask;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFiles;
+using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.PathsPreparation;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Operations.GetFiles;

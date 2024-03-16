@@ -1,8 +1,8 @@
 using BackendService.BusinessLogic.Operations.GetFile.Models;
-using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFileTask;
-using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
-using BackendService.BusinessLogic.Tasks.GetFileInfoTask.Models;
+using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFile;
+using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.GetFileInfo;
+using BackendService.BusinessLogic.Tasks.GetFileInfo.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

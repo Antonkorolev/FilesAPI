@@ -1,7 +1,7 @@
-using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfosTask.Models;
+using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos.Models;
 using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFilesTask.Models;
-using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Request;
-using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Response;
+using BackendService.BusinessLogic.Tasks.PathsPreparation.Models.Request;
+using BackendService.BusinessLogic.Tasks.PathsPreparation.Models.Response;
 
 namespace BackendService.BusinessLogic.Mappers;
 

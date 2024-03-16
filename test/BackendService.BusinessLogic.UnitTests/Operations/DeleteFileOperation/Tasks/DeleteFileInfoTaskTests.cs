@@ -1,4 +1,4 @@
-using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfoTask;
+using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfo;
 using DatabaseContext.FileDb;
 using DatabaseContext.FileDb.Models;
 using Microsoft.EntityFrameworkCore;

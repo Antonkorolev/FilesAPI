@@ -1,9 +1,9 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.GetFile.Models;
-using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFileTask;
-using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
+using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFile;
+using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Operations.GetFile;

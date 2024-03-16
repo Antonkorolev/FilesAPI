@@ -1,6 +1,6 @@
 using BackendService.BusinessLogic.Exceptions;
-using BackendService.BusinessLogic.Tasks.PathsPreparationTask;
-using BackendService.BusinessLogic.Tasks.PathsPreparationTask.Models.Request;
+using BackendService.BusinessLogic.Tasks.PathsPreparation;
+using BackendService.BusinessLogic.Tasks.PathsPreparation.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BackendService.BusinessLogic.UnitTests.Tasks;

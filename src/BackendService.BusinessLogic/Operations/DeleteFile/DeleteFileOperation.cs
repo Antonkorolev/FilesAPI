@@ -1,10 +1,10 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.DeleteFile.Models;
-using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfoTask;
-using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.DeleteFileTask;
-using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
+using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfo;
+using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.DeleteFile;
+using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Operations.DeleteFile;

@@ -1,4 +1,4 @@
-using BackendService.BusinessLogic.Tasks.DeleteFileTask;
+using BackendService.BusinessLogic.Tasks.DeleteFile;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileNotFoundException = BackendService.BusinessLogic.Exceptions.FileNotFoundException;
 

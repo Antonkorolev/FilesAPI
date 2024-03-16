@@ -1,10 +1,10 @@
 using BackendService.BusinessLogic.Exceptions;
 using BackendService.BusinessLogic.Operations.DeleteFile.Models;
-using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfoTask;
-using BackendService.BusinessLogic.Tasks.AuthorizationTask;
-using BackendService.BusinessLogic.Tasks.DeleteFileTask;
-using BackendService.BusinessLogic.Tasks.GetFileInfoTask;
-using BackendService.BusinessLogic.Tasks.GetFileInfoTask.Models;
+using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfo;
+using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.DeleteFile;
+using BackendService.BusinessLogic.Tasks.GetFileInfo;
+using BackendService.BusinessLogic.Tasks.GetFileInfo.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

@@ -1,4 +1,4 @@
-using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileInfoTask;
+using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileInfo;
 using DatabaseContext.FileDb;
 using DatabaseContext.FileDb.Models;
 using Microsoft.EntityFrameworkCore;
