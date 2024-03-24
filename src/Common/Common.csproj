@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\BackendService.BusinessLogic\BackendService.BusinessLogic.csproj" />
-    </ItemGroup>
-
 </Project>

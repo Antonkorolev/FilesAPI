@@ -1,3 +1,4 @@
+using BackendService.Configuration;
 using BackendService.Extensions;
 using BackendService.Middleware;
 using Serilog;
@@ -17,6 +18,7 @@ configuration.AddJsonFile($"appsettings.{env}.json", optional: true);
 configuration.AddEnvironmentVariables();
 
 builder.Host.UseSerilog();
+builder.Host.UseNServiceBus(b => NsbConfiguration.GetEndpointConfiguration(b.Configuration));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddFileDbContext("FileDb", configuration);
