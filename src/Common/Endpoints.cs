@@ -2,5 +2,5 @@ namespace Common;
 
 public static class Endpoints
 {
-    public static string BackendEndpoint = "FilesApi.BackendEndpoint";
+    public static string BackendEndpoint = "FilesAPI.Events";
 }
