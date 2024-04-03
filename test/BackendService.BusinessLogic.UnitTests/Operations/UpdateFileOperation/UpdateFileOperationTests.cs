@@ -6,6 +6,7 @@ using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.GetFileInfo.Models;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -22,6 +23,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
     private Mock<IAuthorizationTask> _authorizationTask = default!;
     private Mock<IGetFileInfoTask> _getFileInfosTask = default!;
     private Mock<IDeleteFileTask> _deleteFileTask = default!;
+    private Mock<ISendUpdateFilesCommandTask> _sendUpdateFilesCommandTask = default!;
     private Mock<ILogger<BusinessLogicUpdateFileOperation>> _logger = default!;
 
     [TestInitialize]
@@ -32,6 +34,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
         _authorizationTask = new Mock<IAuthorizationTask>();
         _getFileInfosTask = new Mock<IGetFileInfoTask>();
         _deleteFileTask = new Mock<IDeleteFileTask>();
+        _sendUpdateFilesCommandTask = new Mock<ISendUpdateFilesCommandTask>();
         _logger = new Mock<ILogger<BusinessLogicUpdateFileOperation>>();
 
         _updateFileOperation = new BusinessLogicUpdateFileOperation(
@@ -40,6 +43,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
             _authorizationTask.Object,
             _getFileInfosTask.Object,
             _deleteFileTask.Object,
+            _sendUpdateFilesCommandTask.Object,
             _logger.Object);
     }
 

@@ -2,11 +2,11 @@ namespace Common;
 
 public enum UpdateFileType
 {
-    CreatFile,
+    UploadFile,
     UpdateFile,
     GetFile,
     DeleteFile,
-    CreateFiles,
+    UploadFiles,
     UpdateFiles,
     GetFiles,
     DeleteFiles

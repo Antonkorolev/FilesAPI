@@ -4,6 +4,7 @@ using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfo;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.WriteFile;
 using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -19,6 +20,7 @@ public sealed class UploadFileOperationTests : UnitTestsBase
     private Mock<ISaveFileInfoTask> _saveFileInfoTask = default!;
     private Mock<IEnsurePathExistsTask> _ensurePathExistsTask = default!;
     private Mock<IGenerateFileCodeTask> _generateFileCodeTask = default!;
+    private Mock<ISendUpdateFilesCommandTask> _sendUpdateFilesCommandTask = default!;
     private Mock<ILogger<BusinessLogicUploadFileOperation>> _logger = default!;
     private BusinessLogicUploadFileOperation _uploadFileOperation = default!;
 
@@ -30,6 +32,7 @@ public sealed class UploadFileOperationTests : UnitTestsBase
         _saveFileInfoTask = new Mock<ISaveFileInfoTask>();
         _ensurePathExistsTask = new Mock<IEnsurePathExistsTask>();
         _generateFileCodeTask = new Mock<IGenerateFileCodeTask>();
+        _sendUpdateFilesCommandTask = new Mock<ISendUpdateFilesCommandTask>();
         _logger = new Mock<ILogger<BusinessLogicUploadFileOperation>>();
 
         _uploadFileOperation = new BusinessLogicUploadFileOperation(
@@ -38,6 +41,7 @@ public sealed class UploadFileOperationTests : UnitTestsBase
             _saveFileInfoTask.Object,
             _ensurePathExistsTask.Object,
             _generateFileCodeTask.Object,
+            _sendUpdateFilesCommandTask.Object,
             _logger.Object);
     }
 

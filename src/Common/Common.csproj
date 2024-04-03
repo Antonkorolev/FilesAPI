@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Reference Include="NServiceBus.Core">
+        <HintPath>..\..\..\..\.nuget\packages\nservicebus\8.1.6\lib\net6.0\NServiceBus.Core.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

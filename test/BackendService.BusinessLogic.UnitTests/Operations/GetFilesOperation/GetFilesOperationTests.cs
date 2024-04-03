@@ -7,6 +7,7 @@ using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.PathsPreparation;
 using BackendService.BusinessLogic.Tasks.PathsPreparation.Models.Request;
 using BackendService.BusinessLogic.Tasks.PathsPreparation.Models.Response;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -22,6 +23,7 @@ public sealed class GetFilesOperationTests : UnitTestsBase
     private Mock<IGetFileInfosTask> _getFileInfosTask = default!;
     private Mock<IGetFilesTask> _getFilesTask = default!;
     private Mock<IPathsPreparationTask> _pathsPreparationTask = default!;
+    private Mock<ISendUpdateFilesCommandTask> _sendUpdateFilesCommandTask = default!;
     private Mock<ILogger<BusinessLogicGetFilesOperation>> _logger = default!;
     private BusinessLogicGetFilesOperation _getFilesOperation = default!;
 
@@ -32,6 +34,7 @@ public sealed class GetFilesOperationTests : UnitTestsBase
         _getFileInfosTask = new Mock<IGetFileInfosTask>();
         _getFilesTask = new Mock<IGetFilesTask>();
         _pathsPreparationTask = new Mock<IPathsPreparationTask>();
+        _sendUpdateFilesCommandTask = new Mock<ISendUpdateFilesCommandTask>();
         _logger = new Mock<ILogger<BusinessLogicGetFilesOperation>>();
 
         _getFilesOperation = new BusinessLogicGetFilesOperation(
@@ -39,6 +42,7 @@ public sealed class GetFilesOperationTests : UnitTestsBase
             _getFileInfosTask.Object,
             _getFilesTask.Object,
             _pathsPreparationTask.Object,
+            _sendUpdateFilesCommandTask.Object,
             _logger.Object);
     }
 

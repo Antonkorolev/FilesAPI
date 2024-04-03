@@ -3,6 +3,7 @@ using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFile;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.GetFileInfo.Models;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,6 +17,7 @@ public sealed class GetFileOperationTests : UnitTestsBase
     private Mock<IAuthorizationTask> _authorizationTask = default!;
     private Mock<IGetFileInfoTask> _getFileInfoTask = default!;
     private Mock<IGetFileTask> _getFileTask = default!;
+    private Mock<ISendUpdateFilesCommandTask> _sendUpdateFilesCommandTask = default!;
     private Mock<ILogger<BusinessLogicGetFileOperation>> _logger = default!;
     private BusinessLogicGetFileOperation _getFileOperation = default!;
 
@@ -25,12 +27,14 @@ public sealed class GetFileOperationTests : UnitTestsBase
         _authorizationTask = new Mock<IAuthorizationTask>();
         _getFileInfoTask = new Mock<IGetFileInfoTask>();
         _getFileTask = new Mock<IGetFileTask>();
+        _sendUpdateFilesCommandTask = new Mock<ISendUpdateFilesCommandTask>();
         _logger = new Mock<ILogger<BusinessLogicGetFileOperation>>();
 
         _getFileOperation = new BusinessLogicGetFileOperation(
             _authorizationTask.Object,
             _getFileInfoTask.Object,
             _getFileTask.Object,
+            _sendUpdateFilesCommandTask.Object,
             _logger.Object);
     }
 

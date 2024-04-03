@@ -1,6 +1,8 @@
-﻿namespace Common;
+﻿using NServiceBus;
 
-public sealed class UpdateFilesCommand
+namespace Common;
+
+public sealed class UpdateFilesCommand : ICommand
 {
     public UpdateFileType UpdateFileType { get; set; }
     

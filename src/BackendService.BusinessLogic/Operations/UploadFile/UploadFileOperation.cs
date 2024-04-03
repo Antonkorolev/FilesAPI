@@ -6,6 +6,9 @@ using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfo;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.WriteFile;
 using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
+using Common;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Operations.UploadFile;
@@ -17,6 +20,7 @@ public sealed class UploadFileOperation : IUploadFileOperation
     private readonly ISaveFileInfoTask _saveFileInfoTask;
     private readonly IEnsurePathExistsTask _ensurePathExistsTask;
     private readonly IGenerateFileCodeTask _generateFileCodeTask;
+    private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
     private readonly ILogger<UploadFileOperation> _logger;
 
     public UploadFileOperation(
@@ -25,6 +29,7 @@ public sealed class UploadFileOperation : IUploadFileOperation
         ISaveFileInfoTask saveFileInfoTask,
         IEnsurePathExistsTask ensurePathExistsTask,
         IGenerateFileCodeTask generateFileCodeTask,
+        ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
         ILogger<UploadFileOperation> logger)
     {
         _authorizationTask = authorizationTask;
@@ -32,6 +37,7 @@ public sealed class UploadFileOperation : IUploadFileOperation
         _saveFileInfoTask = saveFileInfoTask;
         _ensurePathExistsTask = ensurePathExistsTask;
         _generateFileCodeTask = generateFileCodeTask;
+        _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
         _logger = logger;
     }
 
@@ -47,6 +53,8 @@ public sealed class UploadFileOperation : IUploadFileOperation
         _ensurePathExistsTask.EnsureExisting(path);
         await _writeFileTask.WriteAsync(request.Stream, path, cancellationToken).ConfigureAwait(false);
         await _saveFileInfoTask.SaveAsync(fileCode, request.UserCode, request.FileName, cancellationToken).ConfigureAwait(false);
+        
+        await _sendUpdateFilesCommandTask.SendAsync(new SendUpdateFilesCommandTaskRequest(UpdateFileType.UploadFile, new[] { request.FileName })).ConfigureAwait(false);
 
         _logger.LogInformation($"File with FileCode = '{fileCode}' successfully saved");
 

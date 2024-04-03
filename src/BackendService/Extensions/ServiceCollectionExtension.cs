@@ -17,6 +17,7 @@ using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.PathsPreparation;
+using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 
@@ -89,6 +90,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
         services.AddTransient<IPathsPreparationTask, PathsPreparationTask>();
         services.AddTransient<IDeleteFileTask, DeleteFileTask>();
+        services.AddTransient<ISendUpdateFilesCommandTask, SendUpdateFilesCommandTask>();
 
         return services;
     }
