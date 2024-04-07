@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ProcessingService.Configuration;
 using Serilog;
 
@@ -16,7 +17,9 @@ public static class Program
     {
         return Host
             .CreateDefaultBuilder(args)
-            .UseSerilog()
+            .UseSerilog((builder, _, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(builder.Configuration)
+                .Enrich.FromLogContext())
             .UseNServiceBus(b => NsbConfiguration.GetEndpointConfiguration(b.Configuration))
             .ConfigureServices((hostContext, services) => { services.ConfigureService(hostContext); })
             .ConfigureAppConfiguration(x =>
