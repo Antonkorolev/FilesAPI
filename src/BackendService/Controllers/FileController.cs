@@ -8,12 +8,15 @@ using BackendService.BusinessLogic.Operations.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Models;
 using BackendService.BusinessLogic.Operations.UploadFile;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
+using BackendService.BusinessLogic.Operations.UploadFiles;
+using BackendService.BusinessLogic.Operations.UploadFiles.Models;
 using BackendService.Contracts.DeleteFile;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using Microsoft.AspNetCore.Mvc;
 using BackendService.Contracts.UpdateFile;
 using BackendService.Contracts.UploadFile;
+using BackendService.Contracts.UploadFIles;
 
 namespace BackendService.Controllers;
 
@@ -22,6 +25,7 @@ namespace BackendService.Controllers;
 public class FileController : ControllerBase
 {
     private readonly IUploadFileOperation _uploadFileOperation;
+    private readonly IUploadFilesOperation _uploadFilesOperation;
     private readonly IUpdateFileOperation _updateFileOperation;
     private readonly IGetFilesOperation _getFilesOperation;
     private readonly IGetFileOperation _getFileOperation;
@@ -29,12 +33,14 @@ public class FileController : ControllerBase
 
     public FileController(
         IUploadFileOperation uploadFileOperation,
+        IUploadFilesOperation uploadFilesOperation,
         IUpdateFileOperation updateFileOperation,
         IGetFilesOperation getFilesOperation,
         IGetFileOperation getFileOperation,
         IDeleteFileOperation deleteFileOperation)
     {
         _uploadFileOperation = uploadFileOperation;
+        _uploadFilesOperation = uploadFilesOperation;
         _updateFileOperation = updateFileOperation;
         _getFilesOperation = getFilesOperation;
         _getFileOperation = getFileOperation;
@@ -50,6 +56,19 @@ public class FileController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPost("uploadArray")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UploadFilesAsync([FromForm] UploadFilesRequest request)
+    {
+        var getUploadFilesOperationRequest = GetUploadFilesOperationRequest(request);
+
+        var result = await _uploadFilesOperation.UploadAsync(getUploadFilesOperationRequest).ConfigureAwait(false);
+
+        return Ok(result);
+    }
+
 
     [HttpPost("update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -94,5 +113,14 @@ public class FileController : ControllerBase
     private string GetUserCode()
     {
         return HttpContext.Request.Headers["UserCode"].ToString();
+    }
+
+    private UploadFilesOperationRequest GetUploadFilesOperationRequest(UploadFilesRequest request)
+    {
+        IList<UploadFileData> fileData = request.Files.Select(file => new UploadFileData(file.OpenReadStream(), file.FileName)).ToList();
+
+        fileData = fileData ?? throw new InvalidOperationException();
+
+        return new UploadFilesOperationRequest(fileData, GetUserCode());
     }
 }

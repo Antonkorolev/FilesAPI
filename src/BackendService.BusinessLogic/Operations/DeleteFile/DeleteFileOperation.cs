@@ -45,7 +45,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         var cancellationToken = cancellationTokenSource.Token;
 
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
-        var path = PathBuilder.Build(fileInfo.Code, fileInfo.Name);
+        var path = PathBuilder.Build(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name);
 
         _deleteFileTask.Delete(path);
         await _deleteFileInfoTask.DeleteFileAsync(fileInfo.FileInfoId, cancellationToken).ConfigureAwait(false);

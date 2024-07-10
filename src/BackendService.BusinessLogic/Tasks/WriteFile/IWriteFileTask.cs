@@ -1,4 +1,4 @@
-namespace BackendService.BusinessLogic.Operations.UploadFile.Tasks.WriteFile;
+namespace BackendService.BusinessLogic.Tasks.WriteFile;
 
 public interface IWriteFileTask
 {

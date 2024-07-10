@@ -9,15 +9,17 @@ using BackendService.BusinessLogic.Operations.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileInfo;
 using BackendService.BusinessLogic.Operations.UploadFile;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfo;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.WriteFile;
+using BackendService.BusinessLogic.Operations.UploadFiles;
+using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
+using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.PathsPreparation;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
+using BackendService.BusinessLogic.Tasks.WriteFile;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,10 +44,15 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddUploadFileOperation(this IServiceCollection services)
     {
         services.AddTransient<IUploadFileOperation, UploadFileOperation>();
-        services.AddTransient<IWriteFileTask, WriteFileTask>();
         services.AddTransient<ISaveFileInfoTask, SaveFileInfoTask>();
-        services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
-        services.AddTransient<IGenerateFileCodeTask, GenerateFileCodeTask>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddUploadFilesOperation(this IServiceCollection services)
+    {
+        services.AddTransient<IUploadFilesOperation, UploadFilesOperation>();
+        services.AddTransient<ISendUploadFilesCommandTask, SendUploadFilesCommandTask>();
 
         return services;
     }
@@ -91,6 +98,9 @@ public static class ServiceCollectionExtension
         services.AddTransient<IPathsPreparationTask, PathsPreparationTask>();
         services.AddTransient<IDeleteFileTask, DeleteFileTask>();
         services.AddTransient<ISendUpdateFilesCommandTask, SendUpdateFilesCommandTask>();
+        services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
+        services.AddTransient<IWriteFileTask, WriteFileTask>();
+        services.AddTransient<IGenerateFileCodeTask, GenerateFileCodeTask>();
 
         return services;
     }

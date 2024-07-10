@@ -39,7 +39,7 @@ public sealed class GetFileOperation : IGetFileOperation
 
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
 
-        var path = PathBuilder.Build(request.FileCode, fileInfo.Name);
+        var path = PathBuilder.Build(FolderName.PersistentStorage, request.FileCode, fileInfo.Name);
         var stream = await _getFileTask.GetAsync(path).ConfigureAwait(false);
 
         await _sendUpdateFilesCommandTask.SendAsync(new SendUpdateFilesCommandTaskRequest(UpdateFileType.GetFile, new[] { fileInfo.Name })).ConfigureAwait(false);

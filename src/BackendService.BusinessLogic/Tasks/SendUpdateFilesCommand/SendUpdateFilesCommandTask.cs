@@ -8,7 +8,6 @@ namespace BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 public sealed class SendUpdateFilesCommandTask : ISendUpdateFilesCommandTask
 {
     private readonly IMessageSession _messageSession;
-    
     private readonly ILogger<GetFileOperation> _logger;
 
     public SendUpdateFilesCommandTask(IMessageSession messageSession, ILogger<GetFileOperation> logger)

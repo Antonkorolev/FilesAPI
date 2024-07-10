@@ -1,10 +1,8 @@
-﻿using NServiceBus;
-
-namespace Common;
+﻿namespace Common;
 
 public sealed class UpdateFilesCommand : ICommand
 {
     public UpdateFileType UpdateFileType { get; set; }
     
-    public string[] FilesNames { get; set; }
+    public IEnumerable<string> FilesNames { get; set; }
 }

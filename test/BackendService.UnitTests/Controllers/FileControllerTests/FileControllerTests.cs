@@ -7,6 +7,7 @@ using BackendService.BusinessLogic.Operations.GetFiles.Models;
 using BackendService.BusinessLogic.Operations.UpdateFile;
 using BackendService.BusinessLogic.Operations.UploadFile;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
+using BackendService.BusinessLogic.Operations.UploadFiles;
 using BackendService.Contracts.DeleteFile;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
@@ -25,6 +26,7 @@ public sealed class FileControllerTests
 {
     private readonly FileController _fileController;
     private readonly Mock<IUploadFileOperation> _uploadFileOperation;
+    private readonly Mock<IUploadFilesOperation> _uploadFilesOperation;
     private readonly Mock<IUpdateFileOperation> _updateFileOperation;
     private readonly Mock<IGetFilesOperation> _getFilesOperation;
     private readonly Mock<IGetFileOperation> _getFileOperation;
@@ -33,6 +35,7 @@ public sealed class FileControllerTests
     public FileControllerTests()
     {
         _uploadFileOperation = new Mock<IUploadFileOperation>();
+        _uploadFilesOperation = new Mock<IUploadFilesOperation>();
         _updateFileOperation = new Mock<IUpdateFileOperation>();
         _getFilesOperation = new Mock<IGetFilesOperation>();
         _getFileOperation = new Mock<IGetFileOperation>();
@@ -40,6 +43,7 @@ public sealed class FileControllerTests
 
         _fileController = new FileController(
             _uploadFileOperation.Object,
+            _uploadFilesOperation.Object,
             _updateFileOperation.Object,
             _getFilesOperation.Object,
             _getFileOperation.Object,

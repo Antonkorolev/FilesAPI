@@ -49,10 +49,10 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
         var cancellationToken = cancellationTokenSource.Token;
 
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
-        var oldFilePath = PathBuilder.Build(fileInfo.Code, fileInfo.Name);
+        var oldFilePath = PathBuilder.Build(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name);
         _deleteFileTask.Delete(oldFilePath);
 
-        var newFilePath = PathBuilder.Build(request.FileCode, request.FileName);
+        var newFilePath = PathBuilder.Build(FolderName.PersistentStorage, request.FileCode, request.FileName);
         await _updateFileTask.UpdateAsync(request.Stream, newFilePath, cancellationToken).ConfigureAwait(false);
         await _updateFileInfoTask.UpdateInfoAsync(fileInfo.FileInfoId, request.FileName, request.UserCode, cancellationToken).ConfigureAwait(false);
 

@@ -5,6 +5,7 @@ using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
 using BackendService.Contracts.UploadFile;
+using BackendService.Contracts.UploadFIles;
 using Newtonsoft.Json;
 
 namespace BackendService.Client;
@@ -20,7 +21,7 @@ public sealed class FilesApiService : IFilesApiService
         _httpClientName = httpClientName;
     }
 
-    public async Task<UploadFileResponse> UploadFIleAsync(UploadFileRequest request)
+    public async Task<UploadFileResponse> UploadFileAsync(UploadFileRequest request)
     {
         var httpClient = CreateHttpClient();
 
@@ -34,6 +35,30 @@ public sealed class FilesApiService : IFilesApiService
         var stringResponse = await response.Content.ReadAsStringAsync();
 
         var uploadFileResponse = JsonConvert.DeserializeObject<UploadFileResponse>(stringResponse);
+        if (uploadFileResponse == null)
+            throw new Exception("UploadFileResponse deserialize exception. Value is null");
+
+        return uploadFileResponse;
+    }
+
+    public async Task<UploadFilesResponse> UploadFilesAsync(UploadFilesRequest request)
+    {
+        var httpClient = CreateHttpClient();
+
+        var multipartFormDataContent = new MultipartFormDataContent();
+
+        foreach (var file in request.Files)
+        {
+            multipartFormDataContent.Add(new StreamContent(file.OpenReadStream()), nameof(file));
+        }
+
+        var response = await httpClient.PostAsync("file/upload", multipartFormDataContent).ConfigureAwait(false);
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
+
+        var stringResponse = await response.Content.ReadAsStringAsync();
+
+        var uploadFileResponse = JsonConvert.DeserializeObject<UploadFilesResponse>(stringResponse);
         if (uploadFileResponse == null)
             throw new Exception("UploadFileResponse deserialize exception. Value is null");
 

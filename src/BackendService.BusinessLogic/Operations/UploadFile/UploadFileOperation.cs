@@ -1,13 +1,13 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfo;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.WriteFile;
 using BackendService.BusinessLogic.Tasks.Authorization;
+using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
+using BackendService.BusinessLogic.Tasks.WriteFile;
 using Common;
 using Microsoft.Extensions.Logging;
 
@@ -48,12 +48,12 @@ public sealed class UploadFileOperation : IUploadFileOperation
         var fileCode = await _generateFileCodeTask.GenerateAsync(request.Stream).ConfigureAwait(false);
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
-        var path = PathBuilder.Build(fileCode, request.FileName);
+        var path = PathBuilder.Build(FolderName.PersistentStorage, fileCode, request.FileName);
 
         _ensurePathExistsTask.EnsureExisting(path);
         await _writeFileTask.WriteAsync(request.Stream, path, cancellationToken).ConfigureAwait(false);
         await _saveFileInfoTask.SaveAsync(fileCode, request.UserCode, request.FileName, cancellationToken).ConfigureAwait(false);
-        
+
         await _sendUpdateFilesCommandTask.SendAsync(new SendUpdateFilesCommandTaskRequest(UpdateFileType.UploadFile, new[] { request.FileName })).ConfigureAwait(false);
 
         _logger.LogInformation($"File with FileCode = '{fileCode}' successfully saved");

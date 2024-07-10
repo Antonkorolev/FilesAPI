@@ -1,5 +1,4 @@
 using Common;
-using NServiceBus.Features;
 
 namespace BackendService.Configuration;
 
@@ -11,12 +10,15 @@ public static class NsbConfiguration
 
         endpointConfiguration.UseSerialization<SystemJsonSerializer>();
         endpointConfiguration.SendOnly();
+        endpointConfiguration.EnableCallbacks();
+        
+        endpointConfiguration.MakeInstanceUniquelyAddressable(Endpoints.BackendEndpoint);
 
         var connectionOptions = configuration.GetRequiredSection("Messaging:Connection").Get<NsbConnectionOptions>()
-            ?? throw new Exception("Can't read Messaging:Connection from config");
-        
+                                ?? throw new Exception("Can't read Messaging:Connection from config");
+
         var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
-        
+
         transport.UseConventionalRoutingTopology(QueueType.Quorum);
         transport.ConnectionString(GetConnectionString(connectionOptions.EndPoints[0]));
 

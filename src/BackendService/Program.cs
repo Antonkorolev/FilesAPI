@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddFileDbContext("FileDb", configuration);
 builder.Services.AddUploadFileOperation();
+builder.Services.AddUploadFilesOperation();
 builder.Services.AddUpdateFileOperation();
 builder.Services.AddGetFilesOperation();
 builder.Services.AddGetFileOperation();

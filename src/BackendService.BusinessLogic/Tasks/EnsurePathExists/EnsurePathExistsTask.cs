@@ -1,4 +1,4 @@
-namespace BackendService.BusinessLogic.Operations.UploadFile.Tasks.EnsurePathExists;
+namespace BackendService.BusinessLogic.Tasks.EnsurePathExists;
 
 public sealed class EnsurePathExistsTask : IEnsurePathExistsTask
 {

@@ -4,7 +4,7 @@ namespace BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
 
 public sealed class SendUpdateFilesCommandTaskRequest
 {
-    public SendUpdateFilesCommandTaskRequest(UpdateFileType updateFileType, string[] filesNames)
+    public SendUpdateFilesCommandTaskRequest(UpdateFileType updateFileType, IEnumerable<string> filesNames)
     {
         UpdateFileType = updateFileType;
         FilesNames = filesNames;
@@ -12,5 +12,5 @@ public sealed class SendUpdateFilesCommandTaskRequest
 
     public UpdateFileType UpdateFileType { get; }
 
-    public string[] FilesNames { get; }
+    public IEnumerable<string> FilesNames { get; }
 }
