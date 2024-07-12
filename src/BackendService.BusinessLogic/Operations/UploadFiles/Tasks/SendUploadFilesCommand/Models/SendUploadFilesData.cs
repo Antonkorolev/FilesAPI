@@ -2,13 +2,13 @@ namespace BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFi
 
 public sealed class SendUploadFilesData
 {
-    public SendUploadFilesData(string fileName, string filePath)
+    public SendUploadFilesData(string fileName, string fileCode)
     {
         FileName = fileName;
-        FilePath = filePath;
+        FileCode = fileCode;
     }
 
     public string FileName { get; set; }
 
-    public string FilePath { get; set; }
+    public string FileCode { get; set; }
 }

@@ -1,10 +1,10 @@
 using BackendService.BusinessLogic.Constants;
-using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.DeleteFile.Models;
 using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfo;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
+using BackendService.BusinessLogic.Tasks.PathBuilder;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
 using Common;
@@ -19,6 +19,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
     private readonly IDeleteFileTask _deleteFileTask;
     private readonly IGetFileInfoTask _getFileInfoTask;
     private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
+    private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<DeleteFileOperation> _logger;
 
     public DeleteFileOperation(
@@ -27,7 +28,8 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         IDeleteFileTask deleteFileTask,
         IGetFileInfoTask getFileInfoTask,
         ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
-        ILogger<DeleteFileOperation> logger)
+        ILogger<DeleteFileOperation> logger, 
+        IPathBuilderTask pathBuilderTask)
     {
         _authorizationTask = authorizationTask;
         _deleteFileInfoTask = deleteFileInfoTask;
@@ -35,6 +37,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         _getFileInfoTask = getFileInfoTask;
         _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
         _logger = logger;
+        _pathBuilderTask = pathBuilderTask;
     }
 
     public async Task DeleteAsync(DeleteFileOperationRequest request)
@@ -45,7 +48,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         var cancellationToken = cancellationTokenSource.Token;
 
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
-        var path = PathBuilder.Build(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name);
+        var path = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name).ConfigureAwait(false);
 
         _deleteFileTask.Delete(path);
         await _deleteFileInfoTask.DeleteFileAsync(fileInfo.FileInfoId, cancellationToken).ConfigureAwait(false);

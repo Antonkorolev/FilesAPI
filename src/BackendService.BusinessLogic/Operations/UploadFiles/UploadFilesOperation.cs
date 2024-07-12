@@ -1,11 +1,11 @@
 using BackendService.BusinessLogic.Constants;
-using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFiles.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand.Models;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
+using BackendService.BusinessLogic.Tasks.PathBuilder;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
 using BackendService.BusinessLogic.Tasks.WriteFile;
@@ -22,6 +22,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
     private readonly IEnsurePathExistsTask _ensurePathExistsTask;
     private readonly ISendUploadFilesCommandTask _sendUploadFilesCommandTask;
     private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
+    private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<UploadFilesOperation> _logger;
 
     public UploadFilesOperation(
@@ -31,7 +32,8 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         IEnsurePathExistsTask ensurePathExistsTask,
         ISendUploadFilesCommandTask sendUploadFilesCommandTask,
         ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
-        ILogger<UploadFilesOperation> logger)
+        ILogger<UploadFilesOperation> logger, 
+        IPathBuilderTask pathBuilderTask)
     {
         _authorizationTask = authorizationTask;
         _writeFileTask = writeFileTask;
@@ -39,6 +41,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         _ensurePathExistsTask = ensurePathExistsTask;
         _sendUploadFilesCommandTask = sendUploadFilesCommandTask;
         _logger = logger;
+        _pathBuilderTask = pathBuilderTask;
         _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
     }
 
@@ -55,14 +58,14 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         foreach (var uploadFileData in request.UploadFileData)
         {
             var fileCode = await _generateFileCodeTask.GenerateAsync(uploadFileData.Stream).ConfigureAwait(false);
-            var path = PathBuilder.Build(FolderName.TemporaryStorage, fileCode, uploadFileData.FileName);
+            var path = await _pathBuilderTask.BuildAsync(FolderName.TemporaryStorage, fileCode, uploadFileData.FileName).ConfigureAwait(false);
 
             _ensurePathExistsTask.EnsureExisting(path);
             
             await _writeFileTask.WriteAsync(uploadFileData.Stream, path, cancellationToken).ConfigureAwait(false);
 
             fileCodes.Add(fileCode);
-            sendUploadFilesCommandTaskRequest.SendUploadFilesData.Add(new SendUploadFilesData(uploadFileData.FileName, path));
+            sendUploadFilesCommandTaskRequest.SendUploadFilesData.Add(new SendUploadFilesData(uploadFileData.FileName, fileCode));
         }
 
         await _sendUploadFilesCommandTask.SendAsync(sendUploadFilesCommandTaskRequest).ConfigureAwait(false);

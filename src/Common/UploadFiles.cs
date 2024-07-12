@@ -2,13 +2,13 @@ namespace Common;
 
 public sealed class UploadFiles
 {
-    public UploadFiles(string fileName, string filePath)
+    public UploadFiles(string fileName, string fileCode)
     {
         FileName = fileName;
-        FilePath = filePath;
+        FileCode = fileCode;
     }
 
     public string FileName { get; set; }
 
-    public string FilePath { get; set; }
+    public string FileCode { get; set; }
 }

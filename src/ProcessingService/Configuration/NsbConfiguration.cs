@@ -7,10 +7,12 @@ public static class NsbConfiguration
 {
     public static EndpointConfiguration GetEndpointConfiguration(IConfiguration configuration)
     {
-        var endpointConfiguration = new EndpointConfiguration(Endpoints.BackendEndpoint);
+        var endpointConfiguration = new EndpointConfiguration(Endpoints.ProcessingEndpoint);
 
         endpointConfiguration.UseSerialization<SystemJsonSerializer>();
         endpointConfiguration.EnableInstallers();
+        //endpointConfiguration.EnableCallbacks();
+        //endpointConfiguration.MakeInstanceUniquelyAddressable(Endpoints.ProcessingEndpoint);
 
         var connectionOptions = configuration.GetRequiredSection("Messaging:Connection").Get<NsbConnectionOptions>()
             ?? throw new Exception("Can't read Messaging:Connection from config");

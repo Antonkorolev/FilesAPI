@@ -40,7 +40,7 @@ public sealed class DependencyInjectionTests
         serviceCollection.AddGetFilesOperation();
         serviceCollection.AddGetFileOperation();
         serviceCollection.AddDeleteFileOperation();
-        serviceCollection.AddCommonTasks();
+        serviceCollection.AddCommonTasks(configuration);
 
         _serviceProvider = serviceCollection.BuildServiceProvider();
     }

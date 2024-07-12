@@ -11,8 +11,7 @@ public static class NsbConfiguration
         endpointConfiguration.UseSerialization<SystemJsonSerializer>();
         endpointConfiguration.SendOnly();
         endpointConfiguration.EnableCallbacks();
-        
-        endpointConfiguration.MakeInstanceUniquelyAddressable(Endpoints.BackendEndpoint);
+        endpointConfiguration.MakeInstanceUniquelyAddressable(Guid.NewGuid().ToString());
 
         var connectionOptions = configuration.GetRequiredSection("Messaging:Connection").Get<NsbConnectionOptions>()
                                 ?? throw new Exception("Can't read Messaging:Connection from config");

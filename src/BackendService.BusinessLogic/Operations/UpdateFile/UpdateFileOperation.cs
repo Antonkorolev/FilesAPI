@@ -1,11 +1,11 @@
 using BackendService.BusinessLogic.Constants;
-using BackendService.BusinessLogic.Helpers;
 using BackendService.BusinessLogic.Operations.UpdateFile.Models;
 using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileInfo;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
+using BackendService.BusinessLogic.Tasks.PathBuilder;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
 using Common;
@@ -21,6 +21,7 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
     private readonly IGetFileInfoTask _getFileInfoTask;
     private readonly IDeleteFileTask _deleteFileTask;
     private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
+    private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<UpdateFileOperation> _logger;
 
     public UpdateFileOperation(
@@ -30,7 +31,8 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
         IGetFileInfoTask getFileInfoTask,
         IDeleteFileTask deleteFileTask,
         ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
-        ILogger<UpdateFileOperation> logger)
+        ILogger<UpdateFileOperation> logger, 
+        IPathBuilderTask pathBuilderTask)
     {
         _authorizationTask = authorizationTask;
         _updateFileTask = updateFileTask;
@@ -39,6 +41,7 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
         _deleteFileTask = deleteFileTask;
         _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
         _logger = logger;
+        _pathBuilderTask = pathBuilderTask;
     }
 
     public async Task UpdateAsync(UpdateFileOperationRequest request)
@@ -49,10 +52,10 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
         var cancellationToken = cancellationTokenSource.Token;
 
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
-        var oldFilePath = PathBuilder.Build(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name);
+        var oldFilePath = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name).ConfigureAwait(false);
         _deleteFileTask.Delete(oldFilePath);
 
-        var newFilePath = PathBuilder.Build(FolderName.PersistentStorage, request.FileCode, request.FileName);
+        var newFilePath = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, request.FileCode, request.FileName).ConfigureAwait(false);
         await _updateFileTask.UpdateAsync(request.Stream, newFilePath, cancellationToken).ConfigureAwait(false);
         await _updateFileInfoTask.UpdateInfoAsync(fileInfo.FileInfoId, request.FileName, request.UserCode, cancellationToken).ConfigureAwait(false);
 

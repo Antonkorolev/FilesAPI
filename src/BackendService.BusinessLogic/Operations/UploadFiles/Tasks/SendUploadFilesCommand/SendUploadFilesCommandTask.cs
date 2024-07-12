@@ -21,7 +21,8 @@ public sealed class SendUploadFilesCommandTask : ISendUploadFilesCommandTask
         var command = request.ToUploadFilesCommand();
 
         var sendOption = new SendOptions();
-        sendOption.SetDestination(Endpoints.BackendEndpoint);
+        sendOption.SetDestination(Endpoints.ProcessingEndpoint);
+        //sendOption.RouteReplyTo(Endpoints.ProcessingEndpoint);
 
         var status = await _messageSession.Request<Status>(command, sendOption).ConfigureAwait(false);
 
@@ -30,6 +31,6 @@ public sealed class SendUploadFilesCommandTask : ISendUploadFilesCommandTask
 
         _logger.LogInformation(
             $"Command with params: [FileNames: {string.Join(", ", request.SendUploadFilesData.Select(t => t.FileName))}, " +
-            $"FilesPaths : {string.Join(", ", request.SendUploadFilesData.Select(t => t.FilePath))}] successfully sent");
+            $"FilesPaths : {string.Join(", ", request.SendUploadFilesData.Select(t => t.FileCode))}] successfully sent");
     }
 }

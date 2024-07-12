@@ -17,6 +17,7 @@ using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
+using BackendService.BusinessLogic.Tasks.PathBuilder;
 using BackendService.BusinessLogic.Tasks.PathsPreparation;
 using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
 using BackendService.BusinessLogic.Tasks.WriteFile;
@@ -91,7 +92,7 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddCommonTasks(this IServiceCollection services)
+    public static IServiceCollection AddCommonTasks(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IGetFileInfoTask, GetFileInfoTask>();
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
@@ -101,6 +102,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
         services.AddTransient<IWriteFileTask, WriteFileTask>();
         services.AddTransient<IGenerateFileCodeTask, GenerateFileCodeTask>();
+        services.AddSingleton<IPathBuilderTask>(x => new PathBuilderTask(configuration.GetRequiredSection("Storage").Value ?? throw new Exception("Storage value is null")));
 
         return services;
     }

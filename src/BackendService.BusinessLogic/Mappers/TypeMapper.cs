@@ -21,6 +21,6 @@ public static class TypeMapper
     
     public static UploadFilesCommand ToUploadFilesCommand(this SendUploadFilesCommandTaskRequest sendUploadFilesCommandTaskRequest)
     {
-        return new UploadFilesCommand(sendUploadFilesCommandTaskRequest.SendUploadFilesData.Select(f => new UploadFiles(f.FileName, f.FilePath)));
+        return new UploadFilesCommand(sendUploadFilesCommandTaskRequest.SendUploadFilesData.Select(f => new UploadFiles(f.FileName, f.FileCode)));
     }
 }

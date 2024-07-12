@@ -2,13 +2,13 @@ namespace BackendService.Configuration;
 
 public sealed class NsbEndPoint
 {
-    public string Host { get; set; }
+    public string Host { get; set; } = default!;
 
     public int Port { get; set; }
 
-    public string VirtualHost { get; set; }
+    public string VirtualHost { get; set; } = default!;
 
-    public string Login { get; set; }
+    public string Login { get; set; } = default!;
 
-    public string Password { get; set; }
+    public string Password { get; set; } = default!;
 }
