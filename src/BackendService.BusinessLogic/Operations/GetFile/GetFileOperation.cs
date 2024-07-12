@@ -4,8 +4,8 @@ using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFile;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.PathBuilder;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand.Models;
 using Common;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +16,7 @@ public sealed class GetFileOperation : IGetFileOperation
     private readonly IAuthorizationTask _authorizationTask;
     private readonly IGetFileInfoTask _getFileInfoTask;
     private readonly IGetFileTask _getFileTask;
-    private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
+    private readonly ISendNotificationCommandTask _sendNotificationCommandTask;
     private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<GetFileOperation> _logger;
 
@@ -24,14 +24,14 @@ public sealed class GetFileOperation : IGetFileOperation
         IAuthorizationTask authorizationTask,
         IGetFileInfoTask getFileInfoTask,
         IGetFileTask getFileTask,
-        ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
+        ISendNotificationCommandTask sendNotificationCommandTask,
         ILogger<GetFileOperation> logger, 
         IPathBuilderTask pathBuilderTask)
     {
         _authorizationTask = authorizationTask;
         _getFileInfoTask = getFileInfoTask;
         _getFileTask = getFileTask;
-        _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
+        _sendNotificationCommandTask = sendNotificationCommandTask;
         _logger = logger;
         _pathBuilderTask = pathBuilderTask;
     }
@@ -45,7 +45,7 @@ public sealed class GetFileOperation : IGetFileOperation
         var path = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, request.FileCode, fileInfo.Name).ConfigureAwait(false);
         var stream = await _getFileTask.GetAsync(path).ConfigureAwait(false);
 
-        await _sendUpdateFilesCommandTask.SendAsync(new SendUpdateFilesCommandTaskRequest(UpdateFileType.GetFile, new[] { fileInfo.Name })).ConfigureAwait(false);
+        await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.GetFile, new[] { fileInfo.Name })).ConfigureAwait(false);
 
         _logger.LogInformation($"File successfully received");
 

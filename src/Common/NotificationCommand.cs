@@ -1,6 +1,6 @@
 ﻿namespace Common;
 
-public sealed class UpdateFilesCommand : ICommand
+public sealed class NotificationCommand : ICommand
 {
     public UpdateFileType UpdateFileType { get; set; }
     

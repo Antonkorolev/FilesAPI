@@ -5,8 +5,8 @@ using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.PathBuilder;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand.Models;
 using Common;
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +18,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
     private readonly IDeleteFileInfoTask _deleteFileInfoTask;
     private readonly IDeleteFileTask _deleteFileTask;
     private readonly IGetFileInfoTask _getFileInfoTask;
-    private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
+    private readonly ISendNotificationCommandTask _sendNotificationCommandTask;
     private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<DeleteFileOperation> _logger;
 
@@ -27,7 +27,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         IDeleteFileInfoTask deleteFileInfoTask,
         IDeleteFileTask deleteFileTask,
         IGetFileInfoTask getFileInfoTask,
-        ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
+        ISendNotificationCommandTask sendNotificationCommandTask,
         ILogger<DeleteFileOperation> logger, 
         IPathBuilderTask pathBuilderTask)
     {
@@ -35,7 +35,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         _deleteFileInfoTask = deleteFileInfoTask;
         _deleteFileTask = deleteFileTask;
         _getFileInfoTask = getFileInfoTask;
-        _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
+        _sendNotificationCommandTask = sendNotificationCommandTask;
         _logger = logger;
         _pathBuilderTask = pathBuilderTask;
     }
@@ -53,7 +53,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         _deleteFileTask.Delete(path);
         await _deleteFileInfoTask.DeleteFileAsync(fileInfo.FileInfoId, cancellationToken).ConfigureAwait(false);
 
-        await _sendUpdateFilesCommandTask.SendAsync(new SendUpdateFilesCommandTaskRequest(UpdateFileType.DeleteFile, new[] { fileInfo.Name })).ConfigureAwait(false);
+        await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.DeleteFile, new[] { fileInfo.Name })).ConfigureAwait(false);
 
         _logger.LogInformation($"File with FileCode = '{request.FileCode}' successfully deleted");
     }

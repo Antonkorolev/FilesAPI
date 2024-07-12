@@ -1,8 +1,8 @@
 namespace ProcessingService.BusinessLogic.Operations.PublishFileUpdateEvent.Models;
 
-public sealed class PublishFileUpdateEventOperationRequest
+public sealed class PublishNotificationEventOperationRequest
 {
-    public PublishFileUpdateEventOperationRequest(int updateFileType, IEnumerable<string> filesNames)
+    public PublishNotificationEventOperationRequest(int updateFileType, IEnumerable<string> filesNames)
     {
         UpdateFileType = updateFileType;
         FilesNames = filesNames;

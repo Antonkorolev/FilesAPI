@@ -4,18 +4,18 @@ using ProcessingService.BusinessLogic.Operations.PublishFileUpdateEvent.Models;
 
 namespace ProcessingService.BusinessLogic.Operations.PublishFileUpdateEvent;
 
-public sealed class PublishFileUpdateEventOperation : IPublishFileUpdateEventOperation
+public sealed class PublishNotificationEventOperation : IPublishNotificationEventOperation
 {
     private readonly IMessageSession _messageSession;
-    private readonly ILogger<PublishFileUpdateEventOperation> _logger;
+    private readonly ILogger<PublishNotificationEventOperation> _logger;
 
-    public PublishFileUpdateEventOperation(IMessageSession messageSession, ILogger<PublishFileUpdateEventOperation> logger)
+    public PublishNotificationEventOperation(IMessageSession messageSession, ILogger<PublishNotificationEventOperation> logger)
     {
         _messageSession = messageSession;
         _logger = logger;
     }
 
-    public async Task PublishEventAsync(PublishFileUpdateEventOperationRequest request)
+    public async Task PublishEventAsync(PublishNotificationEventOperationRequest request)
     {
         var @event = new UpdateFileEvent
         {

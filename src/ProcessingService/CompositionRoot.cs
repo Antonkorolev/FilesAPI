@@ -27,7 +27,7 @@ public static class CompositionRoot
 
     private static void AddApplyFileUpdateOperation(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IPublishFileUpdateEventOperation, PublishFileUpdateEventOperation>();
+        services.AddTransient<IPublishNotificationEventOperation, PublishNotificationEventOperation>();
     }
 
     private static void AddUploadFilesOperation(this IServiceCollection services, IConfiguration configuration)

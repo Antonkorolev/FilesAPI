@@ -22,15 +22,14 @@ public sealed class SendUploadFilesCommandTask : ISendUploadFilesCommandTask
 
         var sendOption = new SendOptions();
         sendOption.SetDestination(Endpoints.ProcessingEndpoint);
-        //sendOption.RouteReplyTo(Endpoints.ProcessingEndpoint);
 
-        var status = await _messageSession.Request<Status>(command, sendOption).ConfigureAwait(false);
+        var filesChangeResponseMessage = await _messageSession.Request<FilesChangeResponseMessage>(command, sendOption).ConfigureAwait(false);
 
-        if (status != Status.OK)
-            throw new Exception("Status not OK");
+        if (filesChangeResponseMessage.Status != Status.OK)
+            throw new Exception($"Status not OK, error message: {filesChangeResponseMessage.ErrorMessage}");
 
         _logger.LogInformation(
             $"Command with params: [FileNames: {string.Join(", ", request.SendUploadFilesData.Select(t => t.FileName))}, " +
-            $"FilesPaths : {string.Join(", ", request.SendUploadFilesData.Select(t => t.FileCode))}] successfully sent");
+            $"FilesCodes : {string.Join(", ", request.SendUploadFilesData.Select(t => t.FileCode))}] successfully sent");
     }
 }

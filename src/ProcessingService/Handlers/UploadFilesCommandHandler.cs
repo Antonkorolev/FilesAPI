@@ -21,12 +21,12 @@ public sealed class UploadFilesCommandHandler : IHandleMessages<UploadFilesComma
             await _uploadFilesOperation.UploadFilesAsync(new UploadFilesOperationRequest(message.UploadFiles.Select(t => new UploadFiles(t.FileName, t.FileCode))))
                 .ConfigureAwait(false);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            await context.Reply(Status.Error).ConfigureAwait(false);
+            await context.Reply(new FilesChangeResponseMessage(Status.Error, e.ToString())).ConfigureAwait(false);
             return;
         }
 
-        await context.Reply(Status.OK).ConfigureAwait(false);
+        await context.Reply(new FilesChangeResponseMessage(Status.OK, null)).ConfigureAwait(false);
     }
 }

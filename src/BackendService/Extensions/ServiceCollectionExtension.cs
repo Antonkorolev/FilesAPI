@@ -19,7 +19,7 @@ using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
 using BackendService.BusinessLogic.Tasks.PathBuilder;
 using BackendService.BusinessLogic.Tasks.PathsPreparation;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand;
 using BackendService.BusinessLogic.Tasks.WriteFile;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
@@ -98,7 +98,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IAuthorizationTask, AuthorizationTask>();
         services.AddTransient<IPathsPreparationTask, PathsPreparationTask>();
         services.AddTransient<IDeleteFileTask, DeleteFileTask>();
-        services.AddTransient<ISendUpdateFilesCommandTask, SendUpdateFilesCommandTask>();
+        services.AddTransient<ISendNotificationCommandTask, SendNotificationCommandTask>();
         services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
         services.AddTransient<IWriteFileTask, WriteFileTask>();
         services.AddTransient<IGenerateFileCodeTask, GenerateFileCodeTask>();

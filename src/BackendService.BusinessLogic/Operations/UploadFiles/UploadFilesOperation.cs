@@ -6,8 +6,8 @@ using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesC
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.PathBuilder;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand;
-using BackendService.BusinessLogic.Tasks.SendUpdateFilesCommand.Models;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand;
+using BackendService.BusinessLogic.Tasks.SendNotificationCommand.Models;
 using BackendService.BusinessLogic.Tasks.WriteFile;
 using Common;
 using Microsoft.Extensions.Logging;
@@ -21,7 +21,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
     private readonly IGenerateFileCodeTask _generateFileCodeTask;
     private readonly IEnsurePathExistsTask _ensurePathExistsTask;
     private readonly ISendUploadFilesCommandTask _sendUploadFilesCommandTask;
-    private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
+    private readonly ISendNotificationCommandTask _sendNotificationCommandTask;
     private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<UploadFilesOperation> _logger;
 
@@ -31,7 +31,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         IGenerateFileCodeTask generateFileCodeTask,
         IEnsurePathExistsTask ensurePathExistsTask,
         ISendUploadFilesCommandTask sendUploadFilesCommandTask,
-        ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
+        ISendNotificationCommandTask sendNotificationCommandTask,
         ILogger<UploadFilesOperation> logger, 
         IPathBuilderTask pathBuilderTask)
     {
@@ -42,7 +42,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         _sendUploadFilesCommandTask = sendUploadFilesCommandTask;
         _logger = logger;
         _pathBuilderTask = pathBuilderTask;
-        _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
+        _sendNotificationCommandTask = sendNotificationCommandTask;
     }
 
     public async Task<IEnumerable<string>> UploadAsync(UploadFilesOperationRequest request)
@@ -69,7 +69,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         }
 
         await _sendUploadFilesCommandTask.SendAsync(sendUploadFilesCommandTaskRequest).ConfigureAwait(false);
-        await _sendUpdateFilesCommandTask.SendAsync(new SendUpdateFilesCommandTaskRequest(UpdateFileType.UploadFile, request.UploadFileData.Select(t => t.FileName))).ConfigureAwait(false);
+        await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.UploadFiles, request.UploadFileData.Select(t => t.FileName))).ConfigureAwait(false);
 
         _logger.LogInformation($"Files with file codes: [{string.Join(", ", fileCodes)}], successfully saved");
 
