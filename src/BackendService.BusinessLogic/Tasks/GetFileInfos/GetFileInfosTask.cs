@@ -1,10 +1,10 @@
 using BackendService.BusinessLogic.Exceptions;
-using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos.Models;
+using BackendService.BusinessLogic.Tasks.GetFileInfos.Models;
 using DatabaseContext.FileDb;
 using Microsoft.EntityFrameworkCore;
-using FileInfo = BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos.Models.FileInfo;
+using FileInfo = BackendService.BusinessLogic.Tasks.GetFileInfos.Models.FileInfo;
 
-namespace BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos;
+namespace BackendService.BusinessLogic.Tasks.GetFileInfos;
 
 public sealed class GetFileInfosTask : IGetFileInfosTask
 {

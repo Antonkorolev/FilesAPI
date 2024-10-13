@@ -1,15 +1,14 @@
 using BackendService.BusinessLogic.Operations.DeleteFile;
 using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfo;
+using BackendService.BusinessLogic.Operations.DeleteFiles;
 using BackendService.BusinessLogic.Operations.GetFile;
 using BackendService.BusinessLogic.Operations.GetFile.Tasks.GetFile;
 using BackendService.BusinessLogic.Operations.GetFiles;
-using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos;
 using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFiles;
 using BackendService.BusinessLogic.Operations.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Tasks.UpdateFileInfo;
 using BackendService.BusinessLogic.Operations.UploadFile;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfo;
 using BackendService.BusinessLogic.Operations.UploadFiles;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand;
@@ -17,6 +16,7 @@ using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.DeleteFile;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.GetFileInfo;
+using BackendService.BusinessLogic.Tasks.GetFileInfos;
 using BackendService.BusinessLogic.Tasks.PathBuilder;
 using BackendService.BusinessLogic.Tasks.PathsPreparation;
 using BackendService.BusinessLogic.Tasks.SendNotificationCommand;
@@ -71,7 +71,6 @@ public static class ServiceCollectionExtension
     {
         services.AddTransient<IGetFilesOperation, GetFilesOperation>();
         services.AddTransient<IGetFilesTask, GetFilesTask>();
-        services.AddTransient<IGetFileInfosTask, GetFileInfosTask>();
 
         return services;
     }
@@ -92,6 +91,13 @@ public static class ServiceCollectionExtension
         return services;
     }
 
+    public static IServiceCollection AddDeleteFilesOperation(this IServiceCollection services)
+    {
+        services.AddTransient<IDeleteFilesOperation, DeleteFilesOperation>();
+
+        return services;
+    }
+
     public static IServiceCollection AddCommonTasks(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IGetFileInfoTask, GetFileInfoTask>();
@@ -101,8 +107,8 @@ public static class ServiceCollectionExtension
         services.AddTransient<ISendNotificationCommandTask, SendNotificationCommandTask>();
         services.AddTransient<IEnsurePathExistsTask, EnsurePathExistsTask>();
         services.AddTransient<IWriteFileTask, WriteFileTask>();
-        services.AddTransient<IGenerateFileCodeTask, GenerateFileCodeTask>();
         services.AddSingleton<IPathBuilderTask>(x => new PathBuilderTask(configuration.GetRequiredSection("Storage").Value ?? throw new Exception("Storage value is null")));
+        services.AddTransient<IGetFileInfosTask, GetFileInfosTask>();
 
         return services;
     }

@@ -1,5 +1,6 @@
 using System.Net;
 using BackendService.BusinessLogic.Operations.DeleteFile;
+using BackendService.BusinessLogic.Operations.DeleteFiles;
 using BackendService.BusinessLogic.Operations.GetFile;
 using BackendService.BusinessLogic.Operations.GetFile.Models;
 using BackendService.BusinessLogic.Operations.GetFiles;
@@ -8,11 +9,14 @@ using BackendService.BusinessLogic.Operations.UpdateFile;
 using BackendService.BusinessLogic.Operations.UploadFile;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles;
+using BackendService.BusinessLogic.Operations.UploadFiles.Models;
 using BackendService.Contracts.DeleteFile;
+using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
 using BackendService.Contracts.UploadFile;
+using BackendService.Contracts.UploadFIles;
 using BackendService.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +35,7 @@ public sealed class FileControllerTests
     private readonly Mock<IGetFilesOperation> _getFilesOperation;
     private readonly Mock<IGetFileOperation> _getFileOperation;
     private readonly Mock<IDeleteFileOperation> _deleteFileOperation;
+    private readonly Mock<IDeleteFilesOperation> _deleteFilesOperation;
 
     public FileControllerTests()
     {
@@ -40,6 +45,7 @@ public sealed class FileControllerTests
         _getFilesOperation = new Mock<IGetFilesOperation>();
         _getFileOperation = new Mock<IGetFileOperation>();
         _deleteFileOperation = new Mock<IDeleteFileOperation>();
+        _deleteFilesOperation = new Mock<IDeleteFilesOperation>();
 
         _fileController = new FileController(
             _uploadFileOperation.Object,
@@ -47,7 +53,8 @@ public sealed class FileControllerTests
             _updateFileOperation.Object,
             _getFilesOperation.Object,
             _getFileOperation.Object,
-            _deleteFileOperation.Object);
+            _deleteFileOperation.Object,
+            _deleteFilesOperation.Object);
 
         _fileController.ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() };
         _fileController.ControllerContext.HttpContext.Request.Headers["UserCode"] = "TestUserCode";
@@ -79,6 +86,39 @@ public sealed class FileControllerTests
 
         Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
         Assert.AreEqual(fileCode, result.Value);
+    }
+
+    [TestMethod]
+    public async Task UploadFilesOperation_ReturnsActionResult()
+    {
+        const string firstFileContent = "test1";
+        const string firstFileName = "test2.pdf";
+        
+        const string secondFileContent = "test1";
+        const string secondFileName = "test2.pdf";
+        
+        var fileCodes = new string[] { "TestFileCode1", "TestFileCode2" };
+
+        var firstFormFileMock = await GetFormFileMock(firstFileContent, firstFileName).ConfigureAwait(false);
+        var secondFormFileMock = await GetFormFileMock(secondFileContent, secondFileName).ConfigureAwait(false);
+
+        _uploadFilesOperation
+            .Setup(u => u.UploadAsync(It.IsAny<UploadFilesOperationRequest>()))
+            .ReturnsAsync(fileCodes);
+
+        var response = await _fileController.UploadFilesAsync(
+                new UploadFilesRequest
+                {
+                    Files = new[] { firstFormFileMock.Object, secondFormFileMock.Object }
+                })
+            .ConfigureAwait(false);
+
+        Assert.IsInstanceOfType(response, typeof(IActionResult));
+
+        var result = response as OkObjectResult ?? throw new Exception("Cast Response to OkObjectResult return null");
+
+        Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
+        Assert.AreEqual(fileCodes, result.Value);
     }
 
     [TestMethod]
@@ -172,6 +212,25 @@ public sealed class FileControllerTests
                 new DeleteFileRequest
                 {
                     FileCode = fileCode
+                })
+            .ConfigureAwait(false);
+
+        Assert.IsInstanceOfType(response, typeof(IActionResult));
+
+        var result = Get<OkResult>(response);
+
+        Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
+    }
+    
+    [TestMethod]
+    public async Task DeleteFilesOperation_ReturnsActionResult()
+    {
+        var fileCodes = new [] {"TestFileCode1", "TestFileCode2"};
+
+        var response = await _fileController.DeleteFilesAsync(
+                new DeleteFilesRequest
+                {
+                    FileCodes = fileCodes
                 })
             .ConfigureAwait(false);
 

@@ -1,5 +1,4 @@
 using BackendService.BusinessLogic.Constants;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFiles.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand.Models;
@@ -18,7 +17,6 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
 {
     private readonly IAuthorizationTask _authorizationTask;
     private readonly IWriteFileTask _writeFileTask;
-    private readonly IGenerateFileCodeTask _generateFileCodeTask;
     private readonly IEnsurePathExistsTask _ensurePathExistsTask;
     private readonly ISendUploadFilesCommandTask _sendUploadFilesCommandTask;
     private readonly ISendNotificationCommandTask _sendNotificationCommandTask;
@@ -28,7 +26,6 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
     public UploadFilesOperation(
         IAuthorizationTask authorizationTask,
         IWriteFileTask writeFileTask,
-        IGenerateFileCodeTask generateFileCodeTask,
         IEnsurePathExistsTask ensurePathExistsTask,
         ISendUploadFilesCommandTask sendUploadFilesCommandTask,
         ISendNotificationCommandTask sendNotificationCommandTask,
@@ -37,7 +34,6 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
     {
         _authorizationTask = authorizationTask;
         _writeFileTask = writeFileTask;
-        _generateFileCodeTask = generateFileCodeTask;
         _ensurePathExistsTask = ensurePathExistsTask;
         _sendUploadFilesCommandTask = sendUploadFilesCommandTask;
         _logger = logger;
@@ -57,7 +53,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
 
         foreach (var uploadFileData in request.UploadFileData)
         {
-            var fileCode = await _generateFileCodeTask.GenerateAsync(uploadFileData.Stream).ConfigureAwait(false);
+            var fileCode = Guid.NewGuid().ToString();
             var path = await _pathBuilderTask.BuildAsync(FolderName.TemporaryStorage, fileCode, uploadFileData.FileName).ConfigureAwait(false);
 
             await _ensurePathExistsTask.EnsureExistingAsync(path).ConfigureAwait(false);

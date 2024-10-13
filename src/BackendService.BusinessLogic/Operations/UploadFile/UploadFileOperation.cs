@@ -1,6 +1,5 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFile.Tasks.SaveFileInfo;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
@@ -19,7 +18,6 @@ public sealed class UploadFileOperation : IUploadFileOperation
     private readonly IWriteFileTask _writeFileTask;
     private readonly ISaveFileInfoTask _saveFileInfoTask;
     private readonly IEnsurePathExistsTask _ensurePathExistsTask;
-    private readonly IGenerateFileCodeTask _generateFileCodeTask;
     private readonly ISendNotificationCommandTask _sendNotificationCommandTask;
     private readonly IPathBuilderTask _pathBuilderTask;
     private readonly ILogger<UploadFileOperation> _logger;
@@ -29,7 +27,6 @@ public sealed class UploadFileOperation : IUploadFileOperation
         IWriteFileTask writeFileTask,
         ISaveFileInfoTask saveFileInfoTask,
         IEnsurePathExistsTask ensurePathExistsTask,
-        IGenerateFileCodeTask generateFileCodeTask,
         ISendNotificationCommandTask sendNotificationCommandTask,
         IPathBuilderTask pathBuilderTask,
         ILogger<UploadFileOperation> logger)
@@ -38,7 +35,6 @@ public sealed class UploadFileOperation : IUploadFileOperation
         _writeFileTask = writeFileTask;
         _saveFileInfoTask = saveFileInfoTask;
         _ensurePathExistsTask = ensurePathExistsTask;
-        _generateFileCodeTask = generateFileCodeTask;
         _sendNotificationCommandTask = sendNotificationCommandTask;
         _pathBuilderTask = pathBuilderTask;
         _logger = logger;
@@ -48,7 +44,7 @@ public sealed class UploadFileOperation : IUploadFileOperation
     {
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileCreation).ConfigureAwait(false);
 
-        var fileCode = await _generateFileCodeTask.GenerateAsync(request.Stream).ConfigureAwait(false);
+        var fileCode = Guid.NewGuid().ToString();
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
         var path = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, fileCode, request.FileName).ConfigureAwait(false);

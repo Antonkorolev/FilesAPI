@@ -1,4 +1,3 @@
-using BackendService.BusinessLogic.Operations.UploadFile.Tasks.GenerateFileCode;
 using BackendService.BusinessLogic.Operations.UploadFiles.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand.Models;
@@ -21,7 +20,6 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
 {
     private Mock<IAuthorizationTask> _authorizationTask = default!;
     private Mock<IWriteFileTask> _writeFileTask = default!;
-    private Mock<IGenerateFileCodeTask> _generateFileCodeTask = default!;
     private Mock<IEnsurePathExistsTask> _ensurePathExistsTask = default!;
     private Mock<ISendUploadFilesCommandTask> _sendUploadFilesCommandTask = default!;
     private Mock<ISendNotificationCommandTask> _sendNotificationCommandTask = default!;
@@ -34,7 +32,6 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
     {
         _authorizationTask = new Mock<IAuthorizationTask>();
         _writeFileTask = new Mock<IWriteFileTask>();
-        _generateFileCodeTask = new Mock<IGenerateFileCodeTask>();
         _ensurePathExistsTask = new Mock<IEnsurePathExistsTask>();
         _sendUploadFilesCommandTask = new Mock<ISendUploadFilesCommandTask>();
         _sendNotificationCommandTask = new Mock<ISendNotificationCommandTask>();
@@ -44,7 +41,6 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
         _uploadFilesOperation = new BusinessLogicUploadFilesOperation(
             _authorizationTask.Object,
             _writeFileTask.Object,
-            _generateFileCodeTask.Object,
             _ensurePathExistsTask.Object,
             _sendUploadFilesCommandTask.Object,
             _sendNotificationCommandTask.Object,
@@ -59,7 +55,6 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
             new[] { new UploadFileData(It.IsAny<Stream>(), DefaultFileName) },
             DefaultFileCode);
 
-        _generateFileCodeTask.Setup(g => g.GenerateAsync(It.IsAny<Stream>())).ReturnsAsync(DefaultFileCode);
         _ensurePathExistsTask.Setup(e => e.EnsureExistingAsync((It.IsAny<string>())));
         _writeFileTask.Setup(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
         _sendUploadFilesCommandTask.Setup(s => s.SendAsync(new SendUploadFilesCommandTaskRequest(new List<SendUploadFilesData>())));
@@ -68,7 +63,6 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
         await _uploadFilesOperation.UploadAsync(uploadFilesOperationRequest).ConfigureAwait(false);
 
         _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-        _generateFileCodeTask.Verify(g => g.GenerateAsync(It.IsAny<Stream>()), Times.Once);
         _ensurePathExistsTask.Verify(e => e.EnsureExistingAsync(It.IsAny<string>()), Times.Once);
         _writeFileTask.Verify(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _sendUploadFilesCommandTask.Verify( s => s.SendAsync(It.IsAny<SendUploadFilesCommandTaskRequest>()), Times.Once);

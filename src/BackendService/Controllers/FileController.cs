@@ -1,5 +1,7 @@
 using BackendService.BusinessLogic.Operations.DeleteFile;
 using BackendService.BusinessLogic.Operations.DeleteFile.Models;
+using BackendService.BusinessLogic.Operations.DeleteFiles;
+using BackendService.BusinessLogic.Operations.DeleteFiles.Models;
 using BackendService.BusinessLogic.Operations.GetFile;
 using BackendService.BusinessLogic.Operations.GetFile.Models;
 using BackendService.BusinessLogic.Operations.GetFiles;
@@ -11,6 +13,7 @@ using BackendService.BusinessLogic.Operations.UploadFile.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles;
 using BackendService.BusinessLogic.Operations.UploadFiles.Models;
 using BackendService.Contracts.DeleteFile;
+using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +33,7 @@ public class FileController : ControllerBase
     private readonly IGetFilesOperation _getFilesOperation;
     private readonly IGetFileOperation _getFileOperation;
     private readonly IDeleteFileOperation _deleteFileOperation;
+    private readonly IDeleteFilesOperation _deleteFilesOperation;
 
     public FileController(
         IUploadFileOperation uploadFileOperation,
@@ -37,7 +41,8 @@ public class FileController : ControllerBase
         IUpdateFileOperation updateFileOperation,
         IGetFilesOperation getFilesOperation,
         IGetFileOperation getFileOperation,
-        IDeleteFileOperation deleteFileOperation)
+        IDeleteFileOperation deleteFileOperation,
+        IDeleteFilesOperation deleteFilesOperation)
     {
         _uploadFileOperation = uploadFileOperation;
         _uploadFilesOperation = uploadFilesOperation;
@@ -45,6 +50,7 @@ public class FileController : ControllerBase
         _getFilesOperation = getFilesOperation;
         _getFileOperation = getFileOperation;
         _deleteFileOperation = deleteFileOperation;
+        _deleteFilesOperation = deleteFilesOperation;
     }
 
     [HttpPost("upload")]
@@ -86,6 +92,17 @@ public class FileController : ControllerBase
     public async Task<IActionResult> DeleteFileAsync(DeleteFileRequest request)
     {
         await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(request.FileCode, GetUserCode())).ConfigureAwait(false);
+
+        return Ok();
+    }
+
+    // TODO подумать над вынесением методов для работы с массивом файлов в отдельный контроллер
+    [HttpDelete("deleteArray")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> DeleteFilesAsync(DeleteFilesRequest request)
+    {
+        await _deleteFilesOperation.DeleteAsync(new DeleteFilesOperationRequest(request.FileCodes, GetUserCode())).ConfigureAwait(false);
 
         return Ok();
     }

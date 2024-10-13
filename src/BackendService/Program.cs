@@ -28,6 +28,7 @@ builder.Services.AddUpdateFileOperation();
 builder.Services.AddGetFilesOperation();
 builder.Services.AddGetFileOperation();
 builder.Services.AddDeleteFileOperation();
+builder.Services.AddDeleteFilesOperation();
 builder.Services.AddCommonTasks(builder.Configuration);
 builder.Services.AddSwaggerGen();
 

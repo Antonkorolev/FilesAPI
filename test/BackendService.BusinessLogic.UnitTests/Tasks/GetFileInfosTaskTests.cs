@@ -1,10 +1,10 @@
 using BackendService.BusinessLogic.Exceptions;
-using BackendService.BusinessLogic.Operations.GetFiles.Tasks.GetFileInfos;
+using BackendService.BusinessLogic.Tasks.GetFileInfos;
 using DatabaseContext.FileDb;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
-namespace BackendService.BusinessLogic.UnitTests.Operations.GetFilesOperation.Tasks;
+namespace BackendService.BusinessLogic.UnitTests.Tasks;
 
 [TestClass]
 public sealed class GetFileInfosTaskTests : UnitTestsBase

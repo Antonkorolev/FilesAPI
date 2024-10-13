@@ -1,5 +1,6 @@
 using System.Text;
 using BackendService.BusinessLogic.Operations.DeleteFile;
+using BackendService.BusinessLogic.Operations.DeleteFiles;
 using BackendService.BusinessLogic.Operations.GetFile;
 using BackendService.BusinessLogic.Operations.GetFiles;
 using BackendService.BusinessLogic.Operations.UpdateFile;
@@ -20,15 +21,15 @@ public sealed class DependencyInjectionTests
 {
     private ServiceProvider _serviceProvider = default!;
 
-private const string AppSettings = 
-    """
-       {
-        "Storage": "",
-        "ConnectionStrings": {
-           "FileDb": "*"
+    private const string AppSettings =
+        """
+            {
+             "Storage": "",
+             "ConnectionStrings": {
+                "FileDb": "*"
+                }
            }
-      }
-   """;
+        """;
 
     [TestInitialize]
     public void TestInitialize()
@@ -53,6 +54,7 @@ private const string AppSettings =
         serviceCollection.AddGetFilesOperation();
         serviceCollection.AddGetFileOperation();
         serviceCollection.AddDeleteFileOperation();
+        serviceCollection.AddDeleteFilesOperation();
         serviceCollection.AddCommonTasks(configuration);
 
         _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -65,7 +67,7 @@ private const string AppSettings =
 
         Assert.IsNotNull(service);
     }
-    
+
     [TestMethod]
     public void UploadFilesOperation_ConfigureCorrectly()
     {
@@ -102,6 +104,14 @@ private const string AppSettings =
     public void DeleteFileOperation_ConfigureCorrectly()
     {
         var service = _serviceProvider.GetService<IDeleteFileOperation>();
+
+        Assert.IsNotNull(service);
+    }
+
+    [TestMethod]
+    public void DeleteFilesOperation_ConfigureCorrectly()
+    {
+        var service = _serviceProvider.GetService<IDeleteFilesOperation>();
 
         Assert.IsNotNull(service);
     }

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using BackendService.Contracts;
 using BackendService.Contracts.DeleteFile;
+using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
@@ -52,7 +53,7 @@ public sealed class FilesApiService : IFilesApiService
             multipartFormDataContent.Add(new StreamContent(file.OpenReadStream()), nameof(file));
         }
 
-        var response = await httpClient.PostAsync("file/upload", multipartFormDataContent).ConfigureAwait(false);
+        var response = await httpClient.PostAsync("file/uploadArray", multipartFormDataContent).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
             throw new Exception($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
 
@@ -83,6 +84,15 @@ public sealed class FilesApiService : IFilesApiService
         var httpClient = CreateHttpClient();
 
         var response = await httpClient.PostAsync("file/delete", JsonContent.Create(request)).ConfigureAwait(false);
+        if (!response.IsSuccessStatusCode)
+            throw new HttpRequestException($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
+    }
+
+    public async Task DeleteFilesAsync(DeleteFilesRequest request)
+    {
+        var httpClient = CreateHttpClient();
+
+        var response = await httpClient.PostAsync("file/deleteArray", JsonContent.Create(request)).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
             throw new HttpRequestException($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
     }

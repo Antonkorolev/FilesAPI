@@ -1,4 +1,5 @@
 using BackendService.Contracts.DeleteFile;
+using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
@@ -16,6 +17,8 @@ public interface IFilesApiService
     Task UpdateFileAsync(UpdateFileRequest request);
 
     Task DeleteFileAsync(DeleteFileRequest request);
+    
+    Task DeleteFilesAsync(DeleteFilesRequest request);
 
     Task<FileResponse> GetFileAsync(GetFileRequest request);
 
