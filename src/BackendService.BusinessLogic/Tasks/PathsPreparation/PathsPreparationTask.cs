@@ -6,7 +6,7 @@ namespace BackendService.BusinessLogic.Tasks.PathsPreparation;
 
 public sealed class PathsPreparationTask : IPathsPreparationTask
 {
-    public PathsPreparationTaskResponse PreparePaths(PathsPreparationTaskRequest request)
+    public Task<PathsPreparationTaskResponse> PreparePathsAsync(PathsPreparationTaskRequest request)
     {
         var nonConsistenceValue = request.FileInfos.FirstOrDefault(t => t.FileCode.Length < 2);
 
@@ -16,6 +16,6 @@ public sealed class PathsPreparationTask : IPathsPreparationTask
         var fileData = request.FileInfos
             .Select(r => new PathsPreparationTaskFileData(r.FileName, Path.Combine("repo", r.FileCode[0].ToString(), r.FileCode[1].ToString(), r.FileName)));
 
-        return new PathsPreparationTaskResponse(fileData);
+        return Task.FromResult(new PathsPreparationTaskResponse(fileData));
     }
 }

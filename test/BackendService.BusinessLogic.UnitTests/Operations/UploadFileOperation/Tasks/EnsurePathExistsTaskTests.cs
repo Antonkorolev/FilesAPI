@@ -15,17 +15,17 @@ public sealed class EnsurePathExistsTaskTests : UnitTestsBase
     }
 
     [TestMethod]
-    public void EnsurePathExistsTask_PathIsNull_ThrowsDirectoryNotFoundException()
+    public async Task EnsurePathExistsTask_PathIsNull_ThrowsDirectoryNotFoundException()
     {
-        var exception = Assert.ThrowsException<DirectoryNotFoundException>(() => _ensurePathExistsTask.EnsureExisting(null!));
+        var exception = await Assert.ThrowsExceptionAsync<DirectoryNotFoundException>(() => _ensurePathExistsTask.EnsureExistingAsync(null!));
 
         Assert.AreEqual($"Can't get directory from path = ''", exception.Message);
     }
 
     [TestMethod]
-    public void EnsurePathExistsTask_PathIsEmpty_ThrowsDirectoryNotFoundException()
+    public async Task EnsurePathExistsTask_PathIsEmpty_ThrowsDirectoryNotFoundException()
     {
-        var exception = Assert.ThrowsException<DirectoryNotFoundException>(() => _ensurePathExistsTask.EnsureExisting(string.Empty));
+        var exception = await Assert.ThrowsExceptionAsync<DirectoryNotFoundException>(() => _ensurePathExistsTask.EnsureExistingAsync(string.Empty));
 
         Assert.AreEqual($"Can't get directory from path = ''", exception.Message);
     }

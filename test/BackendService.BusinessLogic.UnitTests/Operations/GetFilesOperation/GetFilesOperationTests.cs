@@ -53,14 +53,14 @@ public sealed class GetFilesOperationTests : UnitTestsBase
             .Setup(g => g.GetAsync(It.IsAny<IEnumerable<string>>()))
             .ReturnsAsync(() => new GetFileInfosTaskResponse(new[] { new FileInfo(DefaultFileInfoId, DefaultFileCode, DefaultFileName), new FileInfo(NewFileInfoId, NewFileCode, NewFileName) }));
         _pathsPreparationTask
-            .Setup(p => p.PreparePaths(It.IsAny<PathsPreparationTaskRequest>()))
-            .Returns(() => new PathsPreparationTaskResponse(new[] { new PathsPreparationTaskFileData(DefaultFileName, Path1), new PathsPreparationTaskFileData(NewFileName, Path2) }));
+            .Setup(p => p.PreparePathsAsync(It.IsAny<PathsPreparationTaskRequest>()))
+            .ReturnsAsync(() => new PathsPreparationTaskResponse(new[] { new PathsPreparationTaskFileData(DefaultFileName, Path1), new PathsPreparationTaskFileData(NewFileName, Path2) }));
 
         await _getFilesOperation.GetFilesAsync(new GetFilesOperationRequest(FileCodes, DefaultUserCode)).ConfigureAwait(false);
 
         _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         _getFileInfosTask.Verify(g => g.GetAsync(It.IsAny<IEnumerable<string>>()), Times.Once);
-        _pathsPreparationTask.Verify(p => p.PreparePaths(It.IsAny<PathsPreparationTaskRequest>()), Times.Once);
-        _getFilesTask.Verify(g => g.Get(It.IsAny<GetFilesTaskRequest>()), Times.Once);
+        _pathsPreparationTask.Verify(p => p.PreparePathsAsync(It.IsAny<PathsPreparationTaskRequest>()), Times.Once);
+        _getFilesTask.Verify(g => g.GetAsync(It.IsAny<GetFilesTaskRequest>()), Times.Once);
     }
 }

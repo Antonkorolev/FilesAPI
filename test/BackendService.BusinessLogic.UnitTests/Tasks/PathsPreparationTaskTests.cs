@@ -17,14 +17,15 @@ public sealed class PathsPreparationTaskTests : UnitTestsBase
     }
 
     [TestMethod]
-    public void PathsPreparationTask_ReturnPathsPreparationTaskResponse()
+    public async Task PathsPreparationTask_ReturnPathsPreparationTaskResponse()
     {
-        var pathsPreparationTaskResponses = _pathsPreparationTask.PreparePaths(new PathsPreparationTaskRequest(
-            new List<PathsPreparationTaskFileInfo>
-            {
-                new(DefaultFileCode, DefaultFileName),
-                new(NewFileCode, NewFileName)
-            }));
+        var pathsPreparationTaskResponses = await _pathsPreparationTask.PreparePathsAsync(new PathsPreparationTaskRequest(
+                new List<PathsPreparationTaskFileInfo>
+                {
+                    new(DefaultFileCode, DefaultFileName),
+                    new(NewFileCode, NewFileName)
+                }))
+            .ConfigureAwait(false);
 
         Assert.AreEqual(2, pathsPreparationTaskResponses.FileData.Count());
 
@@ -38,15 +39,15 @@ public sealed class PathsPreparationTaskTests : UnitTestsBase
     }
 
     [TestMethod]
-    public void PathsPreparationTask_WithEmptyPathsPreparationTaskFileInfo_ReturnZeroFileData()
+    public async Task PathsPreparationTask_WithEmptyPathsPreparationTaskFileInfo_ReturnZeroFileData()
     {
-        var pathsPreparationTaskResponses = _pathsPreparationTask.PreparePaths(new PathsPreparationTaskRequest(new List<PathsPreparationTaskFileInfo>()));
+        var pathsPreparationTaskResponses = await _pathsPreparationTask.PreparePathsAsync(new PathsPreparationTaskRequest(new List<PathsPreparationTaskFileInfo>()));
 
         Assert.AreEqual(0, pathsPreparationTaskResponses.FileData.Count());
     }
 
     [TestMethod]
-    public void PathsPreparationTask_WithFileCodeWithOnlyOneChar_ReturnException()
+    public async Task PathsPreparationTask_WithFileCodeWithOnlyOneChar_ReturnException()
     {
         var pathsPreparationTaskRequest = new PathsPreparationTaskRequest(
             new List<PathsPreparationTaskFileInfo>
@@ -54,7 +55,7 @@ public sealed class PathsPreparationTaskTests : UnitTestsBase
                 new(ShortFileCode, DefaultFileName)
             });
 
-        var exception = Assert.ThrowsException<FileCodeLengthException>(() => _pathsPreparationTask.PreparePaths(pathsPreparationTaskRequest));
+        var exception = await Assert.ThrowsExceptionAsync<FileCodeLengthException>(() => _pathsPreparationTask.PreparePathsAsync(pathsPreparationTaskRequest));
 
         Assert.AreEqual($"FileCode length should 2 or more. Current value: {ShortFileCode.Length}", exception.Message);
     }

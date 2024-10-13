@@ -54,14 +54,14 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, DefaultFileCode, DefaultFileName));
 
-        _deleteFileTask.Setup(d => d.Delete(It.IsAny<string>()));
+        _deleteFileTask.Setup(d => d.DeleteAsync(It.IsAny<string>()));
         _deleteFileInfoTask.Setup(d => d.DeleteFileAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
 
         await _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, DefaultUserCode)).ConfigureAwait(false);
 
         _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         _getFileInfoTask.Verify(d => d.GetAsync(It.IsAny<string>()), Times.Once);
-        _deleteFileTask.Verify(d => d.Delete(It.IsAny<string>()), Times.Once);
+        _deleteFileTask.Verify(d => d.DeleteAsync(It.IsAny<string>()), Times.Once);
         _deleteFileInfoTask.Verify(d => d.DeleteFileAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

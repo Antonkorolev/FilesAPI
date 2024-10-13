@@ -43,8 +43,8 @@ public sealed class GetFilesOperation : IGetFilesOperation
 
         var getFileInfosTaskResponse = await _getFileInfosTask.GetAsync(request.FileCodes).ConfigureAwait(false);
 
-        var pathsPreparationTaskResponse = _pathsPreparationTask.PreparePaths(getFileInfosTaskResponse.ToPathsPreparationTaskRequest());
-        var byteArray = _getFilesTask.Get(pathsPreparationTaskResponse.ToGetFilesTaskRequest());
+        var pathsPreparationTaskResponse = await _pathsPreparationTask.PreparePathsAsync(getFileInfosTaskResponse.ToPathsPreparationTaskRequest());
+        var byteArray = await _getFilesTask.GetAsync(pathsPreparationTaskResponse.ToGetFilesTaskRequest()).ConfigureAwait(false);
 
         await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.GetFiles, getFileInfosTaskResponse.FileInfos.Select(t => t.Name).ToArray())).ConfigureAwait(false);
 

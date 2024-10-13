@@ -32,7 +32,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         IEnsurePathExistsTask ensurePathExistsTask,
         ISendUploadFilesCommandTask sendUploadFilesCommandTask,
         ISendNotificationCommandTask sendNotificationCommandTask,
-        ILogger<UploadFilesOperation> logger, 
+        ILogger<UploadFilesOperation> logger,
         IPathBuilderTask pathBuilderTask)
     {
         _authorizationTask = authorizationTask;
@@ -49,7 +49,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
     {
         var fileCodes = new List<string>();
         var sendUploadFilesCommandTaskRequest = new SendUploadFilesCommandTaskRequest(new List<SendUploadFilesData>());
-        
+
         await _authorizationTask.UserAuthorizationAsync(request.UserCode, Permissions.FileUpdate).ConfigureAwait(false);
 
         var cancellationTokenSource = new CancellationTokenSource();
@@ -60,8 +60,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
             var fileCode = await _generateFileCodeTask.GenerateAsync(uploadFileData.Stream).ConfigureAwait(false);
             var path = await _pathBuilderTask.BuildAsync(FolderName.TemporaryStorage, fileCode, uploadFileData.FileName).ConfigureAwait(false);
 
-            _ensurePathExistsTask.EnsureExisting(path);
-            
+            await _ensurePathExistsTask.EnsureExistingAsync(path).ConfigureAwait(false);
             await _writeFileTask.WriteAsync(uploadFileData.Stream, path, cancellationToken).ConfigureAwait(false);
 
             fileCodes.Add(fileCode);

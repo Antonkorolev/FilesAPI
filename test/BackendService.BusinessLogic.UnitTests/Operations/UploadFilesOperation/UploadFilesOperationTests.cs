@@ -60,16 +60,16 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
             DefaultFileCode);
 
         _generateFileCodeTask.Setup(g => g.GenerateAsync(It.IsAny<Stream>())).ReturnsAsync(DefaultFileCode);
-        _ensurePathExistsTask.Setup(e => e.EnsureExisting(It.IsAny<string>()));
+        _ensurePathExistsTask.Setup(e => e.EnsureExistingAsync((It.IsAny<string>())));
         _writeFileTask.Setup(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
         _sendUploadFilesCommandTask.Setup(s => s.SendAsync(new SendUploadFilesCommandTaskRequest(new List<SendUploadFilesData>())));
         _sendNotificationCommandTask.Setup(s => s.SendAsync(new SendNotificationCommandTaskRequest(It.IsAny<UpdateFileType>(), It.IsAny<IEnumerable<string>>())));
-
+        
         await _uploadFilesOperation.UploadAsync(uploadFilesOperationRequest).ConfigureAwait(false);
 
         _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         _generateFileCodeTask.Verify(g => g.GenerateAsync(It.IsAny<Stream>()), Times.Once);
-        _ensurePathExistsTask.Verify(e => e.EnsureExisting(It.IsAny<string>()), Times.Once);
+        _ensurePathExistsTask.Verify(e => e.EnsureExistingAsync(It.IsAny<string>()), Times.Once);
         _writeFileTask.Verify(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _sendUploadFilesCommandTask.Verify( s => s.SendAsync(It.IsAny<SendUploadFilesCommandTaskRequest>()), Times.Once);
         _sendNotificationCommandTask.Verify( s => s.SendAsync(It.IsAny<SendNotificationCommandTaskRequest>()), Times.Once);

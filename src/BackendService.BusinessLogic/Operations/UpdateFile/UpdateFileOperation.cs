@@ -53,7 +53,7 @@ public sealed class UpdateFileOperation : IUpdateFileOperation
 
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
         var oldFilePath = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name).ConfigureAwait(false);
-        _deleteFileTask.Delete(oldFilePath);
+        await _deleteFileTask.DeleteAsync(oldFilePath).ConfigureAwait(false);
 
         var newFilePath = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, request.FileCode, request.FileName).ConfigureAwait(false);
         await _updateFileTask.UpdateAsync(request.Stream, newFilePath, cancellationToken).ConfigureAwait(false);

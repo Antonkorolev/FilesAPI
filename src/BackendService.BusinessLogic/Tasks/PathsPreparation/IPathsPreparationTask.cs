@@ -5,5 +5,5 @@ namespace BackendService.BusinessLogic.Tasks.PathsPreparation;
 
 public interface IPathsPreparationTask
 {
-    PathsPreparationTaskResponse PreparePaths(PathsPreparationTaskRequest request);
+    Task<PathsPreparationTaskResponse> PreparePathsAsync(PathsPreparationTaskRequest request);
 }

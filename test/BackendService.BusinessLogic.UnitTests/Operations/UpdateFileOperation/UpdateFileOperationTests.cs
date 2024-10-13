@@ -56,7 +56,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
     {
         _updateFileTask.Setup(e => e.UpdateAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
         _updateFileInfoTask.Setup(w => w.UpdateInfoAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
-        _deleteFileTask.Setup(s => s.Delete(It.IsAny<string>()));
+        _deleteFileTask.Setup(s => s.DeleteAsync(It.IsAny<string>()));
         _getFileInfosTask
             .Setup(s => s.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, DefaultFileCode, DefaultFileName));
@@ -68,7 +68,7 @@ public sealed class UpdateFileOperationTests : UnitTestsBase
         _authorizationTask.Verify(a => a.UserAuthorizationAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         _updateFileTask.Verify(e => e.UpdateAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _updateFileInfoTask.Verify(w => w.UpdateInfoAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-        _deleteFileTask.Verify(s => s.Delete(It.IsAny<string>()), Times.Once);
+        _deleteFileTask.Verify(s => s.DeleteAsync(It.IsAny<string>()), Times.Once);
         _getFileInfosTask.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Once);
     }
 }

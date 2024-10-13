@@ -50,7 +50,7 @@ public sealed class DeleteFileOperation : IDeleteFileOperation
         var fileInfo = await _getFileInfoTask.GetAsync(request.FileCode).ConfigureAwait(false);
         var path = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, fileInfo.Code, fileInfo.Name).ConfigureAwait(false);
 
-        _deleteFileTask.Delete(path);
+        await _deleteFileTask.DeleteAsync(path).ConfigureAwait(false);
         await _deleteFileInfoTask.DeleteFileAsync(fileInfo.FileInfoId, cancellationToken).ConfigureAwait(false);
 
         await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.DeleteFile, new[] { fileInfo.Name })).ConfigureAwait(false);

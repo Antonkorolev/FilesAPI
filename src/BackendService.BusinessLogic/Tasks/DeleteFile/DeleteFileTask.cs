@@ -4,9 +4,19 @@ namespace BackendService.BusinessLogic.Tasks.DeleteFile;
 
 public sealed class DeleteFileTask : IDeleteFileTask
 {
-    public void Delete(string path)
+    public Task DeleteAsync(string path)
     {
-        if (!File.Exists(path)) throw new FileNotFoundException(path);
-        File.Delete(path);
+        try
+        {
+            if (!File.Exists(path)) throw new FileNotFoundException(path);
+            File.Delete(path);
+
+            return Task.CompletedTask;
+        }
+        catch(Exception e)
+        {
+            return Task.FromException(e);
+        }
+       
     }
 }

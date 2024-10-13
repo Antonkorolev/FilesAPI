@@ -2,14 +2,23 @@ namespace BackendService.BusinessLogic.Tasks.EnsurePathExists;
 
 public sealed class EnsurePathExistsTask : IEnsurePathExistsTask
 {
-    public void EnsureExisting(string path)
+    public Task EnsureExistingAsync(string path)
     {
-        var directory = Path.GetDirectoryName(path);
+        try
+        {
+            var directory = Path.GetDirectoryName(path);
 
-        if (string.IsNullOrEmpty(directory))
-            throw new DirectoryNotFoundException($"Can't get directory from path = '{path}'");
+            if (string.IsNullOrEmpty(directory))
+                throw new DirectoryNotFoundException($"Can't get directory from path = '{path}'");
 
-        if (!Directory.Exists(directory))
-            Directory.CreateDirectory(directory);
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            return Task.CompletedTask;
+        }
+        catch (Exception e)
+        {
+            return Task.FromException(e);
+        }
     }
 }

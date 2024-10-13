@@ -52,9 +52,8 @@ public sealed class UploadFileOperation : IUploadFileOperation
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
         var path = await _pathBuilderTask.BuildAsync(FolderName.PersistentStorage, fileCode, request.FileName).ConfigureAwait(false);
-        //PathBuilder.Build(FolderName.PersistentStorage, fileCode, request.FileName);
 
-        _ensurePathExistsTask.EnsureExisting(path);
+        await _ensurePathExistsTask.EnsureExistingAsync(path).ConfigureAwait(false);
         await _writeFileTask.WriteAsync(request.Stream, path, cancellationToken).ConfigureAwait(false);
         await _saveFileInfoTask.SaveAsync(fileCode, request.UserCode, request.FileName, cancellationToken).ConfigureAwait(false);
 

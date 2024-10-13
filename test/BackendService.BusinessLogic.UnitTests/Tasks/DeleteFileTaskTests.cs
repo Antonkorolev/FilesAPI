@@ -16,9 +16,9 @@ public sealed class DeleteFileTaskTests : UnitTestsBase
     }
 
     [TestMethod]
-    public void DeleteFileTask__ExecuteSuccessfully()
+    public async Task DeleteFileTask__ExecuteSuccessfully()
     {
-        var exception = Assert.ThrowsException<FileNotFoundException>(() => _deleteFileTask.Delete(Path1));
+        var exception = await Assert.ThrowsExceptionAsync<FileNotFoundException>(() => _deleteFileTask.DeleteAsync(Path1));
 
         Assert.AreEqual($"File not found. Current path: {Path1}", exception.Message);
     }
