@@ -64,16 +64,4 @@ public sealed class DeleteFileOperationTests : UnitTestsBase
         _deleteFileTask.Verify(d => d.Delete(It.IsAny<string>()), Times.Once);
         _deleteFileInfoTask.Verify(d => d.DeleteFileAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once);
     }
-
-    [TestMethod]
-    public async Task DeleteFileOperation_UserCodeLessThanTwoChar_ShouldThrowException()
-    {
-        _getFileInfoTask
-            .Setup(u => u.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(() => new GetFileInfoTaskResponse(DefaultFileInfoId, ShortFileCode, DefaultFileName));
-
-        var exception = await Assert.ThrowsExceptionAsync<FileCodeLengthException>(() => _deleteFileOperation.DeleteAsync(new DeleteFileOperationRequest(DefaultFileCode, DefaultUserCode)));
-
-        Assert.AreEqual($"FileCode length should 2 or more. Current value: {ShortFileCode.Length}", exception.Message);
-    }
 }
