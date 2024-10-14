@@ -51,6 +51,7 @@ public sealed class DependencyInjectionTests
         serviceCollection.AddUploadFileOperation();
         serviceCollection.AddUploadFilesOperation();
         serviceCollection.AddUpdateFileOperation();
+        serviceCollection.AddUpdateFilesOperation();
         serviceCollection.AddGetFilesOperation();
         serviceCollection.AddGetFileOperation();
         serviceCollection.AddDeleteFileOperation();

@@ -66,7 +66,7 @@ public sealed class UploadFilesOperation : IUploadFilesOperation
         await _sendUploadFilesCommandTask.SendAsync(sendUploadFilesCommandTaskRequest).ConfigureAwait(false);
         await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.UploadFiles, request.UploadFileData.Select(t => t.FileName))).ConfigureAwait(false);
 
-        _logger.LogInformation($"Files with file codes: [{string.Join(", ", fileCodes)}], successfully saved");
+        _logger.LogInformation($"Files with file codes: [{string.Join(", ", fileCodes)}], sent for upload to processing");
 
         return fileCodes;
     }

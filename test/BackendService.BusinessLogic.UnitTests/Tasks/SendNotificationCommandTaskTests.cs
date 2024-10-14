@@ -1,5 +1,6 @@
 using BackendService.BusinessLogic.Tasks.SendNotificationCommand;
 using Common;
+using Common.Notification;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

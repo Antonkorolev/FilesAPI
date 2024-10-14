@@ -1,6 +1,7 @@
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand;
 using BackendService.BusinessLogic.Operations.UploadFiles.Tasks.SendUploadFilesCommand.Models;
 using Common;
+using Common.UploadFiles;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

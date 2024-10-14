@@ -5,6 +5,7 @@ using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
+using BackendService.Contracts.UpdateFiles;
 using BackendService.Contracts.UploadFile;
 using BackendService.Contracts.UploadFIles;
 using Newtonsoft.Json;
@@ -75,6 +76,24 @@ public sealed class FilesApiService : IFilesApiService
         multipartFormDataContent.Add(new StringContent(request.FileCode), nameof(request.FileCode));
 
         var response = await httpClient.PostAsync("file/update", multipartFormDataContent).ConfigureAwait(false);
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
+    }
+
+    public async Task UpdateFilesAsync(UpdateFilesRequest request)
+    {
+        var httpClient = CreateHttpClient();
+
+        var multipartFormDataContent = new MultipartFormDataContent();
+
+        foreach (var file in request.UpdateFiles)
+        {
+            multipartFormDataContent.Add(new StreamContent(file.File.OpenReadStream()), nameof(file));
+            multipartFormDataContent.Add(new StringContent(file.FileCode), nameof(file.FileCode));
+            multipartFormDataContent.Add(new StringContent(file.FileName), nameof(file.FileName));
+        }
+
+        var response = await httpClient.PostAsync("file/updateArray", multipartFormDataContent).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
             throw new Exception($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
     }

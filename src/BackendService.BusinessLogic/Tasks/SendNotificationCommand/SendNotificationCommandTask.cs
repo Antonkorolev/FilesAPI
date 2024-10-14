@@ -1,6 +1,7 @@
 using BackendService.BusinessLogic.Operations.GetFile;
 using BackendService.BusinessLogic.Tasks.SendNotificationCommand.Models;
 using Common;
+using Common.Notification;
 using Microsoft.Extensions.Logging;
 
 namespace BackendService.BusinessLogic.Tasks.SendNotificationCommand;

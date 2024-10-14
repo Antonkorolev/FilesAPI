@@ -8,6 +8,8 @@ using BackendService.BusinessLogic.Operations.GetFiles;
 using BackendService.BusinessLogic.Operations.GetFiles.Models;
 using BackendService.BusinessLogic.Operations.UpdateFile;
 using BackendService.BusinessLogic.Operations.UpdateFile.Models;
+using BackendService.BusinessLogic.Operations.UpdateFiles;
+using BackendService.BusinessLogic.Operations.UpdateFiles.Models;
 using BackendService.BusinessLogic.Operations.UploadFile;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles;
@@ -16,10 +18,11 @@ using BackendService.Contracts.DeleteFile;
 using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
-using Microsoft.AspNetCore.Mvc;
 using BackendService.Contracts.UpdateFile;
+using BackendService.Contracts.UpdateFiles;
 using BackendService.Contracts.UploadFile;
 using BackendService.Contracts.UploadFIles;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BackendService.Controllers;
 
@@ -30,6 +33,7 @@ public class FileController : ControllerBase
     private readonly IUploadFileOperation _uploadFileOperation;
     private readonly IUploadFilesOperation _uploadFilesOperation;
     private readonly IUpdateFileOperation _updateFileOperation;
+    private readonly IUpdateFilesOperation _updateFilesOperation;
     private readonly IGetFilesOperation _getFilesOperation;
     private readonly IGetFileOperation _getFileOperation;
     private readonly IDeleteFileOperation _deleteFileOperation;
@@ -39,6 +43,7 @@ public class FileController : ControllerBase
         IUploadFileOperation uploadFileOperation,
         IUploadFilesOperation uploadFilesOperation,
         IUpdateFileOperation updateFileOperation,
+        IUpdateFilesOperation updateFilesOperation,
         IGetFilesOperation getFilesOperation,
         IGetFileOperation getFileOperation,
         IDeleteFileOperation deleteFileOperation,
@@ -47,6 +52,7 @@ public class FileController : ControllerBase
         _uploadFileOperation = uploadFileOperation;
         _uploadFilesOperation = uploadFilesOperation;
         _updateFileOperation = updateFileOperation;
+        _updateFilesOperation = updateFilesOperation;
         _getFilesOperation = getFilesOperation;
         _getFileOperation = getFileOperation;
         _deleteFileOperation = deleteFileOperation;
@@ -75,13 +81,24 @@ public class FileController : ControllerBase
         return Ok(result);
     }
 
-
     [HttpPost("update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateFileAsync([FromForm] UpdateFileRequest request)
     {
         await _updateFileOperation.UpdateAsync(new UpdateFileOperationRequest(request.FileCode, request.File.OpenReadStream(), request.File.FileName, GetUserCode())).ConfigureAwait(false);
+
+        return Ok();
+    }
+
+    [HttpPost("updateArray")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateFilesAsync([FromForm] UpdateFilesRequest request)
+    {
+        var getUpdateFilesOperationRequest = GetUpdateFilesOperationRequest(request);
+
+        await _updateFilesOperation.UpdateAsync(getUpdateFilesOperationRequest).ConfigureAwait(false);
 
         return Ok();
     }
@@ -139,5 +156,14 @@ public class FileController : ControllerBase
         fileData = fileData ?? throw new InvalidOperationException();
 
         return new UploadFilesOperationRequest(fileData, GetUserCode());
+    }
+
+    private UpdateFilesOperationRequest GetUpdateFilesOperationRequest(UpdateFilesRequest request)
+    {
+        IList<UpdateFileData> fileData = request.UpdateFiles.Select(file => new UpdateFileData(file.File.OpenReadStream(), file.FileCode, file.FileName)).ToList();
+
+        fileData = fileData ?? throw new InvalidOperationException();
+
+        return new UpdateFilesOperationRequest(fileData, GetUserCode());
     }
 }

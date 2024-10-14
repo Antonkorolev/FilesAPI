@@ -1,4 +1,4 @@
-﻿namespace Common;
+﻿namespace Common.Notification;
 
 public sealed class NotificationCommand : ICommand
 {

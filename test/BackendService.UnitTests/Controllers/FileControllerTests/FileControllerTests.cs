@@ -6,6 +6,8 @@ using BackendService.BusinessLogic.Operations.GetFile.Models;
 using BackendService.BusinessLogic.Operations.GetFiles;
 using BackendService.BusinessLogic.Operations.GetFiles.Models;
 using BackendService.BusinessLogic.Operations.UpdateFile;
+using BackendService.BusinessLogic.Operations.UpdateFile.Models;
+using BackendService.BusinessLogic.Operations.UpdateFiles;
 using BackendService.BusinessLogic.Operations.UploadFile;
 using BackendService.BusinessLogic.Operations.UploadFile.Models;
 using BackendService.BusinessLogic.Operations.UploadFiles;
@@ -15,6 +17,7 @@ using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
+using BackendService.Contracts.UpdateFiles;
 using BackendService.Contracts.UploadFile;
 using BackendService.Contracts.UploadFIles;
 using BackendService.Controllers;
@@ -32,6 +35,7 @@ public sealed class FileControllerTests
     private readonly Mock<IUploadFileOperation> _uploadFileOperation;
     private readonly Mock<IUploadFilesOperation> _uploadFilesOperation;
     private readonly Mock<IUpdateFileOperation> _updateFileOperation;
+    private readonly Mock<IUpdateFilesOperation> _updateFilesOperation;
     private readonly Mock<IGetFilesOperation> _getFilesOperation;
     private readonly Mock<IGetFileOperation> _getFileOperation;
     private readonly Mock<IDeleteFileOperation> _deleteFileOperation;
@@ -42,6 +46,7 @@ public sealed class FileControllerTests
         _uploadFileOperation = new Mock<IUploadFileOperation>();
         _uploadFilesOperation = new Mock<IUploadFilesOperation>();
         _updateFileOperation = new Mock<IUpdateFileOperation>();
+        _updateFilesOperation = new Mock<IUpdateFilesOperation>();
         _getFilesOperation = new Mock<IGetFilesOperation>();
         _getFileOperation = new Mock<IGetFileOperation>();
         _deleteFileOperation = new Mock<IDeleteFileOperation>();
@@ -51,6 +56,7 @@ public sealed class FileControllerTests
             _uploadFileOperation.Object,
             _uploadFilesOperation.Object,
             _updateFileOperation.Object,
+            _updateFilesOperation.Object,
             _getFilesOperation.Object,
             _getFileOperation.Object,
             _deleteFileOperation.Object,
@@ -93,10 +99,10 @@ public sealed class FileControllerTests
     {
         const string firstFileContent = "test1";
         const string firstFileName = "test2.pdf";
-        
+
         const string secondFileContent = "test1";
         const string secondFileName = "test2.pdf";
-        
+
         var fileCodes = new string[] { "TestFileCode1", "TestFileCode2" };
 
         var firstFormFileMock = await GetFormFileMock(firstFileContent, firstFileName).ConfigureAwait(false);
@@ -135,6 +141,38 @@ public sealed class FileControllerTests
                 {
                     File = formFileMock.Object,
                     FileCode = fileCode
+                })
+            .ConfigureAwait(false);
+
+        Assert.IsInstanceOfType(response, typeof(IActionResult));
+
+        var result = response as OkResult ?? throw new Exception("Cast Response to OkResult return null");
+
+        Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
+    }
+
+    [TestMethod]
+    public async Task UpdateFilesOperation_ReturnsActionResult()
+    {
+        const string firstFileContent = "test1";
+        const string firstFileName = "test2.pdf";
+        const string firstFileCode = "testCode1";
+
+        const string secondFileContent = "test1";
+        const string secondFileName = "test2.pdf";
+        const string secondFileCode = "testCode2";
+
+        var firstFormFileMock = await GetFormFileMock(firstFileContent, firstFileName).ConfigureAwait(false);
+        var secondFormFileMock = await GetFormFileMock(secondFileContent, secondFileName).ConfigureAwait(false);
+
+        var response = await _fileController.UpdateFilesAsync(
+                new UpdateFilesRequest
+                {
+                    UpdateFiles = new[]
+                    {
+                        new UpdateFile { File = firstFormFileMock.Object, FileCode = firstFileCode, FileName = firstFileName },
+                        new UpdateFile { File = secondFormFileMock.Object, FileCode = secondFileCode, FileName = secondFileName }
+                    }
                 })
             .ConfigureAwait(false);
 
@@ -221,11 +259,11 @@ public sealed class FileControllerTests
 
         Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
     }
-    
+
     [TestMethod]
     public async Task DeleteFilesOperation_ReturnsActionResult()
     {
-        var fileCodes = new [] {"TestFileCode1", "TestFileCode2"};
+        var fileCodes = new[] { "TestFileCode1", "TestFileCode2" };
 
         var response = await _fileController.DeleteFilesAsync(
                 new DeleteFilesRequest
