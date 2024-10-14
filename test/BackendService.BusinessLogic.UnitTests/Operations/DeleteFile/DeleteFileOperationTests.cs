@@ -1,4 +1,3 @@
-using BackendService.BusinessLogic.Exceptions;
 using BackendService.BusinessLogic.Operations.DeleteFile.Models;
 using BackendService.BusinessLogic.Operations.DeleteFile.Tasks.DeleteFileInfo;
 using BackendService.BusinessLogic.Tasks.Authorization;
@@ -12,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using BusinessLogicDeleteFileOperation = BackendService.BusinessLogic.Operations.DeleteFile.DeleteFileOperation;
 
-namespace BackendService.BusinessLogic.UnitTests.Operations.DeleteFileOperation;
+namespace BackendService.BusinessLogic.UnitTests.Operations.DeleteFile;
 
 [TestClass]
 public sealed class DeleteFileOperationTests : UnitTestsBase

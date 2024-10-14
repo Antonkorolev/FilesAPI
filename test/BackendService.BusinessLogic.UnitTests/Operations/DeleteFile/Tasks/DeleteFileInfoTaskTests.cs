@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
-namespace BackendService.BusinessLogic.UnitTests.Operations.DeleteFileOperation.Tasks;
+namespace BackendService.BusinessLogic.UnitTests.Operations.DeleteFile.Tasks;
 
 [TestClass]
 public sealed class DeleteFileInfoTaskTests : UnitTestsBase

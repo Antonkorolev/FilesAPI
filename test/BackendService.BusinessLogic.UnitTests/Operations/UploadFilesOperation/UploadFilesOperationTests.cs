@@ -67,6 +67,5 @@ public sealed class UploadFilesOperationTests : UnitTestsBase
         _writeFileTask.Verify(w => w.WriteAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _sendUploadFilesCommandTask.Verify( s => s.SendAsync(It.IsAny<SendUploadFilesCommandTaskRequest>()), Times.Once);
         _sendNotificationCommandTask.Verify( s => s.SendAsync(It.IsAny<SendNotificationCommandTaskRequest>()), Times.Once);
-        
     }
 }

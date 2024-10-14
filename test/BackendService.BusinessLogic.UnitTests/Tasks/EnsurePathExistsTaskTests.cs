@@ -1,7 +1,7 @@
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BackendService.BusinessLogic.UnitTests.Operations.UploadFileOperation.Tasks;
+namespace BackendService.BusinessLogic.UnitTests.Tasks;
 
 [TestClass]
 public sealed class EnsurePathExistsTaskTests : UnitTestsBase
