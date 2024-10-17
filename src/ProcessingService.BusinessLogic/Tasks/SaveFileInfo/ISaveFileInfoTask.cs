@@ -1,4 +1,4 @@
-namespace ProcessingService.BusinessLogic.Operations.UploadFiles.Tasks.SaveFileInfo;
+namespace ProcessingService.BusinessLogic.Tasks.SaveFileInfo;
 
 public interface ISaveFileInfoTask
 {

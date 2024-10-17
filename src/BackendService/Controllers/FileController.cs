@@ -94,9 +94,9 @@ public class FileController : ControllerBase
     [HttpPost("updateArray")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateFilesAsync([FromForm] UpdateFilesRequest request)
+    public async Task<IActionResult> UpdateFilesAsync([FromForm] IFormFileCollection fileCollection, [FromForm] IEnumerable<string> fileCodes)
     {
-        var getUpdateFilesOperationRequest = GetUpdateFilesOperationRequest(request);
+        var getUpdateFilesOperationRequest = GetUpdateFilesOperationRequest(fileCollection, fileCodes);
 
         await _updateFilesOperation.UpdateAsync(getUpdateFilesOperationRequest).ConfigureAwait(false);
 
@@ -158,9 +158,14 @@ public class FileController : ControllerBase
         return new UploadFilesOperationRequest(fileData, GetUserCode());
     }
 
-    private UpdateFilesOperationRequest GetUpdateFilesOperationRequest(UpdateFilesRequest request)
+    private UpdateFilesOperationRequest GetUpdateFilesOperationRequest(IFormFileCollection fileCollection, IEnumerable<string> fileCodes)
     {
-        IList<UpdateFileData> fileData = request.UpdateFiles.Select(file => new UpdateFileData(file.File.OpenReadStream(), file.FileCode, file.FileName)).ToList();
+        var enumerable = fileCodes.ToList();
+
+        if (fileCollection.Count != enumerable.Count())
+            throw new Exception("FileCodes count not equals FileCollection count");
+
+        var fileData = fileCollection.Zip(enumerable).Select(file => new UpdateFileData(file.First.OpenReadStream(), file.First.FileName, file.Second)).ToList();
 
         fileData = fileData ?? throw new InvalidOperationException();
 

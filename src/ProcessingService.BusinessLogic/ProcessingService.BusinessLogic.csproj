@@ -16,6 +16,10 @@
       <ProjectReference Include="..\DatabaseContext\DatabaseContext.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Operations\UploadFiles\Tasks\" />
+    </ItemGroup>
+
 
 
 </Project>

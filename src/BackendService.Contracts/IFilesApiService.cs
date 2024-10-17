@@ -6,6 +6,7 @@ using BackendService.Contracts.UpdateFile;
 using BackendService.Contracts.UpdateFiles;
 using BackendService.Contracts.UploadFile;
 using BackendService.Contracts.UploadFIles;
+using Microsoft.AspNetCore.Http;
 
 namespace BackendService.Contracts;
 
@@ -17,7 +18,7 @@ public interface IFilesApiService
 
     Task UpdateFileAsync(UpdateFileRequest request);
 
-    Task UpdateFilesAsync(UpdateFilesRequest request);
+    Task UpdateFilesAsync(IFormFileCollection fileCollection, UpdateFilesRequest request);
 
     Task DeleteFileAsync(DeleteFileRequest request);
 

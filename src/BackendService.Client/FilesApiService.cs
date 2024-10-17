@@ -8,6 +8,7 @@ using BackendService.Contracts.UpdateFile;
 using BackendService.Contracts.UpdateFiles;
 using BackendService.Contracts.UploadFile;
 using BackendService.Contracts.UploadFIles;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace BackendService.Client;
@@ -80,16 +81,16 @@ public sealed class FilesApiService : IFilesApiService
             throw new Exception($"Response StatusCode: {response.StatusCode}, Content: {response.Content}");
     }
 
-    public async Task UpdateFilesAsync(UpdateFilesRequest request)
+    public async Task UpdateFilesAsync(IFormFileCollection fileCollection, UpdateFilesRequest request)
     {
         var httpClient = CreateHttpClient();
 
         var multipartFormDataContent = new MultipartFormDataContent();
 
-        foreach (var file in request.UpdateFiles)
+        foreach (var (file, fileCode) in fileCollection.Zip(request.FileCodes))
         {
-            multipartFormDataContent.Add(new StreamContent(file.File.OpenReadStream()), nameof(file));
-            multipartFormDataContent.Add(new StringContent(file.FileCode), nameof(file.FileCode));
+            multipartFormDataContent.Add(new StreamContent(file.OpenReadStream()), nameof(file));
+            multipartFormDataContent.Add(new StringContent(fileCode), nameof(fileCode));
             multipartFormDataContent.Add(new StringContent(file.FileName), nameof(file.FileName));
         }
 

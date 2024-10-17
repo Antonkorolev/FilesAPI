@@ -1,4 +1,5 @@
 using System.Net;
+using System.Runtime.CompilerServices;
 using BackendService.BusinessLogic.Operations.DeleteFile;
 using BackendService.BusinessLogic.Operations.DeleteFiles;
 using BackendService.BusinessLogic.Operations.GetFile;
@@ -165,15 +166,13 @@ public sealed class FileControllerTests
         var firstFormFileMock = await GetFormFileMock(firstFileContent, firstFileName).ConfigureAwait(false);
         var secondFormFileMock = await GetFormFileMock(secondFileContent, secondFileName).ConfigureAwait(false);
 
+        var formFileCollectionMock = new Mock<FormFileCollection>();
+        formFileCollectionMock.Object.Add(firstFormFileMock.Object);
+        formFileCollectionMock.Object.Add(secondFormFileMock.Object);
+
         var response = await _fileController.UpdateFilesAsync(
-                new UpdateFilesRequest
-                {
-                    UpdateFiles = new[]
-                    {
-                        new UpdateFile { File = firstFormFileMock.Object, FileCode = firstFileCode, FileName = firstFileName },
-                        new UpdateFile { File = secondFormFileMock.Object, FileCode = secondFileCode, FileName = secondFileName }
-                    }
-                })
+                formFileCollectionMock.Object,
+                new[] { firstFileCode, secondFileCode })
             .ConfigureAwait(false);
 
         Assert.IsInstanceOfType(response, typeof(IActionResult));

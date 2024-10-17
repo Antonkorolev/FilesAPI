@@ -2,5 +2,5 @@ namespace ProcessingService.BusinessLogic.Tasks.EnsurePathExists;
 
 public interface IEnsurePathExistsTask
 {
-    void EnsureExisting(string path);
+    Task EnsureExistingAsync(string path);
 }

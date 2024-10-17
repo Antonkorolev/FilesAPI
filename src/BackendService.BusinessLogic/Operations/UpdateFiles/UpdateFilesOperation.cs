@@ -1,5 +1,6 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Operations.UpdateFiles.Models;
+using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks;
 using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.Models;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
@@ -19,6 +20,7 @@ public sealed class UpdateFilesOperation : IUpdateFilesOperation
     private readonly IWriteFileTask _writeFileTask;
     private readonly ISendNotificationCommandTask _sendNotificationCommandTask;
     private readonly IPathBuilderTask _pathBuilderTask;
+    private readonly ISendUpdateFilesCommandTask _sendUpdateFilesCommandTask;
     private readonly ILogger<UpdateFilesOperation> _logger;
 
     public UpdateFilesOperation(
@@ -27,6 +29,7 @@ public sealed class UpdateFilesOperation : IUpdateFilesOperation
         IWriteFileTask writeFileTask,
         ISendNotificationCommandTask sendNotificationCommandTask,
         IPathBuilderTask pathBuilderTask,
+        ISendUpdateFilesCommandTask sendUpdateFilesCommandTask,
         ILogger<UpdateFilesOperation> logger)
     {
         _authorizationTask = authorizationTask;
@@ -34,6 +37,7 @@ public sealed class UpdateFilesOperation : IUpdateFilesOperation
         _writeFileTask = writeFileTask;
         _sendNotificationCommandTask = sendNotificationCommandTask;
         _pathBuilderTask = pathBuilderTask;
+        _sendUpdateFilesCommandTask = sendUpdateFilesCommandTask;
         _logger = logger;
     }
 
@@ -56,6 +60,7 @@ public sealed class UpdateFilesOperation : IUpdateFilesOperation
             sendUpdateFilesCommandTaskRequest.SendUpdateFilesData.Add(new SendUpdateFilesData(updateFileData.FileName, updateFileData.FileCode));
         }
 
+        await _sendUpdateFilesCommandTask.SendAsync(sendUpdateFilesCommandTaskRequest).ConfigureAwait(false);
         await _sendNotificationCommandTask.SendAsync(new SendNotificationCommandTaskRequest(UpdateFileType.UpdateFiles, request.UpdateFileData.Select(t => t.FileName))).ConfigureAwait(false);
 
         _logger.LogInformation($"Files with file codes = '{request.UpdateFileData.Select(t => t.FileCode)}', sent for update to processing");

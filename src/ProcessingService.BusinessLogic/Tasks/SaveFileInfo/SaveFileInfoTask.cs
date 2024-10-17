@@ -2,7 +2,7 @@ using DatabaseContext.FileDb;
 using DatabaseContext.FileDb.Models;
 using FileInfo = DatabaseContext.FileDb.Models.FileInfo;
 
-namespace ProcessingService.BusinessLogic.Operations.UploadFiles.Tasks.SaveFileInfo;
+namespace ProcessingService.BusinessLogic.Tasks.SaveFileInfo;
 
 public class SaveFileInfoTask : ISaveFileInfoTask
 {

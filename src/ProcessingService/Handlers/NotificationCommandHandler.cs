@@ -1,4 +1,3 @@
-using Common;
 using Common.Notification;
 using ProcessingService.BusinessLogic.Operations.PublishFileUpdateEvent;
 using ProcessingService.BusinessLogic.Operations.PublishFileUpdateEvent.Models;

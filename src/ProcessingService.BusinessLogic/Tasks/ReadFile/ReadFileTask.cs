@@ -1,8 +1,8 @@
-namespace ProcessingService.BusinessLogic.Operations.UploadFiles.Tasks.ReadFilesFromTemporaryStorage;
+namespace ProcessingService.BusinessLogic.Tasks.ReadFile;
 
-public sealed class ReadFilesFromTemporaryStorageTask : IReadFilesFromTemporaryStorageTask
+public sealed class ReadFileTask : IReadFileTask
 {
-    public async Task<Stream> RadFileAsync(string path)
+    public async Task<Stream> ReadFileAsync(string path)
     {
         await using var fileStream = File.Open(path, FileMode.Open, FileAccess.Read);
 

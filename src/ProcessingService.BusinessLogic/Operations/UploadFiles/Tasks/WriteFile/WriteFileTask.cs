@@ -1,6 +1,6 @@
-namespace ProcessingService.BusinessLogic.Operations.UploadFiles.Tasks.WriteFileToPersistenceStorage;
+namespace ProcessingService.BusinessLogic.Operations.UploadFiles.Tasks.WriteFile;
 
-public sealed class WriteFileToPersistenceStorage : IWriteFileToPersistenceStorage
+public sealed class WriteFileTask : IWriteFileTask
 {
     public async Task WriteAsync(Stream stream, string path, CancellationToken cancellationToken)
     {
