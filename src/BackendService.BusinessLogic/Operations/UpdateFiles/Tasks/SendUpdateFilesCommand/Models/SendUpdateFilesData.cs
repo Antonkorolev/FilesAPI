@@ -1,4 +1,4 @@
-namespace BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.Models;
+namespace BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.SendUpdateFilesCommand.Models;
 
 public sealed class SendUpdateFilesData(string fileName, string fileCode)
 {

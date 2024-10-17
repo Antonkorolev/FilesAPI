@@ -1,7 +1,7 @@
 using BackendService.BusinessLogic.Constants;
 using BackendService.BusinessLogic.Operations.UpdateFiles.Models;
-using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks;
-using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.Models;
+using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.SendUpdateFilesCommand;
+using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.SendUpdateFilesCommand.Models;
 using BackendService.BusinessLogic.Tasks.Authorization;
 using BackendService.BusinessLogic.Tasks.EnsurePathExists;
 using BackendService.BusinessLogic.Tasks.PathBuilder;

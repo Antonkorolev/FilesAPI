@@ -1,4 +1,5 @@
 using Common;
+using Common.UploadFiles;
 using ProcessingService.BusinessLogic.Operations.UploadFiles;
 using ProcessingService.BusinessLogic.Operations.UploadFiles.Models;
 using UploadFiles = ProcessingService.BusinessLogic.Operations.UploadFiles.Models.UploadFiles;

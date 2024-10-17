@@ -1,9 +1,9 @@
 using BackendService.BusinessLogic.Mappers;
-using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.Models;
+using BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.SendUpdateFilesCommand.Models;
 using Common;
 using Microsoft.Extensions.Logging;
 
-namespace BackendService.BusinessLogic.Operations.UpdateFiles.Tasks;
+namespace BackendService.BusinessLogic.Operations.UpdateFiles.Tasks.SendUpdateFilesCommand;
 
 public sealed class SendUpdateFilesCommandTask : ISendUpdateFilesCommandTask
 {
