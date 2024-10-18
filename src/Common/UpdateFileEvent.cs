@@ -1,5 +1,3 @@
-using NServiceBus;
-
 namespace Common;
 
 public sealed class UpdateFileEvent : IEvent

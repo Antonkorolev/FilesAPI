@@ -1,5 +1,3 @@
-using BackendService.BusinessLogic.Exceptions;
-
 namespace BackendService.BusinessLogic.Tasks.PathBuilder;
 
 public sealed class PathBuilderTask : IPathBuilderTask

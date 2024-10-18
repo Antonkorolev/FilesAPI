@@ -19,7 +19,6 @@ using BackendService.Contracts.DeleteFiles;
 using BackendService.Contracts.GetFile;
 using BackendService.Contracts.GetFiles;
 using BackendService.Contracts.UpdateFile;
-using BackendService.Contracts.UpdateFiles;
 using BackendService.Contracts.UploadFile;
 using BackendService.Contracts.UploadFIles;
 using Microsoft.AspNetCore.Mvc;
