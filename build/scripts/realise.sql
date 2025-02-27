@@ -19,6 +19,8 @@ IF OBJECT_ID(N'dbo.FileInfo', N'U') IS NULL
         )
     END
 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'UQ_FileInfo_Code')
+    CREATE UNIQUE INDEX [UQ_FileInfo_Code] ON dbo.FileInfo(Code);
 GO
 
 IF OBJECT_ID(N'dbo.FileChangeHistory', N'U') IS NULL
